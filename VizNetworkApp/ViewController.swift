@@ -24,8 +24,7 @@ class ViewController: UIViewController {
     }
 }
 
-
-extension VizHttpResource {
+extension VizHttpRequestStructure {
     var basePath: String {
         "https://reqbin.com/echo/get/json/page"
     }
@@ -37,8 +36,7 @@ struct ResponseObject: Decodable {
     let price: Int
 }
 
-
-struct ListResource: VizHttpResource {
+struct ListResource: VizHttpRequestStructure {
     var queryItems: [URLQueryItem]?
     
     var method: HTTPMethod {

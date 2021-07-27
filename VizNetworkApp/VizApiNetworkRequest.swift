@@ -7,7 +7,7 @@
 
 import Foundation
 
-class VizApiNetworkRequest<Resource: VizApiResource> {
+class VizApiNetworkRequest<Resource: VizApiRequestStructure> {
     let resource: Resource
     init(resource: Resource) {
         self.resource = resource
@@ -16,6 +16,7 @@ class VizApiNetworkRequest<Resource: VizApiResource> {
 
 
 extension VizApiNetworkRequest: VizBaseNetworkRequest {
+    
     func decode(_ data: Data) -> Resource.ModelType? {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
@@ -23,7 +24,7 @@ extension VizApiNetworkRequest: VizBaseNetworkRequest {
         return wrapper
     }
     
-    func execute(withCompletion completion: @escaping (Result<Resource.ModelType, Error>) -> Void) where Resource: VizApiResource {
+    func execute(withCompletion completion: @escaping (Result<Resource.ModelType, Error>) -> Void) where Resource: VizApiRequestStructure {
         
         print(resource)
         print(resource.basePath)

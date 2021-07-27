@@ -1,5 +1,5 @@
 //
-//  VizHttpResource.swift
+//  VizHttpRequestStructure.swift
 //  VizNetwork
 //
 //  Created by Ran Helfer on 27/07/2021.
@@ -14,14 +14,14 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-protocol VizHttpResource: VizApiResource {
+protocol VizHttpRequestStructure: VizApiRequestStructure {
     var method: HTTPMethod { get }
     var headers: [String: String]? { get }
     // files...
     var urlRequest: URLRequest { get }
 }
 
-extension VizHttpResource {
+extension VizHttpRequestStructure {
     var urlRequest: URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
