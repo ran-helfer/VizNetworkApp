@@ -33,6 +33,7 @@ extension VizBaseNetworkRequest {
     
     func load(_ url: URL, withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response , error) -> Void in
+            print(response as Any)
             guard let weakSelf = self,
                   let data = data,
                   let value =  weakSelf.decodeData(data) else {

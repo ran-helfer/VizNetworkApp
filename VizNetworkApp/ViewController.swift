@@ -47,3 +47,24 @@ struct SomeRemoteObjectRequestStructure: VizHttpRequestStructure {
         .get(nil)
     }
 }
+
+/*
+struct SomeRemoteObjectPOSTRequestStructure: VizHttpRequestStructure {
+    
+    typealias ModelType = PostResponseObject
+
+    var basePath: String {
+        "https://reqbin.com"
+    }
+    
+    var path: String {
+        "/echo/post/json/"
+    }
+    
+    let object = PostObject(Id: 1, Customer: "Ran", Quantity: 1, Price: 19.0)
+    
+    var method: VizHttpMethod {
+        .post(object)
+    }
+}*/
+
