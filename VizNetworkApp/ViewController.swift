@@ -53,10 +53,6 @@ struct SomeListRequestStructure: VizHttpRequestStructure {
         "https://reqbin.com"
     }
     
-    func requestedTimeout() -> TimeInterval? {
-        nil
-    }
-    
     var queryItems: [URLQueryItem]?
     
     var method: VizHttpMethod {

@@ -90,4 +90,8 @@ extension VizHttpRequestStructure {
         
         return request
     }
+    
+    func requestedTimeout() -> TimeInterval? {
+        return nil
+    }
 }
