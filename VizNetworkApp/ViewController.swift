@@ -11,13 +11,7 @@ class ViewController: UIViewController {
 
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
     var request: VizApiNetworkRequest<SomeRemoteObjectRequestStructure>?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        makeRequest(1)
-    }
-    
+        
     @IBAction func makeRequest(_ sender: Any) {
         request = VizApiNetworkRequest(requestStructure: SomeRemoteObjectRequestStructure())
         request?.execute { result in
