@@ -14,14 +14,14 @@ enum VizBaseNetworkRequestError: Error {
 
 protocol VizBaseNetworkRequest: AnyObject {
     associatedtype ModelType
-    func decode(_ data: Data) -> ModelType?
+    func decodeData(_ data: Data) -> ModelType?
     func execute(withCompletion completion: @escaping (Result<ModelType, Error>) -> Void)
 }
 
 extension VizBaseNetworkRequest {
     func load(_ request: URLRequest, withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            guard let data = data, let value = self?.decode(data) else {
+            guard let data = data, let value = self?.decodeData(data) else {
                 DispatchQueue.main.async { completion(.failure(VizBaseNetworkRequestError.failed))
                 }
                 return
@@ -34,12 +34,8 @@ extension VizBaseNetworkRequest {
     }
     func load(_ url: URL, withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response , error) -> Void in
-            print(response)
-            let decodedValue = self?.decode(data ?? Data())
-            if decodedValue == nil {
-                print("nil value while decoding")
-            }
-            guard let data = data, let value = self?.decode(data) else {
+            let decodedValue = self?.decodeData(data ?? Data())
+            guard let data = data, let value = self?.decodeData(data) else {
                 DispatchQueue.main.async { completion(.failure(VizBaseNetworkRequestError.failed))
                 }
                 return

@@ -7,30 +7,30 @@
 
 import Foundation
 
-class VizApiNetworkRequest<Resource: VizApiRequestStructure> {
-    let resource: Resource
-    init(resource: Resource) {
-        self.resource = resource
+class VizApiNetworkRequest<RequestStructure: VizApiRequestStructure> {
+    let requestStructure: RequestStructure
+    init(requestStructure: RequestStructure) {
+        self.requestStructure = requestStructure
     }
 }
 
 extension VizApiNetworkRequest: VizBaseNetworkRequest {
     
-    func decode(_ data: Data) -> Resource.ModelType? {
+    func decodeData(_ data: Data) -> RequestStructure.ModelType? {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
-        let wrapper = try? decoder.decode(Resource.ModelType.self, from: data)
+        let wrapper = try? decoder.decode(RequestStructure.ModelType.self, from: data)
         return wrapper
     }
     
-    func execute(withCompletion completion: @escaping (Result<Resource.ModelType, Error>) -> Void) where Resource: VizApiRequestStructure {
+    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) where RequestStructure: VizApiRequestStructure {
         
-        print(resource)
-        print(resource.basePath)
-        print(resource.path)
+        print(requestStructure)
+        print(requestStructure.basePath)
+        print(requestStructure.path)
         
         
-        load(resource.url, withCompletion: completion)
+        load(requestStructure.url, withCompletion: completion)
     }
     
 }

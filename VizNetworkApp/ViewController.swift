@@ -9,6 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
+    var request: VizApiNetworkRequest<SomeListRequestStructure>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -16,8 +19,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func makeRequest(_ sender: Any) {
-        let request = VizApiNetworkRequest(resource: SomeListRequestStructure())
-        request.execute { result in
+        request = VizApiNetworkRequest(requestStructure: SomeListRequestStructure())
+        request?.execute { result in
             switch result {
             case .success(let object):
                 print("object: \(object)")
