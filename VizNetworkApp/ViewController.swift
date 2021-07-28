@@ -39,7 +39,7 @@ struct ResponseObject: Decodable {
 struct ListResource: VizHttpRequestStructure {
     var queryItems: [URLQueryItem]?
     
-    var method: HTTPMethod {
+    var method: VizHttpMethod {
         .get
     }
 
