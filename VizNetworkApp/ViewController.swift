@@ -28,21 +28,21 @@ class ViewController: UIViewController {
     }
 }
 
-struct ResponseObject: Decodable {
+struct SingularObject: Decodable {
     let id: Int
     let name: String
     let price: Int
 }
 
-struct ResponseLinks: Decodable {
+struct LinksData: Decodable {
     let next: String
     let prev: String
 }
 
 struct ResponseObjectList: Decodable {
-    let items: [ResponseObject]
+    let items: [SingularObject]
     let limit: Int?
-    let links: ResponseLinks?
+    let links: LinksData?
 }
 
 struct SomeListRequestStructure: VizHttpRequestStructure {
