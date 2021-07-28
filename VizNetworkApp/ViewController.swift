@@ -12,7 +12,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let request = VizApiNetworkRequest(resource: ListResource())
+        makeRequest(1)
+    }
+    
+    @IBAction func makeRequest(_ sender: Any) {
+        let request = VizApiNetworkRequest(resource: SomeListRequestStructure())
         request.execute { result in
             switch result {
             case .success(let patients):
@@ -36,15 +40,19 @@ struct ResponseObject: Decodable {
     let price: Int
 }
 
-struct ListResource: VizHttpRequestStructure {
+struct SomeListRequestStructure: VizHttpRequestStructure {
+    func requestedTimeout() -> TimeInterval? {
+        nil
+    }
+    
     var queryItems: [URLQueryItem]?
     
     var method: VizHttpMethod {
-        .get
+        .get(nil)
     }
 
     var headers: [String : String]? {
-        ["content-type": "json"]
+        nil
     }
 
     typealias ModelType = [ResponseObject]

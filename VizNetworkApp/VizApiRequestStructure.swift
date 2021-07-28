@@ -19,6 +19,7 @@ extension VizApiRequestStructure {
         var components = URLComponents(string:basePath)!
         components.path = path
         components.queryItems = queryItems
+        print(components)
         return components.url!
     }
 }

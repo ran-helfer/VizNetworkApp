@@ -34,6 +34,9 @@ extension VizBaseNetworkRequest {
     }
     func load(_ url: URL, withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response , error) -> Void in
+            print(response)
+            let decodedValue = self?.decode(data ?? Data())
+            print(decodedValue ?? "")
             guard let data = data, let value = self?.decode(data) else {
                 DispatchQueue.main.async { completion(.failure(VizBaseNetworkRequestError.failed))
                 }
