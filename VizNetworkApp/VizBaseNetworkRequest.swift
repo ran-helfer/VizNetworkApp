@@ -21,8 +21,11 @@ protocol VizBaseNetworkRequest: AnyObject {
 extension VizBaseNetworkRequest {
     func load(_ request: URLRequest, withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            guard let data = data, let value = self?.decodeData(data) else {
-                DispatchQueue.main.async { completion(.failure(VizBaseNetworkRequestError.failed))
+            guard let weakSelf = self,
+                  let data = data,
+                  let value =  weakSelf.decodeData(data) else {
+                DispatchQueue.main.async {
+                    completion(.failure(VizBaseNetworkRequestError.failed))
                 }
                 return
             }
@@ -34,9 +37,11 @@ extension VizBaseNetworkRequest {
     }
     func load(_ url: URL, withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response , error) -> Void in
-            let decodedValue = self?.decodeData(data ?? Data())
-            guard let data = data, let value = self?.decodeData(data) else {
-                DispatchQueue.main.async { completion(.failure(VizBaseNetworkRequestError.failed))
+            guard let weakSelf = self,
+                  let data = data,
+                  let value =  weakSelf.decodeData(data) else {
+                DispatchQueue.main.async {
+                    completion(.failure(VizBaseNetworkRequestError.failed))
                 }
                 return
             }
