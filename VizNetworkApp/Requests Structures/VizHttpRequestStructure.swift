@@ -7,49 +7,6 @@
 
 import Foundation
 
-enum VizHttpMethod: Equatable {
-    static func == (lhs: VizHttpMethod, rhs: VizHttpMethod) -> Bool {
-        guard lhs.name == rhs.name else {
-            return false
-        }
-        return true
-    }
-    
-    case get([URLQueryItem]?)
-    case put(Any?)
-    case post(Any?)
-    case delete
-    case head
-
-    var name: String {
-        switch self {
-        case .get: return "GET"
-        case .put: return "PUT"
-        case .post: return "POST"
-        case .delete: return "DELETE"
-        case .head: return "HEAD"
-        }
-    }
-    
-    func requestInputDataAsData() -> Data? {
-        switch self {
-        case .post(let input), .put(let input): do {
-            if let input = input as? Decodable {
-                return try? JSONSerialization.data(withJSONObject: input)
-            }
-            return nil
-        }
-        case .get: return nil
-        case .delete: return nil
-        case .head: return nil
-        }
-    }
-        
-    func defaultTimeout() -> TimeInterval {
-        15
-    }
-}
-
 protocol VizHttpRequestStructure: VizApiRequestStructure {
     var method: VizHttpMethod { get }
     var headers: [String: String]? { get }
@@ -101,5 +58,48 @@ extension VizHttpRequestStructure {
     
     var headers: [String : String]? {
         nil
+    }
+}
+
+enum VizHttpMethod: Equatable {
+    static func == (lhs: VizHttpMethod, rhs: VizHttpMethod) -> Bool {
+        guard lhs.name == rhs.name else {
+            return false
+        }
+        return true
+    }
+    
+    case get([URLQueryItem]?)
+    case put(Any?)
+    case post(Any?)
+    case delete
+    case head
+
+    var name: String {
+        switch self {
+        case .get: return "GET"
+        case .put: return "PUT"
+        case .post: return "POST"
+        case .delete: return "DELETE"
+        case .head: return "HEAD"
+        }
+    }
+    
+    func requestInputDataAsData() -> Data? {
+        switch self {
+        case .post(let input), .put(let input): do {
+            if let input = input as? Decodable {
+                return try? JSONSerialization.data(withJSONObject: input)
+            }
+            return nil
+        }
+        case .get: return nil
+        case .delete: return nil
+        case .head: return nil
+        }
+    }
+        
+    func defaultTimeout() -> TimeInterval {
+        15
     }
 }

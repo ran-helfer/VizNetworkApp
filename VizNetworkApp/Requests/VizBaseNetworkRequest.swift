@@ -7,10 +7,6 @@
 
 import Foundation
 
-enum VizBaseNetworkRequestError: Error {
-    case failed
-}
-
 protocol VizBaseNetworkRequest: AnyObject {
     associatedtype ModelType
     func decodeData(_ data: Data) -> ModelType?
@@ -51,5 +47,6 @@ extension VizBaseNetworkRequest {
     }
 }
 
-
-
+enum VizBaseNetworkRequestError: Error {
+    case failed
+}
