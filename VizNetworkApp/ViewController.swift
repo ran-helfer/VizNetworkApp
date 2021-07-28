@@ -19,8 +19,8 @@ class ViewController: UIViewController {
         let request = VizApiNetworkRequest(resource: SomeListRequestStructure())
         request.execute { result in
             switch result {
-            case .success(let patients):
-                print("patients: \(patients)")
+            case .success(let object):
+                print("object: \(object)")
             case .failure(let error):
                 print(error)
             }
@@ -32,6 +32,17 @@ struct ResponseObject: Decodable {
     let id: Int
     let name: String
     let price: Int
+}
+
+struct ResponseLinks: Decodable {
+    let next: String
+    let prev: String
+}
+
+struct ResponseObjectList: Decodable {
+    let items: [ResponseObject]
+    let limit: Int?
+    let links: ResponseLinks?
 }
 
 struct SomeListRequestStructure: VizHttpRequestStructure {
@@ -53,7 +64,7 @@ struct SomeListRequestStructure: VizHttpRequestStructure {
         nil
     }
 
-    typealias ModelType = [ResponseObject]
+    typealias ModelType = ResponseObjectList
     var path: String {
         "/echo/get/json/page/2"
     }

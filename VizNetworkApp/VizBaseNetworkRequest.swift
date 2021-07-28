@@ -36,7 +36,9 @@ extension VizBaseNetworkRequest {
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response , error) -> Void in
             print(response)
             let decodedValue = self?.decode(data ?? Data())
-            print(decodedValue ?? "")
+            if decodedValue == nil {
+                print("nil value while decoding")
+            }
             guard let data = data, let value = self?.decode(data) else {
                 DispatchQueue.main.async { completion(.failure(VizBaseNetworkRequestError.failed))
                 }

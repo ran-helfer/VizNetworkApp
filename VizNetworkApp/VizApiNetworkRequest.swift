@@ -14,7 +14,6 @@ class VizApiNetworkRequest<Resource: VizApiRequestStructure> {
     }
 }
 
-
 extension VizApiNetworkRequest: VizBaseNetworkRequest {
     
     func decode(_ data: Data) -> Resource.ModelType? {
