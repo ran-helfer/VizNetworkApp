@@ -28,12 +28,6 @@ class ViewController: UIViewController {
     }
 }
 
-extension VizHttpRequestStructure {
-    var basePath: String {
-        "https://reqbin.com/echo/get/json/page"
-    }
-}
-
 struct ResponseObject: Decodable {
     let id: Int
     let name: String
@@ -41,6 +35,10 @@ struct ResponseObject: Decodable {
 }
 
 struct SomeListRequestStructure: VizHttpRequestStructure {
+    var basePath: String {
+        "https://reqbin.com"
+    }
+    
     func requestedTimeout() -> TimeInterval? {
         nil
     }
@@ -57,6 +55,6 @@ struct SomeListRequestStructure: VizHttpRequestStructure {
 
     typealias ModelType = [ResponseObject]
     var path: String {
-        "/2"
+        "/echo/get/json/page/2"
     }
 }
