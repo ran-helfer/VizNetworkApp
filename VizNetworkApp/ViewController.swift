@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
-    var request: VizApiNetworkRequest<SomeListRequestStructure>?
+    var request: VizApiNetworkRequest<SomeRemoteObjectRequestStructure>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func makeRequest(_ sender: Any) {
-        request = VizApiNetworkRequest(requestStructure: SomeListRequestStructure())
+        request = VizApiNetworkRequest(requestStructure: SomeRemoteObjectRequestStructure())
         request?.execute { result in
             switch result {
             case .success(let object):
@@ -31,40 +31,19 @@ class ViewController: UIViewController {
     }
 }
 
-struct SingularObject: Decodable {
-    let id: Int
-    let name: String
-    let price: Int
-}
+struct SomeRemoteObjectRequestStructure: VizHttpRequestStructure {
+    
+    typealias ModelType = ResponseObjectList
 
-struct LinksData: Decodable {
-    let next: String
-    let prev: String
-}
-
-struct ResponseObjectList: Decodable {
-    let items: [SingularObject]
-    let limit: Int?
-    let links: LinksData?
-}
-
-struct SomeListRequestStructure: VizHttpRequestStructure {
     var basePath: String {
         "https://reqbin.com"
     }
     
-    var queryItems: [URLQueryItem]?
+    var path: String {
+        "/echo/get/json/page/2"
+    }
     
     var method: VizHttpMethod {
         .get(nil)
-    }
-
-    var headers: [String : String]? {
-        nil
-    }
-
-    typealias ModelType = ResponseObjectList
-    var path: String {
-        "/echo/get/json/page/2"
     }
 }

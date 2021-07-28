@@ -94,4 +94,12 @@ extension VizHttpRequestStructure {
     func requestedTimeout() -> TimeInterval? {
         return nil
     }
+    
+    var queryItems: [URLQueryItem]? {
+        nil
+    }
+    
+    var headers: [String : String]? {
+        nil
+    }
 }

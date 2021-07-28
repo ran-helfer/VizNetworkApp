@@ -26,5 +26,4 @@ extension VizApiNetworkRequest: VizBaseNetworkRequest {
     func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) where RequestStructure: VizApiRequestStructure {
         load(requestStructure.url, withCompletion: completion)
     }
-    
 }

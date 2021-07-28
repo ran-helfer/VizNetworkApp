@@ -17,6 +17,7 @@
 		8027406C26B034D700CB0AB5 /* VizBaseNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406926B034D700CB0AB5 /* VizBaseNetworkRequest.swift */; };
 		8027406D26B034D700CB0AB5 /* VizApiRequestStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */; };
 		8027406F26B03A6000CB0AB5 /* VizApiNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */; };
+		8039368726B13C4D006A532F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8039368626B13C4D006A532F /* Models.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		8027406926B034D700CB0AB5 /* VizBaseNetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizBaseNetworkRequest.swift; sourceTree = "<group>"; };
 		8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizApiRequestStructure.swift; sourceTree = "<group>"; };
 		8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizApiNetworkRequest.swift; sourceTree = "<group>"; };
+		8039368626B13C4D006A532F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				8027405426B0343D00CB0AB5 /* AppDelegate.swift */,
 				8027405626B0343D00CB0AB5 /* SceneDelegate.swift */,
 				8027405826B0343D00CB0AB5 /* ViewController.swift */,
+				8039368626B13C4D006A532F /* Models.swift */,
 				8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */,
 				8027406826B034D700CB0AB5 /* VizHttpRequestStructure.swift */,
 				8027406926B034D700CB0AB5 /* VizBaseNetworkRequest.swift */,
@@ -152,6 +155,7 @@
 				8027405926B0343D00CB0AB5 /* ViewController.swift in Sources */,
 				8027406C26B034D700CB0AB5 /* VizBaseNetworkRequest.swift in Sources */,
 				8027406D26B034D700CB0AB5 /* VizApiRequestStructure.swift in Sources */,
+				8039368726B13C4D006A532F /* Models.swift in Sources */,
 				8027406F26B03A6000CB0AB5 /* VizApiNetworkRequest.swift in Sources */,
 				8027406B26B034D700CB0AB5 /* VizHttpRequestStructure.swift in Sources */,
 				8027405526B0343D00CB0AB5 /* AppDelegate.swift in Sources */,

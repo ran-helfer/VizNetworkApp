@@ -7,7 +7,6 @@
 
 import Foundation
 
-// dummy error enum
 enum VizBaseNetworkRequestError: Error {
     case failed
 }
@@ -35,6 +34,7 @@ extension VizBaseNetworkRequest {
         }
         task.resume()
     }
+    
     func load(_ url: URL, withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response , error) -> Void in
             guard let weakSelf = self,
