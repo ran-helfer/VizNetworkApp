@@ -19,10 +19,14 @@ protocol VizApiRequestStructure {
 
 extension VizApiRequestStructure {
     var url: URL {
-        var components = URLComponents(string:basePath)!
-        components.path = path
-        components.queryItems = queryItems
-        return components.url!
+        var components = URLComponents(string:basePath)
+        components?.path = path
+        components?.queryItems = queryItems
+        guard let url = components?.url else {
+            assertionFailure("could not build url")
+            return URL(fileURLWithPath: "")
+        }
+        return url
     }
     
     var urlRequest: URLRequest? {
