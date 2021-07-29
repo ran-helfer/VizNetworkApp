@@ -50,7 +50,10 @@ extension VizBaseNetworkRequest {
             return
         }
         
-        print(response as Any)
+        if let r = response as? HTTPURLResponse {
+            print(r.statusCode)
+            print(r)
+        }
         guard let data = data,
               let value =  self.decodeData(data) else {
             DispatchQueue.main.async {

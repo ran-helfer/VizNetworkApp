@@ -7,6 +7,8 @@
 
 import Foundation
 
+/* VizHttpRequestStructure describes how a basic HTTP network request structure should look like - on top of VizApiRequestStructure */
+
 protocol VizHttpRequestStructure: VizApiRequestStructure {
     var method: VizHttpMethod { get }
     var headers: [String: String]? { get }
@@ -49,7 +51,7 @@ extension VizHttpRequestStructure {
     }
     
     func requestedTimeout() -> TimeInterval? {
-        return nil
+        nil
     }
     
     var queryItems: [URLQueryItem]? {
