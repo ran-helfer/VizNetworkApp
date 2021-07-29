@@ -24,4 +24,8 @@ extension VizApiRequestStructure {
         components.queryItems = queryItems
         return components.url!
     }
+    
+    var urlRequest: URLRequest? {
+        nil
+    }
 }

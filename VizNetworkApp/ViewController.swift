@@ -10,11 +10,11 @@ import UIKit
 class ViewController: UIViewController {
 
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
-    var request: VizApiNetworkRequest<SomeRemoteObjectRequestStructure>?
+    var request: VizHttpNetworkRequest<SomeRemoteObjectRequestStructure>?
         
     @IBAction func makeRequest(_ sender: Any) {
-        request = VizApiNetworkRequest(requestStructure: SomeRemoteObjectRequestStructure())
-        request?.execute { result in
+        request = VizHttpNetworkRequest(requestStructure: SomeRemoteObjectRequestStructure())
+        _ = request?.execute { result in
             switch result {
             case .success(let object):
                 print("object: \(object)")

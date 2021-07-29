@@ -18,6 +18,10 @@
 		8027406D26B034D700CB0AB5 /* VizApiRequestStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */; };
 		8027406F26B03A6000CB0AB5 /* VizApiNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */; };
 		8039368726B13C4D006A532F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8039368626B13C4D006A532F /* Models.swift */; };
+		80E367BF26B2A2D700136410 /* VizNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367BE26B2A2D700136410 /* VizNetworkManager.swift */; };
+		80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */; };
+		80E367C526B2AE0300136410 /* VizLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C426B2AE0300136410 /* VizLogger.swift */; };
+		80E367C726B2C7B500136410 /* VizHttpNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C626B2C7B500136410 /* VizHttpNetworkRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,10 @@
 		8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizApiRequestStructure.swift; sourceTree = "<group>"; };
 		8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizApiNetworkRequest.swift; sourceTree = "<group>"; };
 		8039368626B13C4D006A532F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		80E367BE26B2A2D700136410 /* VizNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizNetworkManager.swift; sourceTree = "<group>"; };
+		80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizNetworkBlockOperationWrapper.swift; sourceTree = "<group>"; };
+		80E367C426B2AE0300136410 /* VizLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizLogger.swift; sourceTree = "<group>"; };
+		80E367C626B2C7B500136410 /* VizHttpNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizHttpNetworkRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +78,10 @@
 				8027405626B0343D00CB0AB5 /* SceneDelegate.swift */,
 				8039368626B13C4D006A532F /* Models.swift */,
 				8027405826B0343D00CB0AB5 /* ViewController.swift */,
+				80E367BD26B287DC00136410 /* Requests Manager */,
 				8039368826B14676006A532F /* Requests Structures */,
 				8039368926B146AC006A532F /* Requests */,
+				80E367C426B2AE0300136410 /* VizLogger.swift */,
 				8027405A26B0343D00CB0AB5 /* Main.storyboard */,
 				8027405D26B0343E00CB0AB5 /* Assets.xcassets */,
 				8027405F26B0343E00CB0AB5 /* LaunchScreen.storyboard */,
@@ -94,8 +104,18 @@
 			children = (
 				8027406926B034D700CB0AB5 /* VizBaseNetworkRequest.swift */,
 				8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */,
+				80E367C626B2C7B500136410 /* VizHttpNetworkRequest.swift */,
 			);
 			path = Requests;
+			sourceTree = "<group>";
+		};
+		80E367BD26B287DC00136410 /* Requests Manager */ = {
+			isa = PBXGroup;
+			children = (
+				80E367BE26B2A2D700136410 /* VizNetworkManager.swift */,
+				80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */,
+			);
+			path = "Requests Manager";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +196,10 @@
 				8027406B26B034D700CB0AB5 /* VizHttpRequestStructure.swift in Sources */,
 				8027405526B0343D00CB0AB5 /* AppDelegate.swift in Sources */,
 				8027405726B0343D00CB0AB5 /* SceneDelegate.swift in Sources */,
+				80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */,
+				80E367C526B2AE0300136410 /* VizLogger.swift in Sources */,
+				80E367C726B2C7B500136410 /* VizHttpNetworkRequest.swift in Sources */,
+				80E367BF26B2A2D700136410 /* VizNetworkManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

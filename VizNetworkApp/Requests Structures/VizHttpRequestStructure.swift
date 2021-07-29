@@ -13,18 +13,14 @@ protocol VizHttpRequestStructure: VizApiRequestStructure {
     var method: VizHttpMethod { get }
     var headers: [String: String]? { get }
     // files...
-    var urlRequest: URLRequest { get }
+    var urlRequest: URLRequest? { get }
     
     /* If needs to set timeout - implement this protocol method. Otherwise default timeout will be used */
     func requestedTimeout() -> TimeInterval?
 }
 
 extension VizHttpRequestStructure {
-    var urlRequest: URLRequest {
-        guard let url = URL(string: path) else {
-            assertionFailure("could not assemble url at VizHTTPNetworkRequest")
-            return URLRequest(url: URL(string: "")!)
-        }
+    var urlRequest: URLRequest? {
         var request = URLRequest(url: url)
 
         switch method {

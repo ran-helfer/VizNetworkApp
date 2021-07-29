@@ -7,14 +7,11 @@
 
 import Foundation
 
-class VizApiNetworkRequest<RequestStructure: VizApiRequestStructure> {
-    let requestStructure: RequestStructure
+class VizApiNetworkRequest<RequestStructure: VizApiRequestStructure> : VizBaseNetworkRequest {
+    var requestStructure: RequestStructure
     init(requestStructure: RequestStructure) {
         self.requestStructure = requestStructure
     }
-}
-
-extension VizApiNetworkRequest: VizBaseNetworkRequest {
     
     func decodeData(_ data: Data) -> RequestStructure.ModelType? {
         let decoder = JSONDecoder()
@@ -23,7 +20,7 @@ extension VizApiNetworkRequest: VizBaseNetworkRequest {
         return wrapper
     }
     
-    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) where RequestStructure: VizApiRequestStructure {
+    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) -> URLSessionDataTask? where RequestStructure: VizApiRequestStructure {
         load(requestStructure.url, withCompletion: completion)
     }
 }

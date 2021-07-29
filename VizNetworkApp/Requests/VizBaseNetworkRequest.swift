@@ -10,12 +10,12 @@ import Foundation
 protocol VizBaseNetworkRequest: AnyObject {
     associatedtype ModelType
     func decodeData(_ data: Data) -> ModelType?
-    func execute(withCompletion completion: @escaping (Result<ModelType, Error>) -> Void)
+    func execute(withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) -> URLSessionDataTask?
 }
 
 extension VizBaseNetworkRequest {
     func load(_ request: URLRequest,
-              withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) {
+              withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) -> URLSessionDataTask? {
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let weakSelf = self else {return}
             weakSelf.handleRequestResponse(data: data,
@@ -24,9 +24,10 @@ extension VizBaseNetworkRequest {
                                            completion: completion)
         }
         task.resume()
+        return task
     }
     
-    func load(_ url: URL, withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) {
+    func load(_ url: URL, withCompletion completion: @escaping (Result<ModelType, Error>) -> Void) -> URLSessionDataTask? {
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response , error) -> Void in
             guard let weakSelf = self else {return}
             weakSelf.handleRequestResponse(data: data,
@@ -35,6 +36,7 @@ extension VizBaseNetworkRequest {
                                            completion: completion)
         }
         task.resume()
+        return task
     }
     
     private func handleRequestResponse(data:Data?,
