@@ -81,7 +81,7 @@
 				80E367BD26B287DC00136410 /* Requests Manager */,
 				8039368826B14676006A532F /* Requests Structures */,
 				8039368926B146AC006A532F /* Requests */,
-				80E367C426B2AE0300136410 /* VizLogger.swift */,
+				80E367C826B3F2F400136410 /* Logger */,
 				8027405A26B0343D00CB0AB5 /* Main.storyboard */,
 				8027405D26B0343E00CB0AB5 /* Assets.xcassets */,
 				8027405F26B0343E00CB0AB5 /* LaunchScreen.storyboard */,
@@ -116,6 +116,14 @@
 				80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */,
 			);
 			path = "Requests Manager";
+			sourceTree = "<group>";
+		};
+		80E367C826B3F2F400136410 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				80E367C426B2AE0300136410 /* VizLogger.swift */,
+			);
+			path = Logger;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
