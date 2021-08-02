@@ -32,7 +32,7 @@ struct UserObject: Decodable {
     let userId: String?
     let name: String?
     let city: String?
-    let locations: String?
+    //let locations: String?
 }
 
 struct ResponseUsersObjectList: Decodable {

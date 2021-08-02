@@ -27,17 +27,17 @@ class ViewController: UIViewController {
 
 struct SomeRemoteObjectRequestStructure: VizHttpRequestStructure {
     
-    /* run python api_endpoints.py  in terminal so you can check up the server */
+    /* at terminal run
+        python api_endpoints.py
+    */
     
     typealias ModelType = ResponseUsersObjectList
 
     var basePath: String {
         "http://127.0.0.1:5000"
-        //"https://reqbin.com"
     }
     
     var path: String {
-        //"/echo/get/json/page/2"
         "/users"
     }
     

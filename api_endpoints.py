@@ -3,6 +3,7 @@ from flask_restful import Resource, Api, reqparse
 import pandas as pd
 import ast
 import csv
+import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,11 +14,15 @@ class Users(Resource):
         persons = []
         with open('users.csv', 'r') as f:
             reader = csv.reader(f)
+            count = 0
             for row in reader:
+                if count==0:
+                    count = 1
+                    continue
+                
                 persons.append({'userId': row[0],
                                 'name': row[1],
-                                'city': row[2],
-                                'locations': row[3]})
+                                'city': row[2]})
         print(persons)
         return {'persons': persons}, 200  # return data and 200 OK
 
@@ -27,26 +32,37 @@ class Users(Resource):
         parser.add_argument('name', required=True)
         parser.add_argument('city', required=True)
         args = parser.parse_args()  # parse arguments to dictionary
-
+    
         # read our CSV
-        data = pd.read_csv('users.csv')
+        users_file = 'users.csv'
+        with open(users_file, 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                print(args['userId'])
+                print(row[0])
+                if args['userId']==row[0].replace(" ", ""):
+                    print('user already exists ! aborting')
+                    return {
+                        'message': f"'{args['userId']}' already exists."
+                    }, 409
+                    return
+        
+        # create new dataframe containing new values
+        person = []
+        person.append({'userId': row[0],
+                        'name': row[1],
+                        'city': row[2]})
+    
+        tmp_file_name = 'users_tmp.csv'
 
-        if args['userId'] in list(data['userId']):
-            return {
-                'message': f"'{args['userId']}' already exists."
-            }, 409
-        else:
-            # create new dataframe containing new values
-            new_data = pd.DataFrame({
-                'userId': [args['userId']],
-                'name': [args['name']],
-                'city': [args['city']],
-                'locations': [[]]
-            })
-            # add the newly provided values
-            data = data.append(new_data, ignore_index=True)
-            data.to_csv('users.csv', index=False)  # save back to CSV
-            return {'data': data.to_dict()}, 200  # return data with 200 OK
+        with open(tmp_file_name, 'w', newline='') as csvfile:
+            fieldnames = ['userId', 'name', 'city']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writerow({'userId': args['userId'], 'name': args['name'],'city': args['city']})
+        os.system("cat users_tmp.csv >> users.csv ")
+
+        return {'value': person}, 200  # return data with 200 OK
 
     def put(self):
         parser = reqparse.RequestParser()  # initialize
