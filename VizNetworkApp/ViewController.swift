@@ -9,11 +9,29 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
-    var request: VizHttpNetworkRequest<SomeRemoteObjectRequestStructure>?
-        
-    @IBAction func makeRequest(_ sender: Any) {
-        request = VizHttpNetworkRequest(requestStructure: SomeRemoteObjectRequestStructure())
+    var request: VizHttpNetworkRequest<GetRemoteObjectRequestStructure>?
+    var postRequest: VizHttpNetworkRequest<PostObjectRequestStructure>?
+
+    
+    @IBAction func postRequest(_ sender: Any) {
+        let object = UserObject(userId: "123123", name: "someName", city: "someCity")
+        let postReq = PostObjectRequestStructure(method: .post(object))
+        postRequest = VizHttpNetworkRequest(requestStructure: postReq)
+        _ = postRequest?.execute(withCompletion: { result in
+            switch result {
+            case .success(let object):
+                print("object: \(object)")
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
+    
+    
+    @IBAction func getRequest(_ sender: Any) {
+        request = VizHttpNetworkRequest(requestStructure: GetRemoteObjectRequestStructure())
         _ = request?.execute { result in
             switch result {
             case .success(let object):
@@ -23,9 +41,16 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func deleteRequest(_ sender: Any) {
+    }
+    
+    @IBAction func putRequest(_ sender: Any) {
+    }
+    
 }
 
-struct SomeRemoteObjectRequestStructure: VizHttpRequestStructure {
+struct GetRemoteObjectRequestStructure: VizHttpRequestStructure {
     
     /* at terminal run
         python api_endpoints.py
@@ -45,6 +70,26 @@ struct SomeRemoteObjectRequestStructure: VizHttpRequestStructure {
         .get(nil)
     }
 }
+
+struct PostObjectRequestStructure: VizHttpRequestStructure {
+    var method: VizHttpMethod
+    
+    
+    /* at terminal run
+        python api_endpoints.py
+    */
+    
+    typealias ModelType = ResponsePostUsersObject
+
+    var basePath: String {
+        "http://127.0.0.1:5000"
+    }
+    
+    var path: String {
+        "/users"
+    }
+}
+
 
 /*
 struct SomeRemoteObjectPOSTRequestStructure: VizHttpRequestStructure {

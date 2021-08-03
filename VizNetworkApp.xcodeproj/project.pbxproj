@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -93,11 +93,11 @@
 				8027405626B0343D00CB0AB5 /* SceneDelegate.swift */,
 				8039368626B13C4D006A532F /* Models.swift */,
 				8027405826B0343D00CB0AB5 /* ViewController.swift */,
+				8027405A26B0343D00CB0AB5 /* Main.storyboard */,
 				80E367BD26B287DC00136410 /* Requests Manager */,
 				8039368826B14676006A532F /* Requests Structures */,
 				8039368926B146AC006A532F /* Requests */,
 				80E367C826B3F2F400136410 /* Logger */,
-				8027405A26B0343D00CB0AB5 /* Main.storyboard */,
 				8027405D26B0343E00CB0AB5 /* Assets.xcassets */,
 				8027405F26B0343E00CB0AB5 /* LaunchScreen.storyboard */,
 				8027406226B0343E00CB0AB5 /* Info.plist */,
@@ -147,7 +147,6 @@
 				05C50D0F2A50BB7DDD9F6891 /* Pods-VizNetworkApp.debug.xcconfig */,
 				8B117A8209F767D86AC40D95 /* Pods-VizNetworkApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

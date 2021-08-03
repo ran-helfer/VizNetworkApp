@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 /*
  local server:
  
@@ -28,7 +26,7 @@ locationId,name,rating
 7,Westberlin,4.4
 */
 
-struct UserObject: Decodable {
+struct UserObject: Codable {
     let userId: String?
     let name: String?
     let city: String?
@@ -37,6 +35,10 @@ struct UserObject: Decodable {
 
 struct ResponseUsersObjectList: Decodable {
     let persons: [UserObject]?
+}
+
+struct ResponsePostUsersObject: Decodable {
+    let value: [UserObject]?
 }
 
 
