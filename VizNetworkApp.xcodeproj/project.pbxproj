@@ -21,6 +21,7 @@
 		80E367BF26B2A2D700136410 /* VizNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367BE26B2A2D700136410 /* VizNetworkManager.swift */; };
 		80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */; };
 		80E367C526B2AE0300136410 /* VizLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C426B2AE0300136410 /* VizLogger.swift */; };
+		80F5B00B26BACA2E00F6EBF4 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F5B00A26BACA2E00F6EBF4 /* Requests.swift */; };
 		8D01A90E2F77D100C6550684 /* Pods_VizNetworkApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8863451FAEA57147C03A4B38 /* Pods_VizNetworkApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		80E367BE26B2A2D700136410 /* VizNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizNetworkManager.swift; sourceTree = "<group>"; };
 		80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizNetworkBlockOperationWrapper.swift; sourceTree = "<group>"; };
 		80E367C426B2AE0300136410 /* VizLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizLogger.swift; sourceTree = "<group>"; };
+		80F5B00A26BACA2E00F6EBF4 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 		8863451FAEA57147C03A4B38 /* Pods_VizNetworkApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VizNetworkApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B117A8209F767D86AC40D95 /* Pods-VizNetworkApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VizNetworkApp.release.xcconfig"; path = "Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +92,7 @@
 				8027405426B0343D00CB0AB5 /* AppDelegate.swift */,
 				8027405626B0343D00CB0AB5 /* SceneDelegate.swift */,
 				8039368626B13C4D006A532F /* Models.swift */,
+				80F5B00A26BACA2E00F6EBF4 /* Requests.swift */,
 				8027405826B0343D00CB0AB5 /* ViewController.swift */,
 				8027405A26B0343D00CB0AB5 /* Main.storyboard */,
 				80E367BD26B287DC00136410 /* Requests Manager */,
@@ -270,6 +273,7 @@
 				8027405526B0343D00CB0AB5 /* AppDelegate.swift in Sources */,
 				8027405726B0343D00CB0AB5 /* SceneDelegate.swift in Sources */,
 				80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */,
+				80F5B00B26BACA2E00F6EBF4 /* Requests.swift in Sources */,
 				80E367C526B2AE0300136410 /* VizLogger.swift in Sources */,
 				80E367BF26B2A2D700136410 /* VizNetworkManager.swift in Sources */,
 			);
