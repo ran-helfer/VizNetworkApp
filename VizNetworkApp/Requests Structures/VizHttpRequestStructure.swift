@@ -77,10 +77,6 @@ enum VizHttpMethod: Equatable {
         }
     }
     
-    func defaultTimeout() -> TimeInterval {
-        15
-    }
-    
     func encodedInput() -> Encodable? {
         switch self {
         case .post(let input),
