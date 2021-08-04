@@ -33,11 +33,11 @@ struct UserObject: Codable {
     //let locations: String?
 }
 
-struct ResponseUsersObjectList: Decodable {
+struct ResponseUsersObjectList: Codable {
     let persons: [UserObject]?
 }
 
-struct ResponsePostUsersObject: Decodable {
+struct ResponsePostUsersObject: Codable {
     let value: [UserObject]?
 }
 
@@ -59,18 +59,18 @@ struct PostResponseObject: Codable {
 }
 
 /* Get request */
-struct SingularObject: Decodable {
+struct SingularObject: Codable {
     let id: Int
     let name: String
     let price: Int
 }
 
-struct LinksData: Decodable {
+struct LinksData: Codable {
     let next: String
     let prev: String
 }
 
-struct ResponseObjectList: Decodable {
+struct ResponseObjectList: Codable {
     let items: [SingularObject]
     let limit: Int?
     let links: LinksData?

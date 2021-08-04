@@ -11,7 +11,7 @@ import Foundation
     basePath, path, queryItems and usually an API request involves an associated return type which we want to decode to an object */
 
 protocol VizApiRequestStructure {
-    associatedtype ModelType: Decodable
+    associatedtype ModelType: Codable
     var path: String { get }
     var basePath: String { get }
     var queryItems: [URLQueryItem]? { get }

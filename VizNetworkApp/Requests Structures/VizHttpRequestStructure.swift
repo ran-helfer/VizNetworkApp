@@ -86,7 +86,7 @@ enum VizHttpMethod: Equatable {
     func requestInputDataAsData() -> Data? {
         switch self {
         case .post(let input), .put(let input): do {
-            if let input = input as? Decodable {
+            if let input = input as? Encodable {
                 return try? JSONSerialization.data(withJSONObject: input)
             }
             return nil
@@ -99,5 +99,16 @@ enum VizHttpMethod: Equatable {
         
     func defaultTimeout() -> TimeInterval {
         15
+    }
+}
+
+struct EncodeHelper<T: Encodable> {
+    let data: T?
+    func encode() -> String? {
+        guard let jsonData = try? JSONEncoder().encode(data) else {
+            return nil
+            
+        }
+        return String(data: jsonData, encoding: .utf8)
     }
 }
