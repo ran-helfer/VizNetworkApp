@@ -16,7 +16,10 @@ class ViewController: UIViewController {
     var postRequest: VizApiNetworkRequest<PostObjectRequestStructure>?
     
     @IBAction func postRequest(_ sender: Any) {
-        let object = UserObject(userId: "123123", name: "someName", city: "someCity")
+        let randomNumber = Int.random(in: 1...100000000000000)
+        let object = UserObject(userId: "\(randomNumber)",
+                                name: "someName",
+                                city: "someCity")
         let postReq = PostObjectRequestStructure(method: .post(object))
         postRequest = VizApiNetworkRequest(requestStructure: postReq)
         _ = postRequest?.execute(withCompletion: { result in
