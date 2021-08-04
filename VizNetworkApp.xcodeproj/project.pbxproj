@@ -93,7 +93,7 @@
 				8027405826B0343D00CB0AB5 /* ViewController.swift */,
 				8027405A26B0343D00CB0AB5 /* Main.storyboard */,
 				80E367BD26B287DC00136410 /* Requests Manager */,
-				8039368826B14676006A532F /* Requests Structures */,
+				8039368826B14676006A532F /* Api Resources */,
 				8039368926B146AC006A532F /* Requests */,
 				80E367C826B3F2F400136410 /* Logger */,
 				8027405D26B0343E00CB0AB5 /* Assets.xcassets */,
@@ -103,13 +103,13 @@
 			path = VizNetworkApp;
 			sourceTree = "<group>";
 		};
-		8039368826B14676006A532F /* Requests Structures */ = {
+		8039368826B14676006A532F /* Api Resources */ = {
 			isa = PBXGroup;
 			children = (
 				8027406A26B034D700CB0AB5 /* VizApiResource.swift */,
 				8027406826B034D700CB0AB5 /* VizHttpApiResource.swift */,
 			);
-			path = "Requests Structures";
+			path = "Api Resources";
 			sourceTree = "<group>";
 		};
 		8039368926B146AC006A532F /* Requests */ = {
