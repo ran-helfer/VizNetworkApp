@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,9 +13,19 @@
 		8027405C26B0343D00CB0AB5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8027405A26B0343D00CB0AB5 /* Main.storyboard */; };
 		8027405E26B0343E00CB0AB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8027405D26B0343E00CB0AB5 /* Assets.xcassets */; };
 		8027406126B0343E00CB0AB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8027405F26B0343E00CB0AB5 /* LaunchScreen.storyboard */; };
+		8027406B26B034D700CB0AB5 /* VizHttpRequestStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406826B034D700CB0AB5 /* VizHttpRequestStructure.swift */; };
+		8027406C26B034D700CB0AB5 /* VizBaseNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406926B034D700CB0AB5 /* VizBaseNetworkRequest.swift */; };
+		8027406D26B034D700CB0AB5 /* VizApiRequestStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */; };
+		8027406F26B03A6000CB0AB5 /* VizApiNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */; };
+		8039368726B13C4D006A532F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8039368626B13C4D006A532F /* Models.swift */; };
+		80E367BF26B2A2D700136410 /* VizNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367BE26B2A2D700136410 /* VizNetworkManager.swift */; };
+		80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */; };
+		80E367C526B2AE0300136410 /* VizLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C426B2AE0300136410 /* VizLogger.swift */; };
+		8D01A90E2F77D100C6550684 /* Pods_VizNetworkApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8863451FAEA57147C03A4B38 /* Pods_VizNetworkApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05C50D0F2A50BB7DDD9F6891 /* Pods-VizNetworkApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VizNetworkApp.debug.xcconfig"; path = "Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp.debug.xcconfig"; sourceTree = "<group>"; };
 		8027405126B0343D00CB0AB5 /* VizNetworkApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VizNetworkApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8027405426B0343D00CB0AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8027405626B0343D00CB0AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +34,16 @@
 		8027405D26B0343E00CB0AB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8027406026B0343E00CB0AB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8027406226B0343E00CB0AB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8027406826B034D700CB0AB5 /* VizHttpRequestStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizHttpRequestStructure.swift; sourceTree = "<group>"; };
+		8027406926B034D700CB0AB5 /* VizBaseNetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizBaseNetworkRequest.swift; sourceTree = "<group>"; };
+		8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizApiRequestStructure.swift; sourceTree = "<group>"; };
+		8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizApiNetworkRequest.swift; sourceTree = "<group>"; };
+		8039368626B13C4D006A532F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		80E367BE26B2A2D700136410 /* VizNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizNetworkManager.swift; sourceTree = "<group>"; };
+		80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizNetworkBlockOperationWrapper.swift; sourceTree = "<group>"; };
+		80E367C426B2AE0300136410 /* VizLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizLogger.swift; sourceTree = "<group>"; };
+		8863451FAEA57147C03A4B38 /* Pods_VizNetworkApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VizNetworkApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B117A8209F767D86AC40D95 /* Pods-VizNetworkApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VizNetworkApp.release.xcconfig"; path = "Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +51,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D01A90E2F77D100C6550684 /* Pods_VizNetworkApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F074E3D1D0FF986F3BB8AF6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8863451FAEA57147C03A4B38 /* Pods_VizNetworkApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8027404826B0343D00CB0AB5 = {
 			isa = PBXGroup;
 			children = (
 				8027405326B0343D00CB0AB5 /* VizNetworkApp */,
 				8027405226B0343D00CB0AB5 /* Products */,
+				81487D48FD7AEE5470FFF423 /* Pods */,
+				1F074E3D1D0FF986F3BB8AF6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +89,62 @@
 			children = (
 				8027405426B0343D00CB0AB5 /* AppDelegate.swift */,
 				8027405626B0343D00CB0AB5 /* SceneDelegate.swift */,
+				8039368626B13C4D006A532F /* Models.swift */,
 				8027405826B0343D00CB0AB5 /* ViewController.swift */,
 				8027405A26B0343D00CB0AB5 /* Main.storyboard */,
+				80E367BD26B287DC00136410 /* Requests Manager */,
+				8039368826B14676006A532F /* Requests Structures */,
+				8039368926B146AC006A532F /* Requests */,
+				80E367C826B3F2F400136410 /* Logger */,
 				8027405D26B0343E00CB0AB5 /* Assets.xcassets */,
 				8027405F26B0343E00CB0AB5 /* LaunchScreen.storyboard */,
 				8027406226B0343E00CB0AB5 /* Info.plist */,
 			);
 			path = VizNetworkApp;
+			sourceTree = "<group>";
+		};
+		8039368826B14676006A532F /* Requests Structures */ = {
+			isa = PBXGroup;
+			children = (
+				8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */,
+				8027406826B034D700CB0AB5 /* VizHttpRequestStructure.swift */,
+			);
+			path = "Requests Structures";
+			sourceTree = "<group>";
+		};
+		8039368926B146AC006A532F /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				8027406926B034D700CB0AB5 /* VizBaseNetworkRequest.swift */,
+				8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		80E367BD26B287DC00136410 /* Requests Manager */ = {
+			isa = PBXGroup;
+			children = (
+				80E367BE26B2A2D700136410 /* VizNetworkManager.swift */,
+				80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */,
+			);
+			path = "Requests Manager";
+			sourceTree = "<group>";
+		};
+		80E367C826B3F2F400136410 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				80E367C426B2AE0300136410 /* VizLogger.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		81487D48FD7AEE5470FFF423 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				05C50D0F2A50BB7DDD9F6891 /* Pods-VizNetworkApp.debug.xcconfig */,
+				8B117A8209F767D86AC40D95 /* Pods-VizNetworkApp.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +154,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8027406526B0343E00CB0AB5 /* Build configuration list for PBXNativeTarget "VizNetworkApp" */;
 			buildPhases = (
+				76478D4BE05DCEAB884576A0 /* [CP] Check Pods Manifest.lock */,
 				8027404D26B0343D00CB0AB5 /* Sources */,
 				8027404E26B0343D00CB0AB5 /* Frameworks */,
 				8027404F26B0343D00CB0AB5 /* Resources */,
+				62C1436228E946060A5BE88A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,14 +214,64 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		62C1436228E946060A5BE88A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		76478D4BE05DCEAB884576A0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-VizNetworkApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8027404D26B0343D00CB0AB5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8027405926B0343D00CB0AB5 /* ViewController.swift in Sources */,
+				8027406C26B034D700CB0AB5 /* VizBaseNetworkRequest.swift in Sources */,
+				8027406D26B034D700CB0AB5 /* VizApiRequestStructure.swift in Sources */,
+				8039368726B13C4D006A532F /* Models.swift in Sources */,
+				8027406F26B03A6000CB0AB5 /* VizApiNetworkRequest.swift in Sources */,
+				8027406B26B034D700CB0AB5 /* VizHttpRequestStructure.swift in Sources */,
 				8027405526B0343D00CB0AB5 /* AppDelegate.swift in Sources */,
 				8027405726B0343D00CB0AB5 /* SceneDelegate.swift in Sources */,
+				80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */,
+				80E367C526B2AE0300136410 /* VizLogger.swift in Sources */,
+				80E367BF26B2A2D700136410 /* VizNetworkManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +397,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -283,6 +416,7 @@
 		};
 		8027406626B0343E00CB0AB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 05C50D0F2A50BB7DDD9F6891 /* Pods-VizNetworkApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -302,6 +436,7 @@
 		};
 		8027406726B0343E00CB0AB5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B117A8209F767D86AC40D95 /* Pods-VizNetworkApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

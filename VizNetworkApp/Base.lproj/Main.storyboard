@@ -1,24 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="VizNetworkApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nU1-bD-WFp">
+                                <rect key="frame" x="0.0" y="262" width="414" height="600"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="600" id="osy-XW-98m"/>
+                                </constraints>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ke-ZM-OiA">
+                                <rect key="frame" x="16" y="84" width="30" height="30"/>
+                                <state key="normal" title="Get"/>
+                                <connections>
+                                    <action selector="getRequest:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FBu-IM-a5d"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eF7-4h-wr3">
+                                <rect key="frame" x="82" y="84" width="31" height="30"/>
+                                <state key="normal" title="Post"/>
+                                <connections>
+                                    <action selector="postRequest:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oWj-E0-9Oc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LiO-sZ-Ujw">
+                                <rect key="frame" x="352" y="84" width="30" height="30"/>
+                                <state key="normal" title="Put"/>
+                                <connections>
+                                    <action selector="putRequest:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cKI-UH-o9i"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e91-Uu-Yjk">
+                                <rect key="frame" x="275" y="84" width="45" height="30"/>
+                                <state key="normal" title="Delete"/>
+                                <connections>
+                                    <action selector="deleteRequest:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jk9-r6-g5j"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="4ke-ZM-OiA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="15k-LY-MtY"/>
+                            <constraint firstItem="nU1-bD-WFp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5a5-P2-5BE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LiO-sZ-Ujw" secondAttribute="trailing" constant="32" id="J6b-ba-fdr"/>
+                            <constraint firstItem="eF7-4h-wr3" firstAttribute="leading" secondItem="4ke-ZM-OiA" secondAttribute="trailing" constant="36" id="LrR-ng-Jpj"/>
+                            <constraint firstItem="eF7-4h-wr3" firstAttribute="centerY" secondItem="4ke-ZM-OiA" secondAttribute="centerY" id="QFd-wh-2kF"/>
+                            <constraint firstItem="nU1-bD-WFp" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XNF-Aa-ke9"/>
+                            <constraint firstItem="LiO-sZ-Ujw" firstAttribute="leading" secondItem="e91-Uu-Yjk" secondAttribute="trailing" constant="32" id="a1T-aT-Tyc"/>
+                            <constraint firstItem="LiO-sZ-Ujw" firstAttribute="centerY" secondItem="e91-Uu-Yjk" secondAttribute="centerY" id="nq8-Zl-xUI"/>
+                            <constraint firstItem="nU1-bD-WFp" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="nx1-bB-LWM"/>
+                            <constraint firstItem="4ke-ZM-OiA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="p7a-iW-Z3j"/>
+                            <constraint firstItem="e91-Uu-Yjk" firstAttribute="centerY" secondItem="eF7-4h-wr3" secondAttribute="centerY" id="pZA-A3-zfz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nU1-bD-WFp" secondAttribute="trailing" id="v8g-8v-gtX"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="nU1-bD-WFp" id="7Wv-V2-FkS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="76.811594202898561" y="45.535714285714285"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
