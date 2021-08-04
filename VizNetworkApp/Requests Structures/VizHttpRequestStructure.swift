@@ -79,7 +79,7 @@ enum VizHttpMethod: Equatable {
         }
         case .get: return nil
         case .delete: return nil
-        case .head: return ni
+        case .head: return nil
         }
     }
         
