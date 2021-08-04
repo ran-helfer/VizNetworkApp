@@ -21,6 +21,15 @@ class VizApiNetworkRequest<RequestStructure: VizApiRequestStructure> : VizBaseNe
     }
     
     func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) -> URLSessionDataTask? where RequestStructure: VizApiRequestStructure {
-        load(requestStructure.url, withCompletion: completion)
+        return load(requestStructure.url, withCompletion: completion)
+    }
+    
+    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) -> URLSessionDataTask? where RequestStructure: VizHttpRequestStructure {
+        guard let request = requestStructure.urlRequest() else {
+            print("could not get url request")
+            completion(.failure(VizBaseNetworkRequestError.failed))
+            return nil
+        }
+        return load(request, withCompletion: completion)
     }
 }

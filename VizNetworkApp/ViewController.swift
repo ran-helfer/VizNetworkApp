@@ -4,6 +4,7 @@
 //
 //  Created by Ran Helfer on 27/07/2021.
 //
+/* resource */
 
 import UIKit
 
@@ -11,14 +12,13 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
-    var request: VizHttpNetworkRequest<GetRemoteObjectRequestStructure>?
-    var postRequest: VizHttpNetworkRequest<PostObjectRequestStructure>?
-
+    var request: VizApiNetworkRequest<GetRemoteObjectRequestStructure>?
+    var postRequest: VizApiNetworkRequest<PostObjectRequestStructure>?
     
     @IBAction func postRequest(_ sender: Any) {
         let object = UserObject(userId: "123123", name: "someName", city: "someCity")
         let postReq = PostObjectRequestStructure(method: .post(object))
-        postRequest = VizHttpNetworkRequest(requestStructure: postReq)
+        postRequest = VizApiNetworkRequest(requestStructure: postReq)
         _ = postRequest?.execute(withCompletion: { result in
             switch result {
             case .success(let object):
@@ -29,9 +29,8 @@ class ViewController: UIViewController {
         })
     }
     
-    
     @IBAction func getRequest(_ sender: Any) {
-        request = VizHttpNetworkRequest(requestStructure: GetRemoteObjectRequestStructure())
+        request = VizApiNetworkRequest(requestStructure: GetRemoteObjectRequestStructure())
         _ = request?.execute { result in
             switch result {
             case .success(let object):
@@ -51,6 +50,10 @@ class ViewController: UIViewController {
 }
 
 struct GetRemoteObjectRequestStructure: VizHttpRequestStructure {
+    var headers: [String : String]?
+    
+    var queryItems: [URLQueryItem]?
+    
     
     /* at terminal run
         python api_endpoints.py
@@ -72,6 +75,10 @@ struct GetRemoteObjectRequestStructure: VizHttpRequestStructure {
 }
 
 struct PostObjectRequestStructure: VizHttpRequestStructure {
+    var headers: [String : String]?
+    
+    var queryItems: [URLQueryItem]?
+    
     var method: VizHttpMethod
     
     

@@ -13,27 +13,21 @@ protocol VizHttpRequestStructure: VizApiRequestStructure {
     var method: VizHttpMethod { get }
     var headers: [String: String]? { get }
     // files...
-    var urlRequest: URLRequest? { get }
+    mutating func urlRequest() -> URLRequest?
     
     /* If needs to set timeout - implement this protocol method. Otherwise default timeout will be used */
-    func requestedTimeout() -> TimeInterval?
+    var timeout: TimeInterval { get }
 }
 
 extension VizHttpRequestStructure {
-    var urlRequest: URLRequest? {
+    mutating func urlRequest() -> URLRequest? {
         var request = URLRequest(url: url)
 
         switch method {
         case .post, .put:
-            request.httpBody = method.requestInputDataAsData()
+            request.httpBody = method.httpBody
         case let .get(queryItems):
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-            if let queryItems = queryItems {
-                components?.queryItems = queryItems
-            }
-            guard let url = components?.url else {
-                preconditionFailure("Couldn't create a url from components...")
-            }
+            self.queryItems = queryItems
             request = URLRequest(url: url)
         default:
             break
@@ -41,21 +35,13 @@ extension VizHttpRequestStructure {
         
         request.allHTTPHeaderFields = headers
         request.httpMethod = method.name
-        request.timeoutInterval = requestedTimeout() ?? method.defaultTimeout()
+        request.timeoutInterval = timeout
         
         return request
     }
     
-    func requestedTimeout() -> TimeInterval? {
-        nil
-    }
-    
-    var queryItems: [URLQueryItem]? {
-        nil
-    }
-    
-    var headers: [String : String]? {
-        nil
+    var timeout: TimeInterval {
+        60
     }
 }
 
@@ -68,8 +54,8 @@ enum VizHttpMethod: Equatable {
     }
     
     case get([URLQueryItem]?)
-    case put(Any?)
-    case post(Any?)
+    case put(Encodable?)
+    case post(Encodable?)
     case delete
     case head
 
@@ -83,17 +69,17 @@ enum VizHttpMethod: Equatable {
         }
     }
     
-    func requestInputDataAsData() -> Data? {
+    var httpBody:Data? {
         switch self {
         case .post(let input), .put(let input): do {
-            if let input = input as? Encodable {
-                return try? JSONSerialization.data(withJSONObject: input)
+            if let input = input {
+                return try? JSONEncoder().encode(input)
             }
             return nil
         }
         case .get: return nil
         case .delete: return nil
-        case .head: return nil
+        case .head: return ni
         }
     }
         
