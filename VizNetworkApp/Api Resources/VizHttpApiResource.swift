@@ -37,6 +37,12 @@ extension VizHttpApiResource {
         request.httpMethod = method.name
         request.timeoutInterval = timeout
         
+        if let headers = self.headers {
+            for  header in headers {
+                request.addValue(header.value, forHTTPHeaderField: header.key)
+            }
+        }
+
         print("hitting url \(String(describing: request.url))")
         return request
     }

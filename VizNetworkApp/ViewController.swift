@@ -78,7 +78,8 @@ struct GetRemoteObjectRequestStructure: VizHttpApiResource {
 }
 
 struct PostObjectRequestStructure: VizHttpApiResource {
-    var headers: [String : String]?
+    var headers: [String : String]? =
+        ["Content-Type" : "application/json"]
     
     var queryItems: [URLQueryItem]?
     
