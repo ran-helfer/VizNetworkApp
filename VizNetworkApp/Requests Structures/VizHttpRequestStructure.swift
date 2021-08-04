@@ -12,10 +12,10 @@ import Foundation
 protocol VizHttpRequestStructure: VizApiRequestStructure {
     var method: VizHttpMethod { get }
     var headers: [String: String]? { get }
-    // files...
     mutating func urlRequest() -> URLRequest?
     
-    /* If needs to set timeout - implement this protocol method. Otherwise default timeout will be used */
+    /* If needs to set timeout - implement this protocol method.
+       Otherwise default timeout will be used */
     var timeout: TimeInterval { get }
 }
 
@@ -25,7 +25,7 @@ extension VizHttpRequestStructure {
 
         switch method {
         case .post, .put:
-            request.httpBody = method.httpBody
+            request.httpBody = httpBody
         case let .get(queryItems):
             self.queryItems = queryItems
             request = URLRequest(url: url)
@@ -42,6 +42,14 @@ extension VizHttpRequestStructure {
     
     var timeout: TimeInterval {
         60
+    }
+    
+    private var httpBody:Data? {
+        guard let encodedBody = method.encodedInput() as? Self.ModelType else {
+            return nil
+        }
+        let helper = EncodeHelper<ModelType>(data: encodedBody)
+        return helper.encode()
     }
 }
 
@@ -69,32 +77,25 @@ enum VizHttpMethod: Equatable {
         }
     }
     
-    var httpBody:Data? {
-        switch self {
-        case .post(let input), .put(let input): do {
-            if let input = input {
-                return try? JSONEncoder().encode(input)
-            }
-            return nil
-        }
-        case .get: return nil
-        case .delete: return nil
-        case .head: return nil
-        }
-    }
-        
     func defaultTimeout() -> TimeInterval {
         15
+    }
+    
+    func encodedInput() -> Encodable? {
+        switch self {
+        case .post(let input),
+             .put(let input): do {
+            return input
+        }
+        default:
+            return nil
+        }
     }
 }
 
 struct EncodeHelper<T: Encodable> {
     let data: T?
-    func encode() -> String? {
-        guard let jsonData = try? JSONEncoder().encode(data) else {
-            return nil
-            
-        }
-        return String(data: jsonData, encoding: .utf8)
+    func encode() -> Data? {
+        return try? JSONEncoder().encode(data)
     }
 }

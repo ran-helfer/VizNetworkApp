@@ -86,7 +86,7 @@ struct PostObjectRequestStructure: VizHttpRequestStructure {
         python api_endpoints.py
     */
     
-    typealias ModelType = ResponsePostUsersObject
+    typealias ModelType = UserObject
 
     var basePath: String {
         "http://127.0.0.1:5000"
