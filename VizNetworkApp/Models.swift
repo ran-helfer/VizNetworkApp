@@ -7,34 +7,14 @@
 
 import Foundation
 
-/*
- local server:
- 
- userId,name,city,locations
- a1b,Joe,Paris,"['0001', '0002', '0008']"
- a2c,Jenny,London,"['0003', '0004']"
- b1b,Jack,London,"['0003', '0005']"
- b2c,Jill,Berlin,"['0006', '0007']"
-
-locationId,name,rating
-1,Café de Flore,4.0
-2,Café Tabac,4.6
-3,Rosslyn Coffee,4.8
-4,Three Wheels Coffee,4.6
-5,Roasting Plant Coffee,4.4
-6,Distrikt coffee,4.4
-7,Westberlin,4.4
-*/
-
 struct UserObject: Codable {
     let userId: String?
     let name: String?
     let city: String?
-    //let locations: String?
 }
 
-struct ResponseUsersObjectList: Codable {
-    let persons: [UserObject]?
+struct UsersList: Codable {
+    let users: [UserObject]?
 }
 
 struct ResponsePostUsersObject: Codable {

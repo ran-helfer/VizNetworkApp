@@ -12,9 +12,9 @@ class ViewController: UIViewController, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
-    var request: VizApiNetworkRequest<GetRemoteObjectRequestStructure>?
-    var postRequest: VizApiNetworkRequest<PostObjectRequestStructure>?
-    var usersList: ResponseUsersObjectList?
+    var request: VizApiNetworkRequest<RemoteGetResource>?
+    var postRequest: VizApiNetworkRequest<RemotePostResource>?
+    var usersList: UsersList?
     let reuseIdentifier = "MyUITableViewCellreuseIdentifier"
     
     override func viewDidLoad() {
@@ -25,7 +25,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let usersList = self.usersList,
-              let users = usersList.persons else {
+              let users = usersList.users else {
             return 0
         }
         return users.count
@@ -34,7 +34,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         if let list = self.usersList,
-           let users = list.persons {
+           let users = list.users {
             let string = "\(String(describing: users[indexPath.row].userId)) + \(String(describing: users[indexPath.row].name))"
             cell.textLabel?.text = string
         }
@@ -47,7 +47,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         let object = UserObject(userId: "\(randomNumber)",
                                 name: "someName",
                                 city: "someCity")
-        let postReq = PostObjectRequestStructure(method: .post(object))
+        let postReq = RemotePostResource(method: .post(object))
         postRequest = VizApiNetworkRequest(requestStructure: postReq)
         _ = postRequest?.execute(withCompletion: { [weak self]  result in
             switch result {
@@ -61,7 +61,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func getRequest(_ sender: Any) {
-        request = VizApiNetworkRequest(requestStructure: GetRemoteObjectRequestStructure())
+        request = VizApiNetworkRequest(requestStructure: RemoteGetResource())
         _ = request?.execute { [weak self] result in
             switch result {
             case .success(let object):
@@ -82,7 +82,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     
 }
 
-struct GetRemoteObjectRequestStructure: VizHttpApiResource {
+struct RemoteGetResource: VizHttpApiResource {
     var headers: [String : String]?
     
     var queryItems: [URLQueryItem]?
@@ -92,7 +92,7 @@ struct GetRemoteObjectRequestStructure: VizHttpApiResource {
         python api_endpoints.py
     */
     
-    typealias ModelType = ResponseUsersObjectList
+    typealias ModelType = UsersList
 
     var basePath: String {
         "http://127.0.0.1:5000"
@@ -107,7 +107,7 @@ struct GetRemoteObjectRequestStructure: VizHttpApiResource {
     }
 }
 
-struct PostObjectRequestStructure: VizHttpApiResource {
+struct RemotePostResource: VizHttpApiResource {
     var headers: [String : String]? =
         ["Content-Type" : "application/json"]
     
@@ -130,25 +130,3 @@ struct PostObjectRequestStructure: VizHttpApiResource {
         "/users"
     }
 }
-
-
-/*
-struct SomeRemoteObjectPOSTRequestStructure: VizHttpApiResource {
-    
-    typealias ModelType = PostResponseObject
-
-    var basePath: String {
-        "https://reqbin.com"
-    }
-    
-    var path: String {
-        "/echo/post/json/"
-    }
-    
-    let object = PostObject(Id: 1, Customer: "Ran", Quantity: 1, Price: 19.0)
-    
-    var method: VizHttpMethod {
-        .post(object)
-    }
-}*/
-

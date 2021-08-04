@@ -24,7 +24,7 @@ class Users(Resource):
                                 'name': row[1],
                                 'city': row[2]})
         print(persons)
-        return {'persons': persons}, 200  # return data and 200 OK
+        return {'users': persons}, 200  # return data and 200 OK
 
     def post(self):
         parser = reqparse.RequestParser()  # initialize
@@ -33,7 +33,6 @@ class Users(Resource):
         parser.add_argument('city', required=True)
         args = parser.parse_args()  # parse arguments to dictionary
     
-        print('i am here....')
         # read our CSV
         users_file = 'users.csv'
         with open(users_file, 'r') as f:
