@@ -35,8 +35,12 @@ class ViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         if let list = self.usersList,
            let users = list.users {
-            let string = "\(String(describing: users[indexPath.row].userId)) + \(String(describing: users[indexPath.row].name))"
-            cell.textLabel?.text = string
+            if let name = users[indexPath.row].name,
+               let city = users[indexPath.row].city,
+               let id = users[indexPath.row].userId {
+                let string = "\(name) + \(city) -- \(id)"
+                cell.textLabel?.text = string
+            }
         }
         
         return cell
@@ -44,9 +48,12 @@ class ViewController: UIViewController, UITableViewDataSource {
     
     @IBAction func postRequest(_ sender: Any) {
         let randomNumber = Int.random(in: 1...100000000000000)
+        let randomNameLength = Int.random(in: 1...5)
+        let randomCityLength = Int.random(in: 1...7)
+
         let object = UserObject(userId: "\(randomNumber)",
-                                name: "someName",
-                                city: "someCity")
+                                name: randomAlphaNumericString(length: randomNameLength),
+                                city: randomAlphaNumericString(length: randomCityLength))
         let postReq = RemotePostResource(method: .post(object))
         postRequest = VizApiNetworkRequest(requestStructure: postReq)
         _ = postRequest?.execute(withCompletion: { [weak self]  result in
@@ -80,6 +87,20 @@ class ViewController: UIViewController, UITableViewDataSource {
     @IBAction func putRequest(_ sender: Any) {
     }
     
+    func randomAlphaNumericString(length: Int) -> String {
+        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let allowedCharsCount = UInt32(allowedChars.count)
+        var randomString = ""
+
+        for _ in 0 ..< length {
+            let randomNum = Int(arc4random_uniform(allowedCharsCount))
+            let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
+            let newCharacter = allowedChars[randomIndex]
+            randomString += String(newCharacter)
+        }
+
+        return randomString
+    }
 }
 
 struct RemoteGetResource: VizHttpApiResource {
