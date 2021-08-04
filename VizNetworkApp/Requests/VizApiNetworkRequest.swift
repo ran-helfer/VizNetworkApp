@@ -7,7 +7,7 @@
 
 import Foundation
 
-class VizApiNetworkRequest<RequestStructure: VizApiRequestStructure> : VizBaseNetworkRequest {
+class VizApiNetworkRequest<RequestStructure: VizApiResource> : VizBaseNetworkRequest {
     var requestStructure: RequestStructure
     init(requestStructure: RequestStructure) {
         self.requestStructure = requestStructure
@@ -20,11 +20,11 @@ class VizApiNetworkRequest<RequestStructure: VizApiRequestStructure> : VizBaseNe
         return wrapper
     }
     
-    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) -> URLSessionDataTask? where RequestStructure: VizApiRequestStructure {
+    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) -> URLSessionDataTask? where RequestStructure: VizApiResource {
         return load(requestStructure.url, withCompletion: completion)
     }
     
-    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) -> URLSessionDataTask? where RequestStructure: VizHttpRequestStructure {
+    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) -> URLSessionDataTask? where RequestStructure: VizHttpApiResource {
         guard let request = requestStructure.urlRequest() else {
             print("could not get url request")
             completion(.failure(VizBaseNetworkRequestError.failed))

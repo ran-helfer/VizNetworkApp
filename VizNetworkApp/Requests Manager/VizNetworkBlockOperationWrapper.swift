@@ -18,7 +18,7 @@ class VizHttpNetworkBlockOperation: BlockOperation {
     var taskIdentifier: Int?
 }
 
-class VizNetworkBlockOperationWrapper<Type: VizApiRequestStructure> {
+class VizNetworkBlockOperationWrapper<Type: VizApiResource> {
     
     let requestStructure: Type
     var completionDispatchQueue: DispatchQueue?

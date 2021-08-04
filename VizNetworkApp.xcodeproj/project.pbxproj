@@ -13,9 +13,9 @@
 		8027405C26B0343D00CB0AB5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8027405A26B0343D00CB0AB5 /* Main.storyboard */; };
 		8027405E26B0343E00CB0AB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8027405D26B0343E00CB0AB5 /* Assets.xcassets */; };
 		8027406126B0343E00CB0AB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8027405F26B0343E00CB0AB5 /* LaunchScreen.storyboard */; };
-		8027406B26B034D700CB0AB5 /* VizHttpRequestStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406826B034D700CB0AB5 /* VizHttpRequestStructure.swift */; };
+		8027406B26B034D700CB0AB5 /* VizHttpApiResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406826B034D700CB0AB5 /* VizHttpApiResource.swift */; };
 		8027406C26B034D700CB0AB5 /* VizBaseNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406926B034D700CB0AB5 /* VizBaseNetworkRequest.swift */; };
-		8027406D26B034D700CB0AB5 /* VizApiRequestStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */; };
+		8027406D26B034D700CB0AB5 /* VizApiResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406A26B034D700CB0AB5 /* VizApiResource.swift */; };
 		8027406F26B03A6000CB0AB5 /* VizApiNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */; };
 		8039368726B13C4D006A532F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8039368626B13C4D006A532F /* Models.swift */; };
 		80E367BF26B2A2D700136410 /* VizNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367BE26B2A2D700136410 /* VizNetworkManager.swift */; };
@@ -34,9 +34,9 @@
 		8027405D26B0343E00CB0AB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8027406026B0343E00CB0AB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8027406226B0343E00CB0AB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8027406826B034D700CB0AB5 /* VizHttpRequestStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizHttpRequestStructure.swift; sourceTree = "<group>"; };
+		8027406826B034D700CB0AB5 /* VizHttpApiResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizHttpApiResource.swift; sourceTree = "<group>"; };
 		8027406926B034D700CB0AB5 /* VizBaseNetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizBaseNetworkRequest.swift; sourceTree = "<group>"; };
-		8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizApiRequestStructure.swift; sourceTree = "<group>"; };
+		8027406A26B034D700CB0AB5 /* VizApiResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizApiResource.swift; sourceTree = "<group>"; };
 		8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizApiNetworkRequest.swift; sourceTree = "<group>"; };
 		8039368626B13C4D006A532F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		80E367BE26B2A2D700136410 /* VizNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizNetworkManager.swift; sourceTree = "<group>"; };
@@ -106,8 +106,8 @@
 		8039368826B14676006A532F /* Requests Structures */ = {
 			isa = PBXGroup;
 			children = (
-				8027406A26B034D700CB0AB5 /* VizApiRequestStructure.swift */,
-				8027406826B034D700CB0AB5 /* VizHttpRequestStructure.swift */,
+				8027406A26B034D700CB0AB5 /* VizApiResource.swift */,
+				8027406826B034D700CB0AB5 /* VizHttpApiResource.swift */,
 			);
 			path = "Requests Structures";
 			sourceTree = "<group>";
@@ -263,10 +263,10 @@
 			files = (
 				8027405926B0343D00CB0AB5 /* ViewController.swift in Sources */,
 				8027406C26B034D700CB0AB5 /* VizBaseNetworkRequest.swift in Sources */,
-				8027406D26B034D700CB0AB5 /* VizApiRequestStructure.swift in Sources */,
+				8027406D26B034D700CB0AB5 /* VizApiResource.swift in Sources */,
 				8039368726B13C4D006A532F /* Models.swift in Sources */,
 				8027406F26B03A6000CB0AB5 /* VizApiNetworkRequest.swift in Sources */,
-				8027406B26B034D700CB0AB5 /* VizHttpRequestStructure.swift in Sources */,
+				8027406B26B034D700CB0AB5 /* VizHttpApiResource.swift in Sources */,
 				8027405526B0343D00CB0AB5 /* AppDelegate.swift in Sources */,
 				8027405726B0343D00CB0AB5 /* SceneDelegate.swift in Sources */,
 				80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */,

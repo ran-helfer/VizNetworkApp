@@ -1,5 +1,5 @@
 //
-//  VizHttpRequestStructure.swift
+//  VizHttpApiResource.swift
 //  VizNetwork
 //
 //  Created by Ran Helfer on 27/07/2021.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-/* VizHttpRequestStructure describes how a basic HTTP network request structure should look like - on top of VizApiRequestStructure */
+/* VizHttpApiResource describes how a basic HTTP network request structure should look like - on top of VizApiResource */
 
-protocol VizHttpRequestStructure: VizApiRequestStructure {
+protocol VizHttpApiResource: VizApiResource {
     var method: VizHttpMethod { get }
     var headers: [String: String]? { get }
     mutating func urlRequest() -> URLRequest?
@@ -19,7 +19,7 @@ protocol VizHttpRequestStructure: VizApiRequestStructure {
     var timeout: TimeInterval { get }
 }
 
-extension VizHttpRequestStructure {
+extension VizHttpApiResource {
     mutating func urlRequest() -> URLRequest? {
         var request = URLRequest(url: url)
 
@@ -37,6 +37,7 @@ extension VizHttpRequestStructure {
         request.httpMethod = method.name
         request.timeoutInterval = timeout
         
+        print("hitting url \(String(describing: request.url))")
         return request
     }
     
@@ -44,12 +45,15 @@ extension VizHttpRequestStructure {
         60
     }
     
-    private var httpBody:Data? {
+    private var httpBody: Data? {
         guard let encodedBody = method.encodedInput() as? Self.ModelType else {
             return nil
         }
         let helper = EncodeHelper<ModelType>(data: encodedBody)
-        return helper.encode()
+        let jsonData = helper.encode()
+        let jsonString = String(data: jsonData ?? Data(), encoding: .utf8)
+        print(jsonString ?? "")
+        return jsonData
     }
 }
 

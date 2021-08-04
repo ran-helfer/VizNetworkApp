@@ -52,7 +52,7 @@ class ViewController: UIViewController {
     
 }
 
-struct GetRemoteObjectRequestStructure: VizHttpRequestStructure {
+struct GetRemoteObjectRequestStructure: VizHttpApiResource {
     var headers: [String : String]?
     
     var queryItems: [URLQueryItem]?
@@ -77,7 +77,7 @@ struct GetRemoteObjectRequestStructure: VizHttpRequestStructure {
     }
 }
 
-struct PostObjectRequestStructure: VizHttpRequestStructure {
+struct PostObjectRequestStructure: VizHttpApiResource {
     var headers: [String : String]?
     
     var queryItems: [URLQueryItem]?
@@ -102,7 +102,7 @@ struct PostObjectRequestStructure: VizHttpRequestStructure {
 
 
 /*
-struct SomeRemoteObjectPOSTRequestStructure: VizHttpRequestStructure {
+struct SomeRemoteObjectPOSTRequestStructure: VizHttpApiResource {
     
     typealias ModelType = PostResponseObject
 
