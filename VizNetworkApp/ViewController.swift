@@ -8,12 +8,39 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
     var request: VizApiNetworkRequest<GetRemoteObjectRequestStructure>?
     var postRequest: VizApiNetworkRequest<PostObjectRequestStructure>?
+    var usersList: ResponseUsersObjectList?
+    let reuseIdentifier = "MyUITableViewCellreuseIdentifier"
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.dataSource = self
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let usersList = self.usersList,
+              let users = usersList.persons else {
+            return 0
+        }
+        return users.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        if let list = self.usersList,
+           let users = list.persons {
+            let string = "\(String(describing: users[indexPath.row].userId)) + \(String(describing: users[indexPath.row].name))"
+            cell.textLabel?.text = string
+        }
+        
+        return cell
+    }
     
     @IBAction func postRequest(_ sender: Any) {
         let randomNumber = Int.random(in: 1...100000000000000)
@@ -22,10 +49,11 @@ class ViewController: UIViewController {
                                 city: "someCity")
         let postReq = PostObjectRequestStructure(method: .post(object))
         postRequest = VizApiNetworkRequest(requestStructure: postReq)
-        _ = postRequest?.execute(withCompletion: { result in
+        _ = postRequest?.execute(withCompletion: { [weak self]  result in
             switch result {
             case .success(let object):
                 print("object: \(object)")
+                self?.tableView.reloadData()
             case .failure(let error):
                 print(error)
             }
@@ -34,10 +62,12 @@ class ViewController: UIViewController {
     
     @IBAction func getRequest(_ sender: Any) {
         request = VizApiNetworkRequest(requestStructure: GetRemoteObjectRequestStructure())
-        _ = request?.execute { result in
+        _ = request?.execute { [weak self] result in
             switch result {
             case .success(let object):
                 print("object: \(object)")
+                self?.usersList = object
+                self?.tableView.reloadData()
             case .failure(let error):
                 print(error)
             }
