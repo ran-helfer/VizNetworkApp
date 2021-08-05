@@ -7,7 +7,7 @@
 
 import Foundation
 
-/* VizHttpApiResource describes how a basic HTTP network request structure should look like - on top of VizApiResource */
+/* VizHttpApiResource describes how a basic HTTP network request remote resource should be addressed - on top of VizApiResource */
 
 protocol VizHttpApiResource: VizApiResource {
     var method: VizHttpMethod { get }

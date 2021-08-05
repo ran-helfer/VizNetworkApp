@@ -34,7 +34,7 @@ class ViewController: UIViewController, UITableViewDataSource {
                                 name: randomAlphaNumericString(length: randomNameLength),
                                 city: randomAlphaNumericString(length: randomCityLength))
         let postReq = RemotePostResource(method: .post(object))
-        postRequest = VizApiNetworkRequest(requestStructure: postReq)
+        postRequest = VizApiNetworkRequest(apiResource: postReq)
         _ = postRequest?.execute(withCompletion: { [weak self]  result in
             switch result {
             case .success(let object):
@@ -47,7 +47,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func getRequest(_ sender: Any) {
-        request = VizApiNetworkRequest(requestStructure: RemoteGetResource())
+        request = VizApiNetworkRequest(apiResource: RemoteGetResource())
         _ = request?.execute { [weak self] result in
             switch result {
             case .success(let object):
@@ -72,7 +72,7 @@ class ViewController: UIViewController, UITableViewDataSource {
 
         var deleteResource = RemoteDeleteResource()
         deleteResource.dynamicPathComponent = deletePath
-        deleteRequest = VizApiNetworkRequest(requestStructure: deleteResource)
+        deleteRequest = VizApiNetworkRequest(apiResource: deleteResource)
         _ = deleteRequest?.execute { [weak self] result in
             switch result {
             case .success(let object):
