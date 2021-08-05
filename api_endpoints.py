@@ -99,26 +99,16 @@ class Users(Resource):
 
 class UsersDelete(Resource):
     def delete(self, user_id):
-        parser = reqparse.RequestParser()  # initialize
-        parser.add_argument('userId', required=True)  # add userId arg
-        args = parser.parse_args()  # parse arguments to dictionary
         
         # read our CSV
         data = pd.read_csv('users.csv')
-        
-        if args['userId'] in list(data['userId']):
-            # remove data entry matching given userId
-            data = data[data['userId'] != args['userId']]
-            
-            # save back to CSV
-            data.to_csv('users.csv', index=False)
-            # return data and 200 OK
-            return {'data': data.to_dict()}, 200
-        else:
-            # otherwise we return 404 because userId does not exist
-            return {
-                'message': f"'{args['userId']}' user not found."
-            }, 404
+        print('i am trying to delete')
+
+        # read our CSV
+        os.system('cat users.csv | grep -v %s >> tmp_users.csv'  % (user_id))
+        os.system('mv tmp_users.csv users.csv')
+
+        return {'message': 'ok'}, 200
 
 
     

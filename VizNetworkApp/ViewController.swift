@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
     var request: VizApiNetworkRequest<RemoteGetResource>?
     var postRequest: VizApiNetworkRequest<RemotePostResource>?
+    var deleteRequest: VizApiNetworkRequest<RemoteDeleteResource>?
     var usersList: UsersList?
     let reuseIdentifier = "MyUITableViewCellreuseIdentifier"
     
@@ -21,29 +22,6 @@ class ViewController: UIViewController, UITableViewDataSource {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.dataSource = self
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let usersList = self.usersList,
-              let users = usersList.users else {
-            return 0
-        }
-        return users.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        if let list = self.usersList,
-           let users = list.users {
-            if let name = users[indexPath.row].name,
-               let city = users[indexPath.row].city,
-               let id = users[indexPath.row].userId {
-                let string = "\(name) + \(city) -- \(id)"
-                cell.textLabel?.text = string
-            }
-        }
-        
-        return cell
     }
     
     @IBAction func postRequest(_ sender: Any) {
@@ -82,12 +60,64 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func deleteRequest(_ sender: Any) {
+        guard let list = self.usersList,
+           let users = list.users,
+           users.count > 0,
+           let userId = users.last?.userId?.trimmingCharacters(in: .whitespacesAndNewlines) else {
+            return
+        }
+        
+        let deletePath = "/\(userId)"
+
+        var deleteResource = RemoteDeleteResource()
+        deleteResource.dynamicPathComponent = deletePath
+        deleteRequest = VizApiNetworkRequest(requestStructure: deleteResource)
+        _ = deleteRequest?.execute { result in
+            switch result {
+            case .success(let object):
+                print("object: \(object)")
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
     }
     
     @IBAction func putRequest(_ sender: Any) {
     }
     
-    func randomAlphaNumericString(length: Int) -> String {
+    /**********************/
+    /*** Table View  ******/
+    /**********************/
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let usersList = self.usersList,
+              let users = usersList.users else {
+            return 0
+        }
+        return users.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        if let list = self.usersList,
+           let users = list.users {
+            if let name = users[indexPath.row].name,
+               let city = users[indexPath.row].city,
+               let id = users[indexPath.row].userId {
+                let string = "\(name) + \(city) -- \(id)"
+                cell.textLabel?.text = string
+            }
+        }
+        
+        return cell
+    }
+    
+    /******************/
+    /* Utilities ******/
+    /******************/
+
+    private func randomAlphaNumericString(length: Int) -> String {
         let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let allowedCharsCount = UInt32(allowedChars.count)
         var randomString = ""
