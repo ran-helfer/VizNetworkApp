@@ -22,10 +22,11 @@ class ViewController: UIViewController, UITableViewDataSource {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.dataSource = self
+        getRequest(1)
     }
     
     @IBAction func postRequest(_ sender: Any) {
-        let randomNumber = Int.random(in: 1...100000000000000)
+        let randomNumber = Int.random(in: 1...1000)
         let randomNameLength = Int.random(in: 1...5)
         let randomCityLength = Int.random(in: 1...7)
 
@@ -38,7 +39,7 @@ class ViewController: UIViewController, UITableViewDataSource {
             switch result {
             case .success(let object):
                 print("object: \(object)")
-                self?.tableView.reloadData()
+                self?.getRequest(1)
             case .failure(let error):
                 print(error)
             }
@@ -72,10 +73,11 @@ class ViewController: UIViewController, UITableViewDataSource {
         var deleteResource = RemoteDeleteResource()
         deleteResource.dynamicPathComponent = deletePath
         deleteRequest = VizApiNetworkRequest(requestStructure: deleteResource)
-        _ = deleteRequest?.execute { result in
+        _ = deleteRequest?.execute { [weak self] result in
             switch result {
             case .success(let object):
                 print("object: \(object)")
+                self?.getRequest(1)
             case .failure(let error):
                 print(error)
             }

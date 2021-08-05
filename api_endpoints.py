@@ -23,7 +23,7 @@ class Users(Resource):
                 persons.append({'userId': row[0],
                                 'name': row[1],
                                 'city': row[2]})
-        print(persons)
+        #print(persons)
         return {'users': persons}, 200  # return data and 200 OK
 
     def post(self):
@@ -102,7 +102,24 @@ class UsersDelete(Resource):
         
         # read our CSV
         data = pd.read_csv('users.csv')
-        print('i am trying to delete')
+
+        os.system('cat users.csv | grep %s > check_if_there_is_a_user.txt'  % (user_id))
+        
+        user_exist_file = open('check_if_there_is_a_user.txt' ,'r')
+   
+        found_user = False
+        while True:
+            line = user_exist_file.readline()
+            if not line:
+                break
+                
+            found_user = True
+            break
+        
+        if found_user == False:
+            return {
+                'message': f"'{user_id}' user not found."
+            }, 405
 
         # read our CSV
         os.system('cat users.csv | grep -v %s >> tmp_users.csv'  % (user_id))
