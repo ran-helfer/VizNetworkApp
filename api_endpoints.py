@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 import pandas as pd
 import ast
@@ -96,7 +96,9 @@ class Users(Resource):
                 'message': f"'{args['userId']}' user not found."
             }, 404
 
-    def delete(self):
+
+class UsersDelete(Resource):
+    def delete(self, user_id):
         parser = reqparse.RequestParser()  # initialize
         parser.add_argument('userId', required=True)  # add userId arg
         args = parser.parse_args()  # parse arguments to dictionary
@@ -119,7 +121,10 @@ class Users(Resource):
             }, 404
 
 
-api.add_resource(Users, '/users')  # add endpoints
+    
+
+api.add_resource(Users, '/users')
+api.add_resource(UsersDelete, '/users/<string:user_id>')
 
 if __name__ == '__main__':
     app.run()  # run our Flask app
