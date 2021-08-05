@@ -68,7 +68,7 @@ class ViewController: UIViewController, UITableViewDataSource {
             return
         }
         
-        let deletePath = "/\(userId)"
+        let deletePath = "/\(userId)" // You can insert a fake delete here
 
         var deleteResource = RemoteDeleteResource()
         deleteResource.dynamicPathComponent = deletePath
