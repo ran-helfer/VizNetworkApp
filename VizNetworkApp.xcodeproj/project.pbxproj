@@ -22,11 +22,9 @@
 		80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */; };
 		80E367C526B2AE0300136410 /* VizLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C426B2AE0300136410 /* VizLogger.swift */; };
 		80F5B00B26BACA2E00F6EBF4 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F5B00A26BACA2E00F6EBF4 /* Requests.swift */; };
-		8D01A90E2F77D100C6550684 /* Pods_VizNetworkApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8863451FAEA57147C03A4B38 /* Pods_VizNetworkApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		05C50D0F2A50BB7DDD9F6891 /* Pods-VizNetworkApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VizNetworkApp.debug.xcconfig"; path = "Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp.debug.xcconfig"; sourceTree = "<group>"; };
 		8027405126B0343D00CB0AB5 /* VizNetworkApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VizNetworkApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8027405426B0343D00CB0AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8027405626B0343D00CB0AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -44,8 +42,6 @@
 		80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizNetworkBlockOperationWrapper.swift; sourceTree = "<group>"; };
 		80E367C426B2AE0300136410 /* VizLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizLogger.swift; sourceTree = "<group>"; };
 		80F5B00A26BACA2E00F6EBF4 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
-		8863451FAEA57147C03A4B38 /* Pods_VizNetworkApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VizNetworkApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B117A8209F767D86AC40D95 /* Pods-VizNetworkApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VizNetworkApp.release.xcconfig"; path = "Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,28 +49,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D01A90E2F77D100C6550684 /* Pods_VizNetworkApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1F074E3D1D0FF986F3BB8AF6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				8863451FAEA57147C03A4B38 /* Pods_VizNetworkApp.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		8027404826B0343D00CB0AB5 = {
 			isa = PBXGroup;
 			children = (
 				8027405326B0343D00CB0AB5 /* VizNetworkApp */,
 				8027405226B0343D00CB0AB5 /* Products */,
 				81487D48FD7AEE5470FFF423 /* Pods */,
-				1F074E3D1D0FF986F3BB8AF6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -144,8 +130,6 @@
 		81487D48FD7AEE5470FFF423 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				05C50D0F2A50BB7DDD9F6891 /* Pods-VizNetworkApp.debug.xcconfig */,
-				8B117A8209F767D86AC40D95 /* Pods-VizNetworkApp.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -157,11 +141,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8027406526B0343E00CB0AB5 /* Build configuration list for PBXNativeTarget "VizNetworkApp" */;
 			buildPhases = (
-				76478D4BE05DCEAB884576A0 /* [CP] Check Pods Manifest.lock */,
 				8027404D26B0343D00CB0AB5 /* Sources */,
 				8027404E26B0343D00CB0AB5 /* Frameworks */,
 				8027404F26B0343D00CB0AB5 /* Resources */,
-				62C1436228E946060A5BE88A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -216,48 +198,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		62C1436228E946060A5BE88A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VizNetworkApp/Pods-VizNetworkApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		76478D4BE05DCEAB884576A0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-VizNetworkApp-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8027404D26B0343D00CB0AB5 /* Sources */ = {
@@ -420,7 +360,6 @@
 		};
 		8027406626B0343E00CB0AB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 05C50D0F2A50BB7DDD9F6891 /* Pods-VizNetworkApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -440,7 +379,6 @@
 		};
 		8027406726B0343E00CB0AB5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B117A8209F767D86AC40D95 /* Pods-VizNetworkApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
