@@ -68,10 +68,10 @@ class ViewController: UIViewController, UITableViewDataSource {
             return
         }
         
-        let deletePath = "/\(userId)" // You can insert a fake delete here
-
+        /* Assemble URL */
         var deleteResource = RemoteDeleteResource()
-        deleteResource.dynamicPathComponent = deletePath
+        deleteResource.path = (deleteResource.path ?? "") + "/\(userId)" // You can insert a fake delete here
+        
         deleteRequest = VizApiNetworkRequest(apiResource: deleteResource)
         _ = deleteRequest?.execute { [weak self] result in
             switch result {

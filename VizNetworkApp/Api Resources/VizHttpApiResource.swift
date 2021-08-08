@@ -14,8 +14,6 @@ protocol VizHttpApiResource: VizApiResource {
     var headers: [String: String]? { get }
     mutating func urlRequest() -> URLRequest?
     
-    var dynamicPathComponent: String? { get set }
-
     /* If needs to set timeout - implement this protocol method.
        Otherwise default timeout will be used */
     var timeout: TimeInterval { get }
@@ -23,27 +21,14 @@ protocol VizHttpApiResource: VizApiResource {
 
 extension VizHttpApiResource {
     mutating func urlRequest() -> URLRequest? {
-        var requestURL = url
-        
-        print(requestURL.path)
-        if let additionalPath = dynamicPathComponent {
-            var components = URLComponents(string:basePath)
-            components?.path = path + additionalPath
-            components?.queryItems = queryItems
-            if let url = components?.url  {
-                requestURL = url
-            }
-        }
-        print(requestURL.path)
-
-        var request = URLRequest(url: requestURL)
+        var request = URLRequest(url: url)
 
         switch method {
         case .post, .put:
             request.httpBody = httpBody
         case let .get(queryItems):
             self.queryItems = queryItems
-            request = URLRequest(url: requestURL)
+            request = URLRequest(url: url)
         default:
             break
         }

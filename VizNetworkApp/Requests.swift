@@ -16,7 +16,6 @@ struct RemoteGetResource: VizHttpApiResource {
         ["Content-Type" : "application/json"]
 
     var queryItems: [URLQueryItem]?
-    var dynamicPathComponent: String?
 
     /* at terminal run
         python api_endpoints.py
@@ -28,9 +27,8 @@ struct RemoteGetResource: VizHttpApiResource {
         "http://127.0.0.1:5000"
     }
     
-    var path: String {
-        "/users"
-    }
+    var path: String? = "/users"
+    
     
     var method: VizHttpMethod {
         .get(nil)
@@ -61,9 +59,7 @@ struct RemotePostResource: VizHttpApiResource {
         "http://127.0.0.1:5000"
     }
     
-    var path: String {
-        "/users"
-    }
+    var path: String? = "/users"
 }
 
 /*************/
@@ -77,7 +73,6 @@ struct RemoteDeleteResource: VizHttpApiResource {
         ["Content-Type" : "application/json"]
     
     var queryItems: [URLQueryItem]?
-    var dynamicPathComponent: String?
 
     var method: VizHttpMethod {
         .delete
@@ -93,7 +88,5 @@ struct RemoteDeleteResource: VizHttpApiResource {
         "http://127.0.0.1:5000"
     }
     
-    var path: String {
-        "/users"
-    }
+    var path: String? = "/users"
 }
