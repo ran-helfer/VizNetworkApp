@@ -25,15 +25,10 @@ class VizNetworkManager {
     }
     
     func load<ModelType: Decodable>(_ request: URLRequest,
-                         responseModelType: ModelType.Type,
-                         completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
-        
-        
-//
-        
-        
+                                    dispatchQueue: DispatchQueue? = nil,
+                                    responseModelType: ModelType.Type,
+                                    completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
         let operation = VizHttpNetworkBlockOperation(id: UUID().uuidString)
-        
         operation.addExecutionBlock { [unowned operation] in
             guard operation.isCancelled == false else {
                 return
@@ -41,7 +36,7 @@ class VizNetworkManager {
             let group = DispatchGroup()
             group.enter()
             
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
                 VizNetworkManager.shared.handleRequestResponse(data: data,
                                                                responseModel: responseModelType,
                                                response: response,
@@ -55,10 +50,16 @@ class VizNetworkManager {
                     group.leave()
                 }
             }
-            
-            DispatchQueue.global().async { // todo: private queue with label
-                task.resume()
+            if let dispatchQueue = dispatchQueue {
+                dispatchQueue.async {
+                    dataTask.resume()
+                }
+            } else {
+                DispatchQueue.global().async {
+                    dataTask.resume()
+                }
             }
+           
             group.wait()
         }
         operationQueue.addOperation(operation)
@@ -86,14 +87,14 @@ class VizNetworkManager {
     
     private func handleRequestResponse<ModelType: Decodable>(data:Data?,
                                                   responseModel: ModelType.Type,
-                                       response:Any?,
-                                       error:Error?,
-                                       completion: @escaping (Result<ModelType, Error>) -> Void) {
+                                                  response:Any?,
+                                                  error:Error?,
+                                                  completion: @escaping (Result<ModelType, Error>) -> Void) {
         guard error == nil else {
             if let err = error {
                 completion(.failure(err))
             } else {
-                completion(.failure(VizBaseNetworkRequestError.recievedErrorFromServer))
+                completion(.failure(VizNetworkError.urlError(URLError(.unknown))))
             }
             return
         }
@@ -105,7 +106,7 @@ class VizNetworkManager {
         guard let data = data,
               let value =  try? JSONDecoder().decode(responseModel, from: data) else {
             DispatchQueue.main.async {
-                completion(.failure(VizBaseNetworkRequestError.failed))
+                completion(.failure(VizNetworkError.urlError(URLError(.cannotDecodeContentData))))
             }
             return
         }
