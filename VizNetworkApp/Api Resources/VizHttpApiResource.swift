@@ -45,8 +45,6 @@ extension VizHttpApiResource {
                 request.addValue(header.value, forHTTPHeaderField: header.key)
             }
         }
-
-        print("hitting url \(String(describing: request.url))")
         return request
     }
     
