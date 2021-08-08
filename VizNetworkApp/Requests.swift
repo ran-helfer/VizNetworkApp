@@ -7,6 +7,14 @@
 
 import Foundation
 
+/* at terminal run
+    python api_endpoints.py
+ 
+    if you have any issues try to first run:
+    pip install flask
+    pip install flask_restful
+*/
+
 /***********/
 /**  GET  **/
 /***********/
@@ -16,10 +24,6 @@ struct RemoteGetResource: VizHttpApiResource {
         ["Content-Type" : "application/json"]
 
     var queryItems: [URLQueryItem]?
-
-    /* at terminal run
-        python api_endpoints.py
-    */
     
     typealias ModelType = UsersList
     typealias InputModelType = NoInputModelTypeDefault
@@ -29,7 +33,6 @@ struct RemoteGetResource: VizHttpApiResource {
     }
     
     var path: String? = "/users"
-    
     
     var method: VizHttpMethod {
         .get(nil, nil)
@@ -48,11 +51,6 @@ struct RemotePostResource: VizHttpApiResource {
     var dynamicPathComponent: String?
 
     var method: VizHttpMethod
-    
-    
-    /* at terminal run
-        python api_endpoints.py
-    */
     
     typealias ModelType = UserObject
     typealias InputModelType = UserObject
@@ -98,8 +96,6 @@ struct RemotePostResource: VizHttpApiResource {
 /**  DELETE **/
 /*************/
 
-
-
 struct RemoteDeleteResource: VizHttpApiResource {
     var headers: [String : String]? =
         ["Content-Type" : "application/json"]
@@ -109,10 +105,6 @@ struct RemoteDeleteResource: VizHttpApiResource {
     var method: VizHttpMethod {
         .delete(nil, nil)
     }
-    
-    /* at terminal run
-        python api_endpoints.py
-    */
     
     typealias ModelType = UserObject
     typealias InputModelType = NoInputModelTypeDefault
