@@ -6,65 +6,117 @@
 //
 import Foundation
 
+enum VizNetworkError: Error {
+    case urlError(URLError)
+}
+
 typealias VizNetworkManagerTaskID = Int
 
 class VizNetworkManager {
+    
+    static let shared = VizNetworkManager()
     
     private let operationQueue = OperationQueue()
     private static let defaultQueueConcurrentOperations = 5
     private let SuccessRangeOfStatusCodes: ClosedRange<Int> = (200...299)
 
-    init(maxConcurent: Int = defaultQueueConcurrentOperations) {
+    private init(maxConcurent: Int = defaultQueueConcurrentOperations) {
         operationQueue.maxConcurrentOperationCount = maxConcurent
     }
     
-    func addApiRequest<T>(for resource: T,
-                          completionDispatchQueue: DispatchQueue? = nil,
-                          completion: @escaping (Result<T.ModelType, Error>) -> Void)
-    
-                                                        -> VizNetworkManagerTaskID?
-                                                        where T : VizApiResource {
+    func load<ModelType: Decodable>(_ request: URLRequest,
+                         responseModelType: ModelType.Type,
+                         completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
         
-        let request = VizApiNetworkRequest(apiResource: resource)
-        let dataTask = request.execute(withCompletion: completion)
-
-        let operation = VizHttpNetworkBlockOperation()
-        operation.taskIdentifier = dataTask?.taskIdentifier
         
-        /*****************************************************/
-        /* What currently looks - completion does not happen */
-        /*****************************************************/
-                
-        operation.addExecutionBlock { 
-            guard !operation.isCancelled else {
+//
+        
+        
+        let operation = VizHttpNetworkBlockOperation(id: UUID().uuidString)
+        
+        operation.addExecutionBlock { [unowned operation] in
+            guard operation.isCancelled == false else {
                 return
             }
             let group = DispatchGroup()
             group.enter()
-            DispatchQueue.global().async {
-                dataTask?.resume()
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                VizNetworkManager.shared.handleRequestResponse(data: data,
+                                                               responseModel: responseModelType,
+                                               response: response,
+                                               error: error) { result in
+                    guard operation.isCancelled == false else {
+                        completion(.failure(VizNetworkError.urlError(URLError(.cancelled))))
+                        group.leave()
+                        return
+                    }
+                    completion(result)
+                    group.leave()
+                }
+            }
+            
+            DispatchQueue.global().async { // todo: private queue with label
+                task.resume()
             }
             group.wait()
         }
         operationQueue.addOperation(operation)
-        return dataTask?.taskIdentifier
+        return operation.taskIdentifier
+        
+    }
+    
+    func load<ModelType: Decodable>(_ url: URL,
+                         responseModelType: ModelType.Type,
+                         completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
+        let request = URLRequest(url: url)
+        return load(request, responseModelType: responseModelType, completion: completion)
     }
     
     func cancelAllTasks() {
         operationQueue.cancelAllOperations()
     }
     
-    func cancelDataTask(taskIdentifier: Int) {
-        let operation = operationQueue.operations.first { operation in
-            if let operation = operation as? VizHttpNetworkBlockOperation, operation.taskIdentifier == taskIdentifier {
-                return true
+    func cancelDataTask(taskIdentifier: String) {
+        operationQueue.operations
+            .compactMap { $0 as? VizHttpNetworkBlockOperation }
+            .first { $0.taskIdentifier == taskIdentifier }?
+            .cancel()
+    }
+    
+    private func handleRequestResponse<ModelType: Decodable>(data:Data?,
+                                                  responseModel: ModelType.Type,
+                                       response:Any?,
+                                       error:Error?,
+                                       completion: @escaping (Result<ModelType, Error>) -> Void) {
+        guard error == nil else {
+            if let err = error {
+                completion(.failure(err))
+            } else {
+                completion(.failure(VizBaseNetworkRequestError.recievedErrorFromServer))
             }
-            return false
+            return
         }
-        operation?.cancel()
+        
+        if let r = response as? HTTPURLResponse {
+            print(r.statusCode)
+            print(r)
+        }
+        guard let data = data,
+              let value =  try? JSONDecoder().decode(responseModel, from: data) else {
+            DispatchQueue.main.async {
+                completion(.failure(VizBaseNetworkRequestError.failed))
+            }
+            return
+        }
+        DispatchQueue.main.async { completion(.success(value))}
     }
 }
 
 class VizHttpNetworkBlockOperation: BlockOperation {
-    var taskIdentifier: Int?
+    var taskIdentifier: String
+    init(id: String) {
+        self.taskIdentifier = id
+        super.init()
+    }
 }

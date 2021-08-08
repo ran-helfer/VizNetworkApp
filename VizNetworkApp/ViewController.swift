@@ -14,7 +14,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
     var usersList: UsersList?
     let reuseIdentifier = "MyUITableViewCellreuseIdentifier"
-    var manager = VizNetworkManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +23,10 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func getRequest(_ sender: Any) {
-        _ = manager.addApiRequest(for: RemoteGetResource()) { [weak self] result in
+        let request = VizApiNetworkRequest(apiResource: RemoteGetResource())
+        _ = request.execute { [weak self] result in
             switch result {
             case .success(let object):
-                print("object: \(object)")
                 self?.usersList = object
                 self?.tableView.reloadData()
             case .failure(let error):
@@ -38,38 +37,38 @@ class ViewController: UIViewController, UITableViewDataSource {
     
     @IBAction func postRequest(_ sender: Any) {
         
-        _ = manager.addApiRequest(for: RemotePostResource.getPostObject()) { [weak self] result in
-            switch result {
-            case .success(let object):
-                print("object: \(object)")
-                self?.getRequest(1)
-            case .failure(let error):
-                print(error)
-            }
-        }
+//        _ = manager.addApiRequest(for: RemotePostResource.getPostObject()) { [weak self] result in
+//            switch result {
+//            case .success(let object):
+//                print("object: \(object)")
+//                self?.getRequest(1)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
     }
         
     @IBAction func deleteRequest(_ sender: Any) {
-        guard let list = self.usersList,
-           let users = list.users,
-           users.count > 0,
-           let userId = users.last?.userId?.trimmingCharacters(in: .whitespacesAndNewlines) else {
-            return
-        }
-        
-        /* Assemble URL */
-        var deleteResource = RemoteDeleteResource()
-        deleteResource.path = (deleteResource.path ?? "") + "/\(userId)" // You can insert a fake delete here
-        
-        _ = manager.addApiRequest(for: deleteResource) { [weak self] result in
-            switch result {
-            case .success(let object):
-                print("object: \(object)")
-                self?.getRequest(1)
-            case .failure(let error):
-                print(error)
-            }
-        }
+//        guard let list = self.usersList,
+//           let users = list.users,
+//           users.count > 0,
+//           let userId = users.last?.userId?.trimmingCharacters(in: .whitespacesAndNewlines) else {
+//            return
+//        }
+//
+//        /* Assemble URL */
+//        var deleteResource = RemoteDeleteResource()
+//        deleteResource.path = (deleteResource.path ?? "") + "/\(userId)" // You can insert a fake delete here
+//
+//        _ = manager.addApiRequest(for: deleteResource) { [weak self] result in
+//            switch result {
+//            case .success(let object):
+//                print("object: \(object)")
+//                self?.getRequest(1)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
         
     }
     
