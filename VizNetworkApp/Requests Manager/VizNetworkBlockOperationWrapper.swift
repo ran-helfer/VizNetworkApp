@@ -20,15 +20,15 @@ class VizHttpNetworkBlockOperation: BlockOperation {
 
 class VizNetworkBlockOperationWrapper<Type: VizApiResource> {
     
-    let requestStructure: Type
+    let requestType: Type
     var completionDispatchQueue: DispatchQueue?
     let completion: (Result<Type.ModelType, Error>) -> Void
     private let SuccessRangeOfStatusCodes: ClosedRange<Int> = (200...299)
 
-    init(requestStructure: Type,
+    init(requestType: Type,
          completionDispatchQueue: DispatchQueue? = nil,
          completion: @escaping (Result<Type.ModelType, Error>) -> Void) {
-        self.requestStructure = requestStructure
+        self.requestType = requestType
         self.completionDispatchQueue = completionDispatchQueue
         self.completion = completion
     }

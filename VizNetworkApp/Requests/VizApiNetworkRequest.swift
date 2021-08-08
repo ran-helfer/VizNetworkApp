@@ -7,25 +7,25 @@
 
 import Foundation
 
-class VizApiNetworkRequest<RequestStructure: VizApiResource> : VizBaseNetworkRequest {
-    var requestStructure: RequestStructure
-    init(requestStructure: RequestStructure) {
-        self.requestStructure = requestStructure
+class VizApiNetworkRequest<APIResource: VizApiResource> : VizBaseNetworkRequest {
+    var apiResource: APIResource
+    init(apiResource: APIResource) {
+        self.apiResource = apiResource
     }
     
-    func decodeData(_ data: Data) -> RequestStructure.ModelType? {
+    func decodeData(_ data: Data) -> APIResource.ModelType? {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
-        let wrapper = try? decoder.decode(RequestStructure.ModelType.self, from: data)
+        let wrapper = try? decoder.decode(APIResource.ModelType.self, from: data)
         return wrapper
     }
     
-    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) -> URLSessionDataTask? where RequestStructure: VizApiResource {
-        return load(requestStructure.url, withCompletion: completion)
+    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> URLSessionDataTask? where APIResource: VizApiResource {
+        return load(apiResource.url, withCompletion: completion)
     }
     
-    func execute(withCompletion completion: @escaping (Result<RequestStructure.ModelType, Error>) -> Void) -> URLSessionDataTask? where RequestStructure: VizHttpApiResource {
-        guard let request = requestStructure.urlRequest() else {
+    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> URLSessionDataTask? where APIResource: VizHttpApiResource {
+        guard let request = apiResource.urlRequest() else {
             print("could not get url request")
             completion(.failure(VizBaseNetworkRequestError.failed))
             return nil

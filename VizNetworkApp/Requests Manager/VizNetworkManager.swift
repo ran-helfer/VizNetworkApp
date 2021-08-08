@@ -16,7 +16,7 @@ struct VizNetworkManager {
         operationQueue.maxConcurrentOperationCount = maxConcurent
     }
     
-    mutating func addApiRequest<T>(with structure: T) -> Int? where T : VizApiResource {
+    mutating func addApiRequest<T>(for resource: T) -> Int? where T : VizApiResource {
         //        let operationWrapper = VizNetworkBlockOperationWrapper<T>(vizHttpRequest: request,
         //                                                                  completionDispatchQueue: completionQueue,
         //                                                                  completion: completion)

@@ -7,12 +7,12 @@
 
 import Foundation
 
-/* VizApiResource describes how a basic network request structure should look like.
+/* VizApiResource describes how a basic remote api resource should be addressed.
     basePath, path, queryItems and usually an API request involves an associated return type which we want to decode to an object */
 
 protocol VizApiResource {
     associatedtype ModelType: Codable
-    var path: String { get }
+    var path: String? { get set }
     var basePath: String { get }
     var queryItems: [URLQueryItem]? { get set }
 }
@@ -20,7 +20,7 @@ protocol VizApiResource {
 extension VizApiResource {
     var url: URL {
         var components = URLComponents(string:basePath)
-        components?.path = path
+        components?.path = path ?? ""
         components?.queryItems = queryItems
         guard let url = components?.url else {
             assertionFailure("could not build url")

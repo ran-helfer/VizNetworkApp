@@ -23,7 +23,7 @@ class Users(Resource):
                 persons.append({'userId': row[0],
                                 'name': row[1],
                                 'city': row[2]})
-        print(persons)
+        #print(persons)
         return {'users': persons}, 200  # return data and 200 OK
 
     def post(self):
@@ -99,26 +99,33 @@ class Users(Resource):
 
 class UsersDelete(Resource):
     def delete(self, user_id):
-        parser = reqparse.RequestParser()  # initialize
-        parser.add_argument('userId', required=True)  # add userId arg
-        args = parser.parse_args()  # parse arguments to dictionary
         
         # read our CSV
         data = pd.read_csv('users.csv')
+
+        os.system('cat users.csv | grep %s > check_if_there_is_a_user.txt'  % (user_id))
         
-        if args['userId'] in list(data['userId']):
-            # remove data entry matching given userId
-            data = data[data['userId'] != args['userId']]
-            
-            # save back to CSV
-            data.to_csv('users.csv', index=False)
-            # return data and 200 OK
-            return {'data': data.to_dict()}, 200
-        else:
-            # otherwise we return 404 because userId does not exist
+        user_exist_file = open('check_if_there_is_a_user.txt' ,'r')
+   
+        found_user = False
+        while True:
+            line = user_exist_file.readline()
+            if not line:
+                break
+                
+            found_user = True
+            break
+        
+        if found_user == False:
             return {
-                'message': f"'{args['userId']}' user not found."
-            }, 404
+                'message': f"'{user_id}' user not found."
+            }, 405
+
+        # read our CSV
+        os.system('cat users.csv | grep -v %s >> tmp_users.csv'  % (user_id))
+        os.system('mv tmp_users.csv users.csv')
+
+        return {'message': 'ok'}, 200
 
 
     
