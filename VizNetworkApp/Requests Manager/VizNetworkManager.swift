@@ -4,27 +4,50 @@
 //
 //  Created by Ran Helfer on 29/07/2021.
 //
-
 import Foundation
 
-struct VizNetworkManager {
+typealias VizNetworkManagerTaskID = Int
+
+class VizNetworkManager {
     
     private let operationQueue = OperationQueue()
     private static let defaultQueueConcurrentOperations = 5
+    private let SuccessRangeOfStatusCodes: ClosedRange<Int> = (200...299)
 
-    init(maxConcurent: Int = Self.defaultQueueConcurrentOperations) {
+    init(maxConcurent: Int = defaultQueueConcurrentOperations) {
         operationQueue.maxConcurrentOperationCount = maxConcurent
     }
     
-    mutating func addApiRequest<T>(for resource: T) -> Int? where T : VizApiResource {
-        //        let operationWrapper = VizNetworkBlockOperationWrapper<T>(vizHttpRequest: request,
-        //                                                                  completionDispatchQueue: completionQueue,
-        //                                                                  completion: completion)
-        //        let blockOperation = operationWrapper.operationWithDataTask()
-        //        operationQueue.addOperation(blockOperation)
-        //        return blockOperation.taskIdentifier
+    func addApiRequest<T>(for resource: T,
+                          completionDispatchQueue: DispatchQueue? = nil,
+                          completion: @escaping (Result<T.ModelType, Error>) -> Void)
+    
+                                                        -> VizNetworkManagerTaskID?
+                                                        where T : VizApiResource {
         
-        return 0
+        let request = VizApiNetworkRequest(apiResource: resource)
+        let dataTask = request.execute(withCompletion: completion)
+
+        let operation = VizHttpNetworkBlockOperation()
+        operation.taskIdentifier = dataTask?.taskIdentifier
+        
+        /*****************************************************/
+        /* What currently looks - completion does not happen */
+        /*****************************************************/
+                
+        operation.addExecutionBlock { 
+            guard !operation.isCancelled else {
+                return
+            }
+            let group = DispatchGroup()
+            group.enter()
+            DispatchQueue.global().async {
+                dataTask?.resume()
+            }
+            group.wait()
+        }
+        operationQueue.addOperation(operation)
+        return dataTask?.taskIdentifier
     }
     
     func cancelAllTasks() {
@@ -32,12 +55,16 @@ struct VizNetworkManager {
     }
     
     func cancelDataTask(taskIdentifier: Int) {
-//        let operation = operationQueue.operations.first { operation in
-//            if let operation = operation as? VizHttpNetworkBlockOperation, operation.taskIdentifier == taskIdentifier {
-//                return true
-//            }
-//            return false
-//        }
-//        operation?.cancel()
+        let operation = operationQueue.operations.first { operation in
+            if let operation = operation as? VizHttpNetworkBlockOperation, operation.taskIdentifier == taskIdentifier {
+                return true
+            }
+            return false
+        }
+        operation?.cancel()
     }
+}
+
+class VizHttpNetworkBlockOperation: BlockOperation {
+    var taskIdentifier: Int?
 }

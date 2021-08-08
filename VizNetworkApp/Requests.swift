@@ -62,6 +62,36 @@ struct RemotePostResource: VizHttpApiResource {
     }
     
     var path: String? = "/users"
+    
+    static func getPostObject() -> RemotePostResource {
+        let randomNumber = Int.random(in: 1...1000)
+        let randomNameLength = Int.random(in: 1...5)
+        let randomCityLength = Int.random(in: 1...7)
+
+        let object = UserObject(userId: "\(randomNumber)",
+                                name: randomAlphaNumericString(length: randomNameLength),
+                                city: randomAlphaNumericString(length: randomCityLength))
+        return RemotePostResource(method: .post(nil, object))
+    }
+    
+    /******************/
+    /* Utilities ******/
+    /******************/
+
+    static func randomAlphaNumericString(length: Int) -> String {
+        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let allowedCharsCount = UInt32(allowedChars.count)
+        var randomString = ""
+
+        for _ in 0 ..< length {
+            let randomNum = Int(arc4random_uniform(allowedCharsCount))
+            let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
+            let newCharacter = allowedChars[randomIndex]
+            randomString += String(newCharacter)
+        }
+
+        return randomString
+    }
 }
 
 /*************/

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,7 +19,6 @@
 		8027406F26B03A6000CB0AB5 /* VizApiNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */; };
 		8039368726B13C4D006A532F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8039368626B13C4D006A532F /* Models.swift */; };
 		80E367BF26B2A2D700136410 /* VizNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367BE26B2A2D700136410 /* VizNetworkManager.swift */; };
-		80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */; };
 		80E367C526B2AE0300136410 /* VizLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C426B2AE0300136410 /* VizLogger.swift */; };
 		80F5B00B26BACA2E00F6EBF4 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F5B00A26BACA2E00F6EBF4 /* Requests.swift */; };
 /* End PBXBuildFile section */
@@ -39,7 +38,6 @@
 		8027406E26B03A6000CB0AB5 /* VizApiNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizApiNetworkRequest.swift; sourceTree = "<group>"; };
 		8039368626B13C4D006A532F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		80E367BE26B2A2D700136410 /* VizNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VizNetworkManager.swift; sourceTree = "<group>"; };
-		80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizNetworkBlockOperationWrapper.swift; sourceTree = "<group>"; };
 		80E367C426B2AE0300136410 /* VizLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VizLogger.swift; sourceTree = "<group>"; };
 		80F5B00A26BACA2E00F6EBF4 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,7 +58,6 @@
 			children = (
 				8027405326B0343D00CB0AB5 /* VizNetworkApp */,
 				8027405226B0343D00CB0AB5 /* Products */,
-				81487D48FD7AEE5470FFF423 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				80E367BE26B2A2D700136410 /* VizNetworkManager.swift */,
-				80E367C026B2A73500136410 /* VizNetworkBlockOperationWrapper.swift */,
 			);
 			path = "Requests Manager";
 			sourceTree = "<group>";
@@ -125,13 +121,6 @@
 				80E367C426B2AE0300136410 /* VizLogger.swift */,
 			);
 			path = Logger;
-			sourceTree = "<group>";
-		};
-		81487D48FD7AEE5470FFF423 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,7 +201,6 @@
 				8027406B26B034D700CB0AB5 /* VizHttpApiResource.swift in Sources */,
 				8027405526B0343D00CB0AB5 /* AppDelegate.swift in Sources */,
 				8027405726B0343D00CB0AB5 /* SceneDelegate.swift in Sources */,
-				80E367C126B2A73500136410 /* VizNetworkBlockOperationWrapper.swift in Sources */,
 				80F5B00B26BACA2E00F6EBF4 /* Requests.swift in Sources */,
 				80E367C526B2AE0300136410 /* VizLogger.swift in Sources */,
 				80E367BF26B2A2D700136410 /* VizNetworkManager.swift in Sources */,

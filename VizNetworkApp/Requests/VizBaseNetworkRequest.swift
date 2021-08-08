@@ -23,7 +23,6 @@ extension VizBaseNetworkRequest {
                                            error: error,
                                            completion: completion)
         }
-        task.resume()
         return task
     }
     
@@ -35,7 +34,6 @@ extension VizBaseNetworkRequest {
                                            error: error,
                                            completion: completion)
         }
-        task.resume()
         return task
     }
     
