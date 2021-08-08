@@ -8,15 +8,6 @@
 
 import Foundation
 
-enum VizNetworkOperationError: String, Error {
-    case noResponseData
-    case badMimeType
-    case badStatusCode
-}
-
-class VizHttpNetworkBlockOperation: BlockOperation {
-    var taskIdentifier: Int?
-}
 
 class VizNetworkBlockOperationWrapper<Type: VizApiResource> {
     
