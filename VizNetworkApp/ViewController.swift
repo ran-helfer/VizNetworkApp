@@ -33,7 +33,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         let object = UserObject(userId: "\(randomNumber)",
                                 name: randomAlphaNumericString(length: randomNameLength),
                                 city: randomAlphaNumericString(length: randomCityLength))
-        let postReq = RemotePostResource(method: .post(object))
+        let postReq = RemotePostResource(method: .post(nil, object))
         postRequest = VizApiNetworkRequest(apiResource: postReq)
         _ = postRequest?.execute(withCompletion: { [weak self]  result in
             switch result {

@@ -22,7 +22,8 @@ struct RemoteGetResource: VizHttpApiResource {
     */
     
     typealias ModelType = UsersList
-
+    typealias InputModelType = NoInputModelTypeDefault
+    
     var basePath: String {
         "http://127.0.0.1:5000"
     }
@@ -31,7 +32,7 @@ struct RemoteGetResource: VizHttpApiResource {
     
     
     var method: VizHttpMethod {
-        .get(nil)
+        .get(nil, nil)
     }
 }
 
@@ -54,6 +55,7 @@ struct RemotePostResource: VizHttpApiResource {
     */
     
     typealias ModelType = UserObject
+    typealias InputModelType = UserObject
 
     var basePath: String {
         "http://127.0.0.1:5000"
@@ -75,7 +77,7 @@ struct RemoteDeleteResource: VizHttpApiResource {
     var queryItems: [URLQueryItem]?
 
     var method: VizHttpMethod {
-        .delete
+        .delete(nil, nil)
     }
     
     /* at terminal run
@@ -83,6 +85,7 @@ struct RemoteDeleteResource: VizHttpApiResource {
     */
     
     typealias ModelType = UserObject
+    typealias InputModelType = NoInputModelTypeDefault
 
     var basePath: String {
         "http://127.0.0.1:5000"

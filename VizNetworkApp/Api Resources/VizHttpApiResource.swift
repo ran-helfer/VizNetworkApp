@@ -10,6 +10,9 @@ import Foundation
 /* VizHttpApiResource describes how a basic HTTP network request remote resource should be addressed - on top of VizApiResource */
 
 protocol VizHttpApiResource: VizApiResource {
+    /* If no input model is needed - default to NoInputModelTypeDefault */
+    associatedtype InputModelType: Encodable
+
     var method: VizHttpMethod { get }
     var headers: [String: String]? { get }
     mutating func urlRequest() -> URLRequest?
@@ -26,7 +29,7 @@ extension VizHttpApiResource {
         switch method {
         case .post, .put:
             request.httpBody = httpBody
-        case let .get(queryItems):
+        case let .get(queryItems, _):
             self.queryItems = queryItems
             request = URLRequest(url: url)
         default:
@@ -52,10 +55,11 @@ extension VizHttpApiResource {
     }
     
     private var httpBody: Data? {
-        guard let encodedBody = method.encodedInput() as? Self.ModelType else {
+        guard let encodedBody = method.encodedInput() as? Self.InputModelType
+            else {
             return nil
         }
-        let helper = EncodeHelper<ModelType>(data: encodedBody)
+        let helper = EncodeHelper<InputModelType>(data: encodedBody)
         let jsonData = helper.encode()
         let jsonString = String(data: jsonData ?? Data(), encoding: .utf8)
         print(jsonString ?? "")
@@ -71,11 +75,17 @@ enum VizHttpMethod: Equatable {
         return true
     }
     
-    case get([URLQueryItem]?)
-    case put(Encodable?)
-    case post(Encodable?)
-    case delete
-    case head
+    /* The second parameter Encodable, is the InputModelType */
+    case get([URLQueryItem]?,
+             Encodable?)
+    case put([URLQueryItem]?,
+             Encodable?)
+    case post([URLQueryItem]?,
+              Encodable?)
+    case delete([URLQueryItem]?,
+                Encodable?)
+    case head([URLQueryItem]?,
+              Encodable?)
 
     var name: String {
         switch self {
@@ -89,8 +99,8 @@ enum VizHttpMethod: Equatable {
     
     func encodedInput() -> Encodable? {
         switch self {
-        case .post(let input),
-             .put(let input): do {
+        case .post(_, let input),
+             .put(_,  let input): do {
             return input
         }
         default:
@@ -105,3 +115,5 @@ struct EncodeHelper<T: Encodable> {
         return try? JSONEncoder().encode(data)
     }
 }
+
+struct NoInputModelTypeDefault: Encodable {}
