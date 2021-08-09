@@ -12,12 +12,9 @@ class ViewController: UIViewController, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
-    var request: VizApiNetworkRequest<RemoteGetResource>?
-    var postRequest: VizApiNetworkRequest<RemotePostResource>?
-    var deleteRequest: VizApiNetworkRequest<RemoteDeleteResource>?
     var usersList: UsersList?
     let reuseIdentifier = "MyUITableViewCellreuseIdentifier"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
@@ -25,33 +22,11 @@ class ViewController: UIViewController, UITableViewDataSource {
         getRequest(1)
     }
     
-    @IBAction func postRequest(_ sender: Any) {
-        let randomNumber = Int.random(in: 1...1000)
-        let randomNameLength = Int.random(in: 1...5)
-        let randomCityLength = Int.random(in: 1...7)
-
-        let object = UserObject(userId: "\(randomNumber)",
-                                name: randomAlphaNumericString(length: randomNameLength),
-                                city: randomAlphaNumericString(length: randomCityLength))
-        let postReq = RemotePostResource(method: .post(nil, object))
-        postRequest = VizApiNetworkRequest(apiResource: postReq)
-        _ = postRequest?.execute(withCompletion: { [weak self]  result in
-            switch result {
-            case .success(let object):
-                print("object: \(object)")
-                self?.getRequest(1)
-            case .failure(let error):
-                print(error)
-            }
-        })
-    }
-    
     @IBAction func getRequest(_ sender: Any) {
-        request = VizApiNetworkRequest(apiResource: RemoteGetResource())
-        _ = request?.execute { [weak self] result in
+        let request = VizApiNetworkRequest(apiResource: RemoteGetResource())
+        _ = request.execute { [weak self] result in
             switch result {
             case .success(let object):
-                print("object: \(object)")
                 self?.usersList = object
                 self?.tableView.reloadData()
             case .failure(let error):
@@ -60,6 +35,19 @@ class ViewController: UIViewController, UITableViewDataSource {
         }
     }
     
+    @IBAction func postRequest(_ sender: Any) {
+        let request = VizApiNetworkRequest(apiResource: RemotePostResource.getPostObject())
+        _ = request.execute { [weak self] result in
+            switch result {
+            case .success(let object):
+                print("object: \(object)")
+                self?.getRequest(1)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+        
     @IBAction func deleteRequest(_ sender: Any) {
         guard let list = self.usersList,
            let users = list.users,
@@ -67,13 +55,12 @@ class ViewController: UIViewController, UITableViewDataSource {
            let userId = users.last?.userId?.trimmingCharacters(in: .whitespacesAndNewlines) else {
             return
         }
-        
+
         /* Assemble URL */
         var deleteResource = RemoteDeleteResource()
         deleteResource.path = (deleteResource.path ?? "") + "/\(userId)" // You can insert a fake delete here
-        
-        deleteRequest = VizApiNetworkRequest(apiResource: deleteResource)
-        _ = deleteRequest?.execute { [weak self] result in
+        let request = VizApiNetworkRequest(apiResource: deleteResource)
+        _ = request.execute { [weak self] result in
             switch result {
             case .success(let object):
                 print("object: \(object)")
@@ -113,25 +100,6 @@ class ViewController: UIViewController, UITableViewDataSource {
         }
         
         return cell
-    }
-    
-    /******************/
-    /* Utilities ******/
-    /******************/
-
-    private func randomAlphaNumericString(length: Int) -> String {
-        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        let allowedCharsCount = UInt32(allowedChars.count)
-        var randomString = ""
-
-        for _ in 0 ..< length {
-            let randomNum = Int(arc4random_uniform(allowedCharsCount))
-            let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
-            let newCharacter = allowedChars[randomIndex]
-            randomString += String(newCharacter)
-        }
-
-        return randomString
     }
 }
 

@@ -7,6 +7,14 @@
 
 import Foundation
 
+/* at terminal run
+    python api_endpoints.py
+ 
+    if you have any issues try to first run:
+    pip install flask
+    pip install flask_restful
+*/
+
 /***********/
 /**  GET  **/
 /***********/
@@ -16,10 +24,6 @@ struct RemoteGetResource: VizHttpApiResource {
         ["Content-Type" : "application/json"]
 
     var queryItems: [URLQueryItem]?
-
-    /* at terminal run
-        python api_endpoints.py
-    */
     
     typealias ModelType = UsersList
     typealias InputModelType = NoInputModelTypeDefault
@@ -29,7 +33,6 @@ struct RemoteGetResource: VizHttpApiResource {
     }
     
     var path: String? = "/users"
-    
     
     var method: VizHttpMethod {
         .get(nil, nil)
@@ -49,11 +52,6 @@ struct RemotePostResource: VizHttpApiResource {
 
     var method: VizHttpMethod
     
-    
-    /* at terminal run
-        python api_endpoints.py
-    */
-    
     typealias ModelType = UserObject
     typealias InputModelType = UserObject
 
@@ -62,13 +60,41 @@ struct RemotePostResource: VizHttpApiResource {
     }
     
     var path: String? = "/users"
+    
+    static func getPostObject() -> RemotePostResource {
+        let randomNumber = Int.random(in: 1...1000)
+        let randomNameLength = Int.random(in: 1...5)
+        let randomCityLength = Int.random(in: 1...7)
+
+        let object = UserObject(userId: "\(randomNumber)",
+                                name: randomAlphaNumericString(length: randomNameLength),
+                                city: randomAlphaNumericString(length: randomCityLength))
+        return RemotePostResource(method: .post(nil, object))
+    }
+    
+    /******************/
+    /* Utilities ******/
+    /******************/
+
+    static func randomAlphaNumericString(length: Int) -> String {
+        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let allowedCharsCount = UInt32(allowedChars.count)
+        var randomString = ""
+
+        for _ in 0 ..< length {
+            let randomNum = Int(arc4random_uniform(allowedCharsCount))
+            let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
+            let newCharacter = allowedChars[randomIndex]
+            randomString += String(newCharacter)
+        }
+
+        return randomString
+    }
 }
 
 /*************/
 /**  DELETE **/
 /*************/
-
-
 
 struct RemoteDeleteResource: VizHttpApiResource {
     var headers: [String : String]? =
@@ -79,10 +105,6 @@ struct RemoteDeleteResource: VizHttpApiResource {
     var method: VizHttpMethod {
         .delete(nil, nil)
     }
-    
-    /* at terminal run
-        python api_endpoints.py
-    */
     
     typealias ModelType = UserObject
     typealias InputModelType = NoInputModelTypeDefault
