@@ -10,8 +10,6 @@ enum VizNetworkError: Error {
     case urlError(URLError)
 }
 
-typealias VizNetworkManagerTaskID = Int
-
 class VizNetworkManager {
     
     static let shared = VizNetworkManager()
