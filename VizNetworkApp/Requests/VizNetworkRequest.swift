@@ -20,13 +20,13 @@ extension VizNetworkRequest {
     func load(_ url: URL, completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
         return VizNetworkManager.shared.load(url, responseModelType: ModelType.self, completion: completion)
     }
-    
-    
 }
 
 class VizApiNetworkRequest<APIResource: VizApiResource> : VizNetworkRequest {
+    
     typealias ModelType = APIResource.ModelType
     
+    let failedToRetrieveUrlFromApiResource = "failedToRetrieveUrlFromApiResource"
     var apiResource: APIResource
     init(apiResource: APIResource) {
         self.apiResource = apiResource
@@ -39,15 +39,10 @@ class VizApiNetworkRequest<APIResource: VizApiResource> : VizNetworkRequest {
     func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> String where APIResource: VizHttpApiResource {
         guard let request = apiResource.urlRequest() else {
             print("could not get url request")
-            completion(.failure(VizBaseNetworkRequestError.failed))
-            return "" // todo: maybe use constant string
+            completion(.failure(VizNetworkError.urlError(URLError(.badURL))))
+            return failedToRetrieveUrlFromApiResource
         }
         return load(request, completion: completion)
     }
 }
 
-// todo: deprecate
-enum VizBaseNetworkRequestError: Error {
-    case failed
-    case recievedErrorFromServer
-}

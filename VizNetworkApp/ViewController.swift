@@ -36,39 +36,39 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func postRequest(_ sender: Any) {
-        
-//        _ = manager.addApiRequest(for: RemotePostResource.getPostObject()) { [weak self] result in
-//            switch result {
-//            case .success(let object):
-//                print("object: \(object)")
-//                self?.getRequest(1)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
+        let request = VizApiNetworkRequest(apiResource: RemotePostResource.getPostObject())
+        _ = request.execute { [weak self] result in
+            switch result {
+            case .success(let object):
+                print("object: \(object)")
+                self?.getRequest(1)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
         
     @IBAction func deleteRequest(_ sender: Any) {
-//        guard let list = self.usersList,
-//           let users = list.users,
-//           users.count > 0,
-//           let userId = users.last?.userId?.trimmingCharacters(in: .whitespacesAndNewlines) else {
-//            return
-//        }
-//
-//        /* Assemble URL */
-//        var deleteResource = RemoteDeleteResource()
-//        deleteResource.path = (deleteResource.path ?? "") + "/\(userId)" // You can insert a fake delete here
-//
-//        _ = manager.addApiRequest(for: deleteResource) { [weak self] result in
-//            switch result {
-//            case .success(let object):
-//                print("object: \(object)")
-//                self?.getRequest(1)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
+        guard let list = self.usersList,
+           let users = list.users,
+           users.count > 0,
+           let userId = users.last?.userId?.trimmingCharacters(in: .whitespacesAndNewlines) else {
+            return
+        }
+
+        /* Assemble URL */
+        var deleteResource = RemoteDeleteResource()
+        deleteResource.path = (deleteResource.path ?? "") + "/\(userId)" // You can insert a fake delete here
+        let request = VizApiNetworkRequest(apiResource: deleteResource)
+        _ = request.execute { [weak self] result in
+            switch result {
+            case .success(let object):
+                print("object: \(object)")
+                self?.getRequest(1)
+            case .failure(let error):
+                print(error)
+            }
+        }
         
     }
     
