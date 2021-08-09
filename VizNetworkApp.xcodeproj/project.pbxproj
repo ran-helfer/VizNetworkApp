@@ -17,8 +17,9 @@
 		8027406C26B034D700CB0AB5 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406926B034D700CB0AB5 /* NetworkRequest.swift */; };
 		8027406D26B034D700CB0AB5 /* ApiResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027406A26B034D700CB0AB5 /* ApiResource.swift */; };
 		8039368726B13C4D006A532F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8039368626B13C4D006A532F /* Models.swift */; };
-		80E367BF26B2A2D700136410 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367BE26B2A2D700136410 /* NetworkManager.swift */; };
+		80E367BF26B2A2D700136410 /* NetworkTransporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367BE26B2A2D700136410 /* NetworkTransporter.swift */; };
 		80E367C526B2AE0300136410 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E367C426B2AE0300136410 /* Logger.swift */; };
+		80EACA3026C150B000681977 /* NetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EACA2F26C150B000681977 /* NetworkTransport.swift */; };
 		80F5B00B26BACA2E00F6EBF4 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F5B00A26BACA2E00F6EBF4 /* Requests.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,8 +36,9 @@
 		8027406926B034D700CB0AB5 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		8027406A26B034D700CB0AB5 /* ApiResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiResource.swift; sourceTree = "<group>"; };
 		8039368626B13C4D006A532F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		80E367BE26B2A2D700136410 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		80E367BE26B2A2D700136410 /* NetworkTransporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTransporter.swift; sourceTree = "<group>"; };
 		80E367C426B2AE0300136410 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		80EACA2F26C150B000681977 /* NetworkTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTransport.swift; sourceTree = "<group>"; };
 		80F5B00A26BACA2E00F6EBF4 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,7 +78,7 @@
 				80F5B00A26BACA2E00F6EBF4 /* Requests.swift */,
 				8027405826B0343D00CB0AB5 /* ViewController.swift */,
 				8027405A26B0343D00CB0AB5 /* Main.storyboard */,
-				80E367BD26B287DC00136410 /* Requests Manager */,
+				80E367BD26B287DC00136410 /* Transport */,
 				8039368826B14676006A532F /* Api Resources */,
 				8039368926B146AC006A532F /* Requests */,
 				80E367C826B3F2F400136410 /* Logger */,
@@ -104,12 +106,13 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
-		80E367BD26B287DC00136410 /* Requests Manager */ = {
+		80E367BD26B287DC00136410 /* Transport */ = {
 			isa = PBXGroup;
 			children = (
-				80E367BE26B2A2D700136410 /* NetworkManager.swift */,
+				80EACA2F26C150B000681977 /* NetworkTransport.swift */,
+				80E367BE26B2A2D700136410 /* NetworkTransporter.swift */,
 			);
-			path = "Requests Manager";
+			path = Transport;
 			sourceTree = "<group>";
 		};
 		80E367C826B3F2F400136410 /* Logger */ = {
@@ -192,6 +195,7 @@
 			files = (
 				8027405926B0343D00CB0AB5 /* ViewController.swift in Sources */,
 				8027406C26B034D700CB0AB5 /* NetworkRequest.swift in Sources */,
+				80EACA3026C150B000681977 /* NetworkTransport.swift in Sources */,
 				8027406D26B034D700CB0AB5 /* ApiResource.swift in Sources */,
 				8039368726B13C4D006A532F /* Models.swift in Sources */,
 				8027406B26B034D700CB0AB5 /* HttpApiResource.swift in Sources */,
@@ -199,7 +203,7 @@
 				8027405726B0343D00CB0AB5 /* SceneDelegate.swift in Sources */,
 				80F5B00B26BACA2E00F6EBF4 /* Requests.swift in Sources */,
 				80E367C526B2AE0300136410 /* Logger.swift in Sources */,
-				80E367BF26B2A2D700136410 /* NetworkManager.swift in Sources */,
+				80E367BF26B2A2D700136410 /* NetworkTransporter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

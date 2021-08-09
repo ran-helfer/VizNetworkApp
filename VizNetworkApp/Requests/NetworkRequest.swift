@@ -7,19 +7,14 @@
 
 import Foundation
 
+typealias DataTaskStringIdentifier = String
+
 protocol NetworkRequest: AnyObject {
     associatedtype ModelType: Decodable
-}
-
-extension NetworkRequest {
     func load(_ request: URLRequest,
-              completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
-        return NetworkManager.shared.load(request, responseModelType: ModelType.self, completion: completion)
-    }
-    
-    func load(_ url: URL, completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
-        return NetworkManager.shared.load(url, responseModelType: ModelType.self, completion: completion)
-    }
+              completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier
+    func load(_ url: URL,
+              completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier
 }
 
 class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
@@ -28,8 +23,11 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
     
     let failedToRetrieveUrlFromApiResource = "failedToRetrieveUrlFromApiResource"
     var apiResource: APIResource
-    init(apiResource: APIResource) {
+    private let transport: NetworkTransport
+    
+    init(apiResource: APIResource, transport: NetworkTransport = NetworkTransporter.shared) {
         self.apiResource = apiResource
+        self.transport = transport
     }
     
     func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> String where APIResource: ApiResource {
@@ -43,6 +41,15 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
             return failedToRetrieveUrlFromApiResource
         }
         return load(request, completion: completion)
+    }
+    
+    func load(_ request: URLRequest,
+              completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        return transport.load(request, responseModelType: ModelType.self, completion: completion)
+    }
+    
+    func load(_ url: URL, completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        return transport.load(url, responseModelType: ModelType.self, completion: completion)
     }
 }
 
