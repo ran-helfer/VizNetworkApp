@@ -39,7 +39,7 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
     func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> String where APIResource: HttpApiResource {
         guard let request = apiResource.urlRequest() else {
             print("could not get url request")
-            completion(.failure(NetworkError.urlError(URLError(.badURL))))
+            completion(.failure(NetworkError.badURL))
             return failedToRetrieveUrlFromApiResource
         }
         return load(request, completion: completion)
