@@ -25,7 +25,7 @@ class VizNetworkManager {
     }
     
     func load<ModelType: Decodable>(_ request: URLRequest,
-                                    dispatchQueue: DispatchQueue? = nil,
+                                    dispatchQueue: DispatchQueue? = .global(),
                                     responseModelType: ModelType.Type,
                                     completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
         let operation = VizHttpNetworkBlockOperation(id: UUID().uuidString)
@@ -50,14 +50,8 @@ class VizNetworkManager {
                     group.leave()
                 }
             }
-            if let dispatchQueue = dispatchQueue {
-                dispatchQueue.async {
-                    dataTask.resume()
-                }
-            } else {
-                DispatchQueue.global().async {
-                    dataTask.resume()
-                }
+            dispatchQueue?.async {
+                dataTask.resume()
             }
            
             group.wait()
