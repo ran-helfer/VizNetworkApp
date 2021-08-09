@@ -36,7 +36,14 @@ extension HttpApiResource {
             break
         }
         
-        request.allHTTPHeaderFields = headers
+        if let headers = headers {
+            var allHTTPHeaderFields = defaultHeaders()
+            allHTTPHeaderFields.merge(headers) {(_,new) in new}
+            request.allHTTPHeaderFields = allHTTPHeaderFields
+        } else {
+            request.allHTTPHeaderFields = defaultHeaders()
+        }
+        
         request.httpMethod = method.name
         request.timeoutInterval = timeout
         
@@ -62,6 +69,11 @@ extension HttpApiResource {
         let jsonString = String(data: jsonData ?? Data(), encoding: .utf8)
         print(jsonString ?? "")
         return jsonData
+    }
+    
+    func defaultHeaders() -> [String : String] {
+        ["Content-Type" : "application/json"]
+        /* Accumulate whatever headers we need here */
     }
 }
 
