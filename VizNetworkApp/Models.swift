@@ -1,6 +1,6 @@
 //
 //  Models.swift
-//  VizNetworkApp
+//  NetworkApp
 //
 //  Created by Ran Helfer on 28/07/2021.
 //

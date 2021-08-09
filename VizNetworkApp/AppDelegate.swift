@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  VizNetworkApp
+//  NetworkApp
 //
 //  Created by Ran Helfer on 27/07/2021.
 //

@@ -1,6 +1,6 @@
 //
 //  Requests.swift
-//  VizNetworkApp
+//  NetworkApp
 //
 //  Created by Ran Helfer on 04/08/2021.
 //
@@ -19,7 +19,7 @@ import Foundation
 /**  GET  **/
 /***********/
 
-struct RemoteGetResource: VizHttpApiResource {
+struct RemoteGetResource: HttpApiResource {
     var headers: [String : String]? =
         ["Content-Type" : "application/json"]
 
@@ -34,7 +34,7 @@ struct RemoteGetResource: VizHttpApiResource {
     
     var path: String? = "/users"
     
-    var method: VizHttpMethod {
+    var method: HttpMethod {
         .get(nil, nil)
     }
 }
@@ -43,14 +43,14 @@ struct RemoteGetResource: VizHttpApiResource {
 /**  POST **/
 /***********/
 
-struct RemotePostResource: VizHttpApiResource {
+struct RemotePostResource: HttpApiResource {
     var headers: [String : String]? =
         ["Content-Type" : "application/json"]
     
     var queryItems: [URLQueryItem]?
     var dynamicPathComponent: String?
 
-    var method: VizHttpMethod
+    var method: HttpMethod
     
     typealias ModelType = UserObject
     typealias InputModelType = UserObject
@@ -96,13 +96,13 @@ struct RemotePostResource: VizHttpApiResource {
 /**  DELETE **/
 /*************/
 
-struct RemoteDeleteResource: VizHttpApiResource {
+struct RemoteDeleteResource: HttpApiResource {
     var headers: [String : String]? =
         ["Content-Type" : "application/json"]
     
     var queryItems: [URLQueryItem]?
 
-    var method: VizHttpMethod {
+    var method: HttpMethod {
         .delete(nil, nil)
     }
     

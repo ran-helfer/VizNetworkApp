@@ -1,28 +1,28 @@
 //
-//  VizBaseNetworkRequest.swift
-//  VizNetwork
+//  NetworkRequest.swift
+//  NetworkApp
 //
 //  Created by Ran Helfer on 27/07/2021.
 //
 
 import Foundation
 
-protocol VizNetworkRequest: AnyObject {
+protocol NetworkRequest: AnyObject {
     associatedtype ModelType: Decodable
 }
 
-extension VizNetworkRequest {
+extension NetworkRequest {
     func load(_ request: URLRequest,
               completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
-        return VizNetworkManager.shared.load(request, responseModelType: ModelType.self, completion: completion)
+        return NetworkManager.shared.load(request, responseModelType: ModelType.self, completion: completion)
     }
     
     func load(_ url: URL, completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
-        return VizNetworkManager.shared.load(url, responseModelType: ModelType.self, completion: completion)
+        return NetworkManager.shared.load(url, responseModelType: ModelType.self, completion: completion)
     }
 }
 
-class VizApiNetworkRequest<APIResource: VizApiResource> : VizNetworkRequest {
+class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
     
     typealias ModelType = APIResource.ModelType
     
@@ -32,14 +32,14 @@ class VizApiNetworkRequest<APIResource: VizApiResource> : VizNetworkRequest {
         self.apiResource = apiResource
     }
     
-    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> String where APIResource: VizApiResource {
+    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> String where APIResource: ApiResource {
         return load(apiResource.url, completion: completion)
     }
     
-    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> String where APIResource: VizHttpApiResource {
+    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> String where APIResource: HttpApiResource {
         guard let request = apiResource.urlRequest() else {
             print("could not get url request")
-            completion(.failure(VizNetworkError.urlError(URLError(.badURL))))
+            completion(.failure(NetworkError.urlError(URLError(.badURL))))
             return failedToRetrieveUrlFromApiResource
         }
         return load(request, completion: completion)

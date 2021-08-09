@@ -1,18 +1,18 @@
 //
-//  VizNetworkManager.swift
-//  VizNetworkApp
+//  NetworkManager.swift
+//  NetworkApp
 //
 //  Created by Ran Helfer on 29/07/2021.
 //
 import Foundation
 
-enum VizNetworkError: Error {
+enum NetworkError: Error {
     case urlError(URLError)
 }
 
-class VizNetworkManager {
+class NetworkManager {
     
-    static let shared = VizNetworkManager()
+    static let shared = NetworkManager()
     
     private let operationQueue = OperationQueue()
     private static let defaultQueueConcurrentOperations = 5
@@ -26,7 +26,7 @@ class VizNetworkManager {
                                     dispatchQueue: DispatchQueue = .global(),
                                     responseModelType: ModelType.Type,
                                     completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
-        let operation = VizHttpNetworkBlockOperation(id: UUID().uuidString)
+        let operation = HttpNetworkBlockOperation(id: UUID().uuidString)
         operation.addExecutionBlock { [unowned operation] in
             guard operation.isCancelled == false else {
                 return
@@ -35,12 +35,12 @@ class VizNetworkManager {
             group.enter()
             
             let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
-                VizNetworkManager.shared.handleRequestResponse(data: data,
-                                                               responseModel: responseModelType,
-                                               response: response,
-                                               error: error) { result in
+                NetworkManager.shared.handleRequestResponse(data: data,
+                                                            responseModel: responseModelType,
+                                                            response: response,
+                                                            error: error) { result in
                     guard operation.isCancelled == false else {
-                        completion(.failure(VizNetworkError.urlError(URLError(.cancelled))))
+                        completion(.failure(NetworkError.urlError(URLError(.cancelled))))
                         group.leave()
                         return
                     }
@@ -72,7 +72,7 @@ class VizNetworkManager {
     
     func cancelDataTask(taskIdentifier: String) {
         operationQueue.operations
-            .compactMap { $0 as? VizHttpNetworkBlockOperation }
+            .compactMap { $0 as? HttpNetworkBlockOperation }
             .first { $0.taskIdentifier == taskIdentifier }?
             .cancel()
     }
@@ -86,7 +86,7 @@ class VizNetworkManager {
             if let err = error {
                 completion(.failure(err))
             } else {
-                completion(.failure(VizNetworkError.urlError(URLError(.unknown))))
+                completion(.failure(NetworkError.urlError(URLError(.unknown))))
             }
             return
         }
@@ -98,7 +98,7 @@ class VizNetworkManager {
         guard let data = data,
               let value =  try? JSONDecoder().decode(responseModel, from: data) else {
             DispatchQueue.main.async {
-                completion(.failure(VizNetworkError.urlError(URLError(.cannotDecodeContentData))))
+                completion(.failure(NetworkError.urlError(URLError(.cannotDecodeContentData))))
             }
             return
         }
@@ -106,7 +106,7 @@ class VizNetworkManager {
     }
 }
 
-class VizHttpNetworkBlockOperation: BlockOperation {
+class HttpNetworkBlockOperation: BlockOperation {
     var taskIdentifier: String
     init(id: String) {
         self.taskIdentifier = id

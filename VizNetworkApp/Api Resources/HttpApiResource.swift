@@ -1,19 +1,19 @@
 //
-//  VizHttpApiResource.swift
-//  VizNetwork
+//  HttpApiResource.swift
+//  Network
 //
 //  Created by Ran Helfer on 27/07/2021.
 //
 
 import Foundation
 
-/* VizHttpApiResource describes how a basic HTTP network request remote resource should be addressed - on top of VizApiResource */
+/* HttpApiResource describes how a basic HTTP network request remote resource should be addressed - on top of ApiResource */
 
-protocol VizHttpApiResource: VizApiResource {
+protocol HttpApiResource: ApiResource {
     /* If no input model is needed - default to NoInputModelTypeDefault */
     associatedtype InputModelType: Encodable
 
-    var method: VizHttpMethod { get }
+    var method: HttpMethod { get }
     var headers: [String: String]? { get }
     mutating func urlRequest() -> URLRequest?
     
@@ -22,7 +22,7 @@ protocol VizHttpApiResource: VizApiResource {
     var timeout: TimeInterval { get }
 }
 
-extension VizHttpApiResource {
+extension HttpApiResource {
     mutating func urlRequest() -> URLRequest? {
         var request = URLRequest(url: url)
 
@@ -65,8 +65,8 @@ extension VizHttpApiResource {
     }
 }
 
-enum VizHttpMethod: Equatable {
-    static func == (lhs: VizHttpMethod, rhs: VizHttpMethod) -> Bool {
+enum HttpMethod: Equatable {
+    static func == (lhs: HttpMethod, rhs: HttpMethod) -> Bool {
         guard lhs.name == rhs.name else {
             return false
         }

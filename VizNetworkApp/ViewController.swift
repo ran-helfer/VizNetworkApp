@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  VizNetworkApp
+//  NetworkApp
 //
 //  Created by Ran Helfer on 27/07/2021.
 //
@@ -23,7 +23,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func getRequest(_ sender: Any) {
-        let request = VizApiNetworkRequest(apiResource: RemoteGetResource())
+        let request = ApiNetworkRequest(apiResource: RemoteGetResource())
         _ = request.execute { [weak self] result in
             switch result {
             case .success(let object):
@@ -36,7 +36,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func postRequest(_ sender: Any) {
-        let request = VizApiNetworkRequest(apiResource: RemotePostResource.getPostObject())
+        let request = ApiNetworkRequest(apiResource: RemotePostResource.getPostObject())
         _ = request.execute { [weak self] result in
             switch result {
             case .success(let object):
@@ -59,7 +59,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         /* Assemble URL */
         var deleteResource = RemoteDeleteResource()
         deleteResource.path = (deleteResource.path ?? "") + "/\(userId)" // You can insert a fake delete here
-        let request = VizApiNetworkRequest(apiResource: deleteResource)
+        let request = ApiNetworkRequest(apiResource: deleteResource)
         _ = request.execute { [weak self] result in
             switch result {
             case .success(let object):

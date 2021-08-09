@@ -1,9 +1,9 @@
 //
-//  VizLogger.swift
-//  VizAINotify
+//  Logger.swift
+//  NetworkApp
 //
 //  Created by Ran Helfer on 18/07/2021.
-//  Copyright © 2021 viz. All rights reserved.
+//  Copyright © 2021 . All rights reserved.
 //
 
 import Foundation
@@ -12,7 +12,7 @@ import Foundation
 /* Public Log Level   */
 /**********************/
 
-public enum VizLogLevel: String {
+public enum LogLevel: String {
     case mute = "MUTE"
     case verbose = "VERBOSE"
     case info = "INFO"
@@ -25,36 +25,36 @@ public enum VizLogLevel: String {
 /**********************/
 
 func logVerbose(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
-    VizLogger.shared.log(.verbose, message, function: function, file: file, line: line)
+    Logger.shared.log(.verbose, message, function: function, file: file, line: line)
 }
 
 func logInfo(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
-    VizLogger.shared.log(.info, message, function: function, file: file, line: line)
+    Logger.shared.log(.info, message, function: function, file: file, line: line)
 }
 
 func logWarn(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
-    VizLogger.shared.log(.warn, message, function: function, file: file, line: line)
+    Logger.shared.log(.warn, message, function: function, file: file, line: line)
 }
 
 func logError(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
-    VizLogger.shared.log(.error, message, function: function, file: file, line: line)
+    Logger.shared.log(.error, message, function: function, file: file, line: line)
 }
 
 /*************************************************/
 /*              Hidden interface                 */
 /*************************************************/
 
-class VizLogger {
-    fileprivate static let shared = VizLogger()
+class Logger {
+    fileprivate static let shared = Logger()
 
-    var logLevel: VizLogLevel = .mute
-    let levels: [VizLogLevel] = [.verbose, .info, .warn, .error]
+    var logLevel: LogLevel = .mute
+    let levels: [LogLevel] = [.verbose, .info, .warn, .error]
 
-    static func setLogLevel(_ level: VizLogLevel) {
-        VizLogger.shared.logLevel = level
+    static func setLogLevel(_ level: LogLevel) {
+        Logger.shared.logLevel = level
     }
 
-    fileprivate func log(_ level: VizLogLevel,
+    fileprivate func log(_ level: LogLevel,
                          _ message: String? = nil,
                          function: String? = nil ,
                          file: String? = nil,
