@@ -123,6 +123,7 @@ class UsersDelete(Resource):
 
         # read our CSV
         os.system('cat users.csv | grep -v %s >> tmp_users.csv'  % (user_id))
+        os.system('rm check_if_there_is_a_user.txt')
         os.system('mv tmp_users.csv users.csv')
 
         return {'message': 'ok'}, 200
