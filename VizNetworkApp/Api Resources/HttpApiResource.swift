@@ -7,6 +7,26 @@
 
 import Foundation
 
+/*
+ 
+An example what we can do outside of this library
+ 
+protocol VizHttpApiResource: HttpApiResource {}
+
+extension VizHttpApiResource {
+    func defaultHeaders() -> [String : String]? {
+        ["Content-Type" : "application/json"]
+        /* Accumulate whatever headers we need here */
+    }
+}
+
+ And then use like:
+ 
+struct RemoteDeleteResource: VizHttpApiResource {
+struct RemotePostResource: VizHttpApiResource {
+struct RemoteDeleteResource: VizHttpApiResource {
+*/
+
 /* HttpApiResource describes how a basic HTTP network request remote resource should be addressed - on top of ApiResource */
 
 protocol HttpApiResource: ApiResource {
@@ -20,6 +40,7 @@ protocol HttpApiResource: ApiResource {
     /* If needs to set timeout - implement this protocol method.
        Otherwise default timeout will be used */
     var timeout: TimeInterval { get }
+    func defaultHeaders() -> [String : String]?
 }
 
 extension HttpApiResource {
@@ -36,7 +57,14 @@ extension HttpApiResource {
             break
         }
         
-        request.allHTTPHeaderFields = headers
+        if let headers = headers {
+            var allHTTPHeaderFields = defaultHeaders()
+            allHTTPHeaderFields?.merge(headers) {(_,new) in new}
+            request.allHTTPHeaderFields = allHTTPHeaderFields
+        } else {
+            request.allHTTPHeaderFields = defaultHeaders()
+        }
+        
         request.httpMethod = method.name
         request.timeoutInterval = timeout
         
@@ -62,6 +90,11 @@ extension HttpApiResource {
         let jsonString = String(data: jsonData ?? Data(), encoding: .utf8)
         print(jsonString ?? "")
         return jsonData
+    }
+    
+    func defaultHeaders() -> [String : String]? {
+        ["Content-Type" : "application/json"]
+        /* Accumulate whatever headers we need here */
     }
 }
 
