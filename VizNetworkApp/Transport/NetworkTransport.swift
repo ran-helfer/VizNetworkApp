@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol NetworkTransport {
+protocol NetworkTransport : AnyObject {
     func load<ModelType: Decodable>(_ request: URLRequest,
                                     dispatchQueue: DispatchQueue,
                                     responseModelType: ModelType.Type,

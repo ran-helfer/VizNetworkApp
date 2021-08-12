@@ -11,18 +11,21 @@ enum NetworkError: Error {
     case noDataRecieved
     case unknown
     case cancelled
+    case transportMissingOnLoad
     case badURL
     
     func errorDescription() -> String {
         switch self {
         case .cannotDecodeContentData(let error):
-            return "cannotDecodeContentData " + error.localizedDescription
+            return "cannot Decode Content Data " + error.localizedDescription
         case .noDataRecieved:
-            return "noDataRecieved"
+            return "no Data Recieved"
         case .unknown:
             return "unknown"
         case .cancelled:
             return "cancelled"
+        case .transportMissingOnLoad:
+            return "transport Missing OnLoad"
         case .badURL:
             return "badURL"
         }
