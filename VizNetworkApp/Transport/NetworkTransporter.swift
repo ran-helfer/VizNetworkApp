@@ -48,6 +48,7 @@ class NetworkTransporter: NetworkTransport {
     
     func load<ModelType: Decodable>(_ request: URLRequest,
                                     dispatchQueue: DispatchQueue = .global(),
+                                    onBackground: Bool = false,
                                     responseModelType: ModelType.Type,
                                     completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         /* uuidString is being used for:
@@ -55,7 +56,9 @@ class NetworkTransporter: NetworkTransport {
            2) Start and end background tasks */
         let uuidString = UUID().uuidString
         
-        startBackgroundTask(uuidString: uuidString)
+        if onBackground {
+            startBackgroundTask(uuidString: uuidString)
+        }
         
         let operation = HttpNetworkBlockOperation(id: uuidString)
         operation.addExecutionBlock { [unowned operation] in
@@ -76,7 +79,9 @@ class NetworkTransporter: NetworkTransport {
                         return
                     }
                     completion(result)
-                    self.endBackgroundTask(uuidString: uuidString)
+                    if onBackground {
+                        self.endBackgroundTask(uuidString: uuidString)
+                    }
                     group.leave()
                 }
             }
@@ -103,13 +108,6 @@ class NetworkTransporter: NetworkTransport {
             UIApplication.shared.endBackgroundTask(taskId)
             self.backgroundTasksIds[uuidString] = nil
         }
-    }
-    
-    func load<ModelType: Decodable>(_ url: URL,
-                         responseModelType: ModelType.Type,
-                         completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        let request = URLRequest(url: url)
-        return load(request, responseModelType: responseModelType, completion: completion)
     }
     
     func cancelAllTasks() {
