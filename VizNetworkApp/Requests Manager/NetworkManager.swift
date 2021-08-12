@@ -7,7 +7,26 @@
 import Foundation
 
 enum NetworkError: Error {
-    case urlError(URLError)
+    case cannotDecodeContentData(Error)
+    case noDataRecieved
+    case unknown
+    case cancelled
+    case badURL
+    
+    func errorDescription() -> String {
+        switch self {
+        case .cannotDecodeContentData(let error):
+            return "cannotDecodeContentData " + error.localizedDescription
+        case .noDataRecieved:
+            return "noDataRecieved"
+        case .unknown:
+            return "unknown"
+        case .cancelled:
+            return "cancelled"
+        case .badURL:
+            return "badURL"
+        }
+    }
 }
 
 class NetworkManager {
@@ -40,7 +59,7 @@ class NetworkManager {
                                                             response: response,
                                                             error: error) { result in
                     guard operation.isCancelled == false else {
-                        completion(.failure(NetworkError.urlError(URLError(.cancelled))))
+                        completion(.failure(NetworkError.cancelled))
                         group.leave()
                         return
                     }
@@ -86,7 +105,7 @@ class NetworkManager {
             if let err = error {
                 completion(.failure(err))
             } else {
-                completion(.failure(NetworkError.urlError(URLError(.unknown))))
+                completion(.failure(NetworkError.unknown))
             }
             return
         }
@@ -95,14 +114,21 @@ class NetworkManager {
             print(r.statusCode)
             print(r)
         }
-        guard let data = data,
-              let value =  try? JSONDecoder().decode(responseModel, from: data) else {
+        var value: ModelType?
+        guard let data = data else {
             DispatchQueue.main.async {
-                completion(.failure(NetworkError.urlError(URLError(.cannotDecodeContentData))))
+                completion(.failure(NetworkError.noDataRecieved))
             }
             return
         }
-        DispatchQueue.main.async { completion(.success(value))}
+        
+        do {
+            value =  try JSONDecoder().decode(responseModel, from: data)
+        } catch let error {
+            completion(.failure(NetworkError.cannotDecodeContentData(error)))
+            return
+        }
+        DispatchQueue.main.async { completion(.success(value!))}
     }
 }
 
