@@ -1,5 +1,5 @@
 //
-//  NetworkManager.swift
+//  NetworkTransporter.swift
 //  NetworkApp
 //
 //  Created by Ran Helfer on 29/07/2021.
@@ -11,40 +11,43 @@ enum NetworkError: Error {
     case noDataRecieved
     case unknown
     case cancelled
+    case transportMissingOnLoad
     case badURL
     
     func errorDescription() -> String {
         switch self {
         case .cannotDecodeContentData(let error):
-            return "cannotDecodeContentData " + error.localizedDescription
+            return "cannot Decode Content Data " + error.localizedDescription
         case .noDataRecieved:
-            return "noDataRecieved"
+            return "no Data Recieved"
         case .unknown:
             return "unknown"
         case .cancelled:
             return "cancelled"
+        case .transportMissingOnLoad:
+            return "transport Missing OnLoad"
         case .badURL:
             return "badURL"
         }
     }
 }
 
-class NetworkManager {
+class NetworkTransporter: NetworkTransport {
     
-    static let shared = NetworkManager()
+    static let shared = NetworkTransporter()
     
     private let operationQueue = OperationQueue()
     private static let defaultQueueConcurrentOperations = 5
     private let SuccessRangeOfStatusCodes: ClosedRange<Int> = (200...299)
 
-    private init(maxConcurent: Int = defaultQueueConcurrentOperations) {
+    init(maxConcurent: Int = defaultQueueConcurrentOperations) {
         operationQueue.maxConcurrentOperationCount = maxConcurent
     }
     
     func load<ModelType: Decodable>(_ request: URLRequest,
                                     dispatchQueue: DispatchQueue = .global(),
                                     responseModelType: ModelType.Type,
-                                    completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
+                                    completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         let operation = HttpNetworkBlockOperation(id: UUID().uuidString)
         operation.addExecutionBlock { [unowned operation] in
             guard operation.isCancelled == false else {
@@ -54,10 +57,10 @@ class NetworkManager {
             group.enter()
             
             let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
-                NetworkManager.shared.handleRequestResponse(data: data,
-                                                            responseModel: responseModelType,
-                                                            response: response,
-                                                            error: error) { result in
+                NetworkTransporter.shared.handleRequestResponse(data: data,
+                                                       responseModel: responseModelType,
+                                                       response: response,
+                                                       error: error) { result in
                     guard operation.isCancelled == false else {
                         completion(.failure(NetworkError.cancelled))
                         group.leave()
@@ -80,7 +83,7 @@ class NetworkManager {
     
     func load<ModelType: Decodable>(_ url: URL,
                          responseModelType: ModelType.Type,
-                         completion: @escaping (Result<ModelType, Error>) -> Void) -> String {
+                         completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         let request = URLRequest(url: url)
         return load(request, responseModelType: responseModelType, completion: completion)
     }
@@ -89,7 +92,7 @@ class NetworkManager {
         operationQueue.cancelAllOperations()
     }
     
-    func cancelDataTask(taskIdentifier: String) {
+    func cancelDataTask(taskIdentifier: DataTaskStringIdentifier) {
         operationQueue.operations
             .compactMap { $0 as? HttpNetworkBlockOperation }
             .first { $0.taskIdentifier == taskIdentifier }?

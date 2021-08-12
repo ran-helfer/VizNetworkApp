@@ -76,9 +76,6 @@ class ViewController: UIViewController, UITableViewDataSource {
         
     }
     
-    @IBAction func putRequest(_ sender: Any) {
-    }
-    
     /**********************/
     /*** Table View  ******/
     /**********************/

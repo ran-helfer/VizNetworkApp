@@ -61,6 +61,7 @@ class Users(Resource):
 
             writer.writerow({'userId': args['userId'], 'name': args['name'],'city': args['city']})
         os.system("cat users_tmp.csv >> users.csv ")
+        os.system('rm users_tmp.csv')
 
         return {'data': person}, 200  # return data with 200 OK
 
@@ -123,7 +124,9 @@ class UsersDelete(Resource):
 
         # read our CSV
         os.system('cat users.csv | grep -v %s >> tmp_users.csv'  % (user_id))
+        os.system('rm check_if_there_is_a_user.txt')
         os.system('mv tmp_users.csv users.csv')
+        os.system('rm tmp_users.csv')
 
         return {'message': 'ok'}, 200
 
