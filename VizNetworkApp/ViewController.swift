@@ -33,7 +33,11 @@ class ViewController: UIViewController, UITableViewDataSource {
                 self?.usersList = object
                 self?.tableView.reloadData()
             case .failure(let error):
-                print(error)
+                if let error = error as? NetworkError {
+                    print(error.errorDescription())
+                } else {
+                    print(error.localizedDescription)
+                }
             }
         }
     }

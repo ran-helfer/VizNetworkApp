@@ -8,7 +8,29 @@ import Foundation
 import UIKit
 
 enum NetworkError: Error {
-    case urlError(URLError)
+    case cannotDecodeContentData(Error)
+    case noDataRecieved
+    case unknown
+    case cancelled
+    case transportMissingOnLoad
+    case badURL
+    
+    func errorDescription() -> String {
+        switch self {
+        case .cannotDecodeContentData(let error):
+            return "cannot Decode Content Data " + error.localizedDescription
+        case .noDataRecieved:
+            return "no Data Recieved"
+        case .unknown:
+            return "unknown"
+        case .cancelled:
+            return "cancelled"
+        case .transportMissingOnLoad:
+            return "transport Missing OnLoad"
+        case .badURL:
+            return "badURL"
+        }
+    }
 }
 
 class NetworkTransporter: NetworkTransport {
@@ -49,7 +71,7 @@ class NetworkTransporter: NetworkTransport {
                                                        response: response,
                                                        error: error) { result in
                     guard operation.isCancelled == false else {
-                        completion(.failure(NetworkError.urlError(URLError(.cancelled))))
+                        completion(.failure(NetworkError.cancelled))
                         group.leave()
                         return
                     }
@@ -110,7 +132,7 @@ class NetworkTransporter: NetworkTransport {
             if let err = error {
                 completion(.failure(err))
             } else {
-                completion(.failure(NetworkError.urlError(URLError(.unknown))))
+                completion(.failure(NetworkError.unknown))
             }
             return
         }
@@ -119,14 +141,21 @@ class NetworkTransporter: NetworkTransport {
             print(r.statusCode)
             print(r)
         }
-        guard let data = data,
-              let value =  try? JSONDecoder().decode(responseModel, from: data) else {
+        var value: ModelType?
+        guard let data = data else {
             DispatchQueue.main.async {
-                completion(.failure(NetworkError.urlError(URLError(.cannotDecodeContentData))))
+                completion(.failure(NetworkError.noDataRecieved))
             }
             return
         }
-        DispatchQueue.main.async { completion(.success(value))}
+        
+        do {
+            value =  try JSONDecoder().decode(responseModel, from: data)
+        } catch let error {
+            completion(.failure(NetworkError.cannotDecodeContentData(error)))
+            return
+        }
+        DispatchQueue.main.async { completion(.success(value!))}
     }
 }
 

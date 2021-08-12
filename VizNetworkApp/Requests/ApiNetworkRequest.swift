@@ -13,7 +13,7 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
     
     let failedToRetrieveUrlFromApiResource = "failedToRetrieveUrlFromApiResource"
     var apiResource: APIResource
-    private let transport: NetworkTransport
+    private weak var transport: NetworkTransport?
     
     init(apiResource: APIResource, transport: NetworkTransport = NetworkTransporter.shared) {
         self.apiResource = apiResource
@@ -27,7 +27,7 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
     func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: HttpApiResource {
         guard let request = apiResource.urlRequest() else {
             print("could not get url request")
-            completion(.failure(NetworkError.urlError(URLError(.badURL))))
+            completion(.failure(NetworkError.badURL))
             return failedToRetrieveUrlFromApiResource
         }
         return load(request, completion: completion)
@@ -35,10 +35,18 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
     
     func load(_ request: URLRequest,
               completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        guard let transport = transport else {
+            completion(.failure(NetworkError.transportMissingOnLoad))
+            return NetworkError.transportMissingOnLoad.errorDescription()
+        }
         return transport.load(request, responseModelType: ModelType.self, completion: completion)
     }
     
     func load(_ url: URL, completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        guard let transport = transport else {
+            completion(.failure(NetworkError.transportMissingOnLoad))
+            return NetworkError.transportMissingOnLoad.errorDescription()
+        }
         return transport.load(url, responseModelType: ModelType.self, completion: completion)
     }
 }

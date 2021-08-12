@@ -20,9 +20,7 @@ import Foundation
 /***********/
 
 struct RemoteGetResource: HttpApiResource {
-    var headers: [String : String]? =
-        ["Content-Type" : "application/json"]
-
+    var headers: [String : String]?
     var queryItems: [URLQueryItem]?
     
     typealias ModelType = UsersList
@@ -44,9 +42,7 @@ struct RemoteGetResource: HttpApiResource {
 /***********/
 
 struct RemotePostResource: HttpApiResource {
-    var headers: [String : String]? =
-        ["Content-Type" : "application/json"]
-    
+    var headers: [String : String]?
     var queryItems: [URLQueryItem]?
     var dynamicPathComponent: String?
 
@@ -97,9 +93,7 @@ struct RemotePostResource: HttpApiResource {
 /*************/
 
 struct RemoteDeleteResource: HttpApiResource {
-    var headers: [String : String]? =
-        ["Content-Type" : "application/json"]
-    
+    var headers: [String : String]?    
     var queryItems: [URLQueryItem]?
 
     var method: HttpMethod {
