@@ -14,15 +14,12 @@ class ViewController: UIViewController, UITableViewDataSource {
     /* need to keep reference or decoding won't happen since instance is being released when makeRequest block is finished */
     var usersList: UsersList?
     let reuseIdentifier = "MyUITableViewCellreuseIdentifier"
-    //var backgroundTaskId: UIBackgroundTaskIdentifier? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.dataSource = self
         getRequest(1)
-        
-        //NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     @IBAction func getRequest(_ sender: Any) {
@@ -79,25 +76,6 @@ class ViewController: UIViewController, UITableViewDataSource {
         
     }
 
-    
-    
-    /* Delta time is about 26-27 seconds */
-    
-//    @objc func appMovedToBackground() {
-//        let startTime = Date()
-//        print("start time is now \(startTime)")
-//        self.backgroundTaskId = UIApplication.shared.beginBackgroundTask(
-//            withName: "test demon",
-//            expirationHandler: {
-//              let endTime = Date()
-//                print("end time is now \(endTime)")
-//                print("delta time = \(endTime.timeIntervalSince1970 - startTime.timeIntervalSince1970)")
-//                UIApplication.shared.endBackgroundTask(self.backgroundTaskId!)
-//
-//          })
-//
-//    }
-    
     /**********************/
     /*** Table View  ******/
     /**********************/

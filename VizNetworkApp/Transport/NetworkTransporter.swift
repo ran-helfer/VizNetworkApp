@@ -57,6 +57,7 @@ class NetworkTransporter: NetworkTransport {
         let uuidString = UUID().uuidString
         
         if onBackground {
+            /* Background task Delta time is about 26-27 seconds */
             startBackgroundTask(uuidString: uuidString)
         }
         
