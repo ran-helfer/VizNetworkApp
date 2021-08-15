@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
+class ApiNetworkRequest<APIResource: ApiResource> {
     
     typealias ModelType = APIResource.ModelType
     
@@ -20,11 +20,11 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
         self.transport = transport
     }
     
-    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: ApiResource {
+    func execute(onBackground: Bool = false, completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: ApiResource {
         return load(apiResource.url, completion: completion)
     }
     
-    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: HttpApiResource {
+    func execute(onBackground: Bool = false, completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: HttpApiResource {
         guard let request = apiResource.urlRequest() else {
             print("could not get url request")
             completion(.failure(NetworkError.badURL))
@@ -32,22 +32,18 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
         }
         return load(request, completion: completion)
     }
-    
+}
+
+extension ApiNetworkRequest: NetworkRequest {
     func load(_ request: URLRequest,
+              onBackground: Bool = false,
               completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         guard let transport = transport else {
             completion(.failure(NetworkError.transportMissingOnLoad))
             return NetworkError.transportMissingOnLoad.errorDescription()
         }
-        return transport.load(request, responseModelType: ModelType.self, completion: completion)
-    }
-    
-    func load(_ url: URL, completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        guard let transport = transport else {
-            completion(.failure(NetworkError.transportMissingOnLoad))
-            return NetworkError.transportMissingOnLoad.errorDescription()
-        }
-        return transport.load(url, responseModelType: ModelType.self, completion: completion)
+        return transport.load(request,
+                              responseModelType: ModelType.self,
+                              completion: completion)
     }
 }
-

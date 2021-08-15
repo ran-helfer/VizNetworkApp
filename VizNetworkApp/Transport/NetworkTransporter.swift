@@ -5,6 +5,7 @@
 //  Created by Ran Helfer on 29/07/2021.
 //
 import Foundation
+import UIKit
 
 enum NetworkError: Error {
     case cannotDecodeContentData(Error)
@@ -37,6 +38,7 @@ class NetworkTransporter: NetworkTransport {
     static let shared = NetworkTransporter()
     
     private let operationQueue = OperationQueue()
+    private var backgroundTasksIds = [DataTaskStringIdentifier : UIBackgroundTaskIdentifier]()
     private static let defaultQueueConcurrentOperations = 5
     private let SuccessRangeOfStatusCodes: ClosedRange<Int> = (200...299)
 
@@ -46,9 +48,20 @@ class NetworkTransporter: NetworkTransport {
     
     func load<ModelType: Decodable>(_ request: URLRequest,
                                     dispatchQueue: DispatchQueue = .global(),
+                                    onBackground: Bool = false,
                                     responseModelType: ModelType.Type,
                                     completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        let operation = HttpNetworkBlockOperation(id: UUID().uuidString)
+        /* uuidString is being used for:
+           1) Tracking operation in case operation needs to be cancelled
+           2) Start and end background tasks */
+        let uuidString = UUID().uuidString
+        
+        if onBackground {
+            /* Background task Delta time is about 26-27 seconds */
+            startBackgroundTask(uuidString: uuidString)
+        }
+        
+        let operation = HttpNetworkBlockOperation(id: uuidString)
         operation.addExecutionBlock { [unowned operation] in
             guard operation.isCancelled == false else {
                 return
@@ -67,6 +80,9 @@ class NetworkTransporter: NetworkTransport {
                         return
                     }
                     completion(result)
+                    if onBackground {
+                        self.endBackgroundTask(uuidString: uuidString)
+                    }
                     group.leave()
                 }
             }
@@ -78,14 +94,21 @@ class NetworkTransporter: NetworkTransport {
         }
         operationQueue.addOperation(operation)
         return operation.taskIdentifier
-        
     }
     
-    func load<ModelType: Decodable>(_ url: URL,
-                         responseModelType: ModelType.Type,
-                         completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        let request = URLRequest(url: url)
-        return load(request, responseModelType: responseModelType, completion: completion)
+    private func startBackgroundTask(uuidString: String) {
+        self.backgroundTasksIds[uuidString] = UIApplication.shared.beginBackgroundTask(
+            withName: uuidString,
+            expirationHandler: { [weak self] in
+                self?.endBackgroundTask(uuidString: uuidString)
+        })
+    }
+
+    private func endBackgroundTask(uuidString: String) {
+        if let taskId = self.backgroundTasksIds[uuidString] {
+            UIApplication.shared.endBackgroundTask(taskId)
+            self.backgroundTasksIds[uuidString] = nil
+        }
     }
     
     func cancelAllTasks() {
