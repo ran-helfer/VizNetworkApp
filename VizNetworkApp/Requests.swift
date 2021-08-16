@@ -42,7 +42,7 @@ struct RemoteGetResource: HttpApiResource, NetworkTransport {
 /**  POST **/
 /***********/
 
-class RemotePostResource: HttpApiResource, NetworkTransport {
+struct RemotePostResource: HttpApiResource, NetworkTransport {
     var headers: [String : String]?
     var queryItems: [URLQueryItem]?
     var dynamicPathComponent: String?
@@ -97,7 +97,7 @@ class RemotePostResource: HttpApiResource, NetworkTransport {
 /**  DELETE **/
 /*************/
 
-class RemoteDeleteResource: HttpApiResource, NetworkTransport {
+struct RemoteDeleteResource: HttpApiResource, NetworkTransport {
     var headers: [String : String]?    
     var queryItems: [URLQueryItem]?
 
