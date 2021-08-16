@@ -23,8 +23,11 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func getRequest(_ sender: Any) {
-        let request = ApiNetworkRequest(apiResource: RemoteGetResource())
-        _ = request.execute { [weak self] result in
+        
+        var resource = RemoteGetResource()
+        let request = resource.urlRequest()!
+        resource.load(request,
+                      responseModelType: RemoteGetResource.ModelType.self) { [weak self]  result in
             switch result {
             case .success(let object):
                 self?.usersList = object
@@ -40,8 +43,10 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func postRequest(_ sender: Any) {
-        let request = ApiNetworkRequest(apiResource: RemotePostResource.getPostObject())
-        _ = request.execute { [weak self] result in
+        var resource = RemotePostResource.getPostObject()
+        let request = resource.urlRequest()!
+        resource.load(request,
+                      responseModelType: RemotePostResource.ModelType.self) { [weak self]  result in
             switch result {
             case .success(let object):
                 print("object: \(object)")
@@ -63,8 +68,10 @@ class ViewController: UIViewController, UITableViewDataSource {
         /* Assemble URL */
         var deleteResource = RemoteDeleteResource()
         deleteResource.path = (deleteResource.path ?? "") + "/\(userId)" // You can insert a fake delete here
-        let request = ApiNetworkRequest(apiResource: deleteResource)
-        _ = request.execute { [weak self] result in
+        
+        let request = deleteResource.urlRequest()!
+        deleteResource.load(request,
+                      responseModelType: RemoteDeleteResource.ModelType.self) { [weak self]  result in
             switch result {
             case .success(let object):
                 print("object: \(object)")

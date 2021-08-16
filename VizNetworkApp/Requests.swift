@@ -19,7 +19,7 @@ import Foundation
 /**  GET  **/
 /***********/
 
-struct RemoteGetResource: HttpApiResource {
+struct RemoteGetResource: HttpApiResource, NetworkTransport {
     var headers: [String : String]?
     var queryItems: [URLQueryItem]?
     
@@ -37,11 +37,12 @@ struct RemoteGetResource: HttpApiResource {
     }
 }
 
+
 /***********/
 /**  POST **/
 /***********/
 
-struct RemotePostResource: HttpApiResource {
+class RemotePostResource: HttpApiResource, NetworkTransport {
     var headers: [String : String]?
     var queryItems: [URLQueryItem]?
     var dynamicPathComponent: String?
@@ -57,6 +58,10 @@ struct RemotePostResource: HttpApiResource {
     
     var path: String? = "/users"
     
+    
+    init(method: HttpMethod) {
+        self.method = method
+    }
     static func getPostObject() -> RemotePostResource {
         let randomNumber = Int.random(in: 1...1000)
         let randomNameLength = Int.random(in: 1...5)
@@ -92,7 +97,7 @@ struct RemotePostResource: HttpApiResource {
 /**  DELETE **/
 /*************/
 
-struct RemoteDeleteResource: HttpApiResource {
+class RemoteDeleteResource: HttpApiResource, NetworkTransport {
     var headers: [String : String]?    
     var queryItems: [URLQueryItem]?
 

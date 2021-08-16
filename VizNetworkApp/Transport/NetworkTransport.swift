@@ -7,15 +7,33 @@
 
 import Foundation
 
-protocol NetworkTransport : AnyObject {
+protocol NetworkTransport {
     func load<ModelType: Decodable>(_ request: URLRequest,
                                     dispatchQueue: DispatchQueue,
                                     onBackground: Bool,
                                     responseModelType: ModelType.Type,
                                     completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier
+    func decode<ModelType: Decodable>(_ data: Data) throws -> ModelType
 }
 
 extension NetworkTransport {
+    
+    func decode<ModelType: Decodable>(_ data: Data) throws -> ModelType {
+        try JSONDecoder().decode(ModelType.self, from: data)
+    }
+    
+    func load<ModelType: Decodable>(_ request: URLRequest,
+                                    dispatchQueue: DispatchQueue = .main,
+                                    onBackground: Bool = false,
+                                    responseModelType: ModelType.Type = ModelType.self,
+                                    completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        /**************************/
+        /* Default implementation */
+        /**************************/
+        NetworkTransporter.shared.load(request, dispatchQueue: dispatchQueue, onBackground: onBackground, responseModelType: responseModelType, completion: completion)
+    }
+    
+    
     func load<ModelType: Decodable>(_ request: URLRequest,
                                     onBackground: Bool = false,
                                     responseModelType: ModelType.Type,

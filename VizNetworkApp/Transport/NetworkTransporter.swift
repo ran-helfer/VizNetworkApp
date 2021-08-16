@@ -61,7 +61,7 @@ class NetworkTransporter: NetworkTransport {
             startBackgroundTask(uuidString: uuidString)
         }
         
-        let operation = HttpNetworkBlockOperation(id: uuidString)
+        let operation = NetworkBlockOperation(id: uuidString)
         operation.addExecutionBlock { [unowned operation] in
             guard operation.isCancelled == false else {
                 return
@@ -117,7 +117,7 @@ class NetworkTransporter: NetworkTransport {
     
     func cancelDataTask(taskIdentifier: DataTaskStringIdentifier) {
         operationQueue.operations
-            .compactMap { $0 as? HttpNetworkBlockOperation }
+            .compactMap { $0 as? NetworkBlockOperation }
             .first { $0.taskIdentifier == taskIdentifier }?
             .cancel()
     }
@@ -149,7 +149,7 @@ class NetworkTransporter: NetworkTransport {
         }
         
         do {
-            value =  try JSONDecoder().decode(responseModel, from: data)
+            value = try decode(data)
         } catch let error {
             completion(.failure(NetworkError.cannotDecodeContentData(error)))
             return
@@ -158,7 +158,7 @@ class NetworkTransporter: NetworkTransport {
     }
 }
 
-class HttpNetworkBlockOperation: BlockOperation {
+class NetworkBlockOperation: BlockOperation {
     var taskIdentifier: String
     init(id: String) {
         self.taskIdentifier = id
