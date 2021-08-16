@@ -13,7 +13,7 @@ class ApiNetworkRequest<APIResource: ApiResource> {
     
     let failedToRetrieveUrlFromApiResource = "failedToRetrieveUrlFromApiResource"
     var apiResource: APIResource
-    private weak var transport: NetworkTransport?
+    private var transport: NetworkTransport?
     
     init(apiResource: APIResource, transport: NetworkTransport = NetworkTransporter.shared) {
         self.apiResource = apiResource

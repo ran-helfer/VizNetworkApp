@@ -7,6 +7,8 @@
 
 import Foundation
 
+typealias DataTaskStringIdentifier = String
+
 protocol NetworkTransport {
     func load<ModelType: Decodable>(_ request: URLRequest,
                                     dispatchQueue: DispatchQueue,

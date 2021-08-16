@@ -7,8 +7,6 @@
 
 import Foundation
 
-typealias DataTaskStringIdentifier = String
-
 protocol NetworkRequest: AnyObject {
     
     associatedtype ModelType: Decodable
