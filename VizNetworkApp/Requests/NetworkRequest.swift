@@ -10,12 +10,9 @@ import Foundation
 typealias DataTaskStringIdentifier = String
 
 protocol NetworkRequest: AnyObject {
+    associatedtype resource: ApiResource
     
-    associatedtype ModelType: Decodable
+    func execute(completion: @escaping (Result<resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier
     
-    func load(_ request: URLRequest,
-              completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier
-    
-    func load(_ url: URL,
-              completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier
+    func decode(_ data: Data) throws -> resource.ModelType?
 }

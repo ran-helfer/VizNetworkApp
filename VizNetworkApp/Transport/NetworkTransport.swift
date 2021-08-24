@@ -31,6 +31,6 @@ extension NetworkTransport {
     }
     
     func decode<ModelType: Decodable>(_ data: Data) throws -> ModelType {
-            try JSONDecoder().decode(ModelType.self, from: data)
+           return try JSONDecoder().decode(ModelType.self, from: data)
     }
 }

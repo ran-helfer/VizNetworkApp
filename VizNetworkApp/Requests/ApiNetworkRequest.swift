@@ -9,45 +9,41 @@ import Foundation
 
 class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
     
-    typealias ModelType = APIResource.ModelType
+    typealias resource = APIResource
     
     let failedToRetrieveUrlFromApiResource = "failedToRetrieveUrlFromApiResource"
     var apiResource: APIResource
     private weak var transport: NetworkTransport?
     
-    init(apiResource: APIResource, transport: NetworkTransport = NetworkTransporter.shared) {
+    init(apiResource: APIResource,
+         transport: NetworkTransport = NetworkTransporter.shared) {
         self.apiResource = apiResource
         self.transport = transport
     }
-    
-    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: ApiResource {
-        return load(apiResource.url, completion: completion)
+
+    func execute(completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        assertionFailure("no implementation for execute")
+        return ""
     }
     
-    func execute(withCompletion completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: HttpApiResource {
-        guard let request = apiResource.urlRequest() else {
-            print("could not get url request")
-            completion(.failure(NetworkError.badURL))
-            return failedToRetrieveUrlFromApiResource
-        }
-        return load(request, completion: completion)
-    }
-    
-    func load(_ request: URLRequest,
-              completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        guard let transport = transport else {
-            completion(.failure(NetworkError.transportMissingOnLoad))
+    func execute(completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: HttpApiResource {
+        guard let transport = transport,
+              let urlRequest = apiResource.urlRequest() else {
+                completion(.failure(NetworkError.transportMissingOnLoad))
             return NetworkError.transportMissingOnLoad.errorDescription()
         }
-        return transport.load(request, responseModelType: ModelType.self, completion: completion)
+        return transport.load(urlRequest,
+                              responseModelType: APIResource.ModelType.self,
+                              completion: completion)
     }
     
-    func load(_ url: URL, completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        guard let transport = transport else {
-            completion(.failure(NetworkError.transportMissingOnLoad))
-            return NetworkError.transportMissingOnLoad.errorDescription()
-        }
-        return transport.load(url, responseModelType: ModelType.self, completion: completion)
+    func decode(_ data: Data) throws -> APIResource.ModelType? {
+        assertionFailure("no implementation for decode")
+        return nil
+    }
+    
+    func decode(_ data: Data) throws -> APIResource.ModelType? where APIResource: HttpApiResource  {
+        return try JSONDecoder().decode(APIResource.ModelType.self, from: data)
     }
 }
 

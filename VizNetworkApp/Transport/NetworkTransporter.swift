@@ -131,7 +131,11 @@ class NetworkTransporter: NetworkTransport {
             completion(.failure(NetworkError.cannotDecodeContentData(error)))
             return
         }
-        DispatchQueue.main.async { completion(.success(value!))}
+        if let value = value {
+            DispatchQueue.main.async { completion(.success(value))}
+        } else {
+            completion(.failure(NetworkError.unknown))
+        }
     }
 }
 

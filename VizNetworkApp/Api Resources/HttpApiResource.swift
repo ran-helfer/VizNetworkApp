@@ -29,7 +29,7 @@ struct RemoteDeleteResource: VizHttpApiResource {
 
 /* HttpApiResource describes how a basic HTTP network request remote resource should be addressed - on top of ApiResource */
 
-protocol HttpApiResource: ApiResource {
+protocol HttpApiResource: ApiResource where ModelType: Decodable {
     /* If no input model is needed - default to NoInputModelTypeDefault */
     associatedtype InputModelType: Encodable
 
