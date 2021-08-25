@@ -24,7 +24,7 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
     func execute(completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: HttpApiResource {
         guard let transport = transport,
               let urlRequest = apiResource.urlRequest() else {
-                completion(.failure(NetworkError.transportMissingOnLoad))
+            completion(.failure(NetworkError.transportMissingOnLoad))
             return NetworkError.transportMissingOnLoad.errorDescription()
         }
         let decoder = HTTPDecoder<APIResource>()
@@ -35,7 +35,7 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
     
     func execute(completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         guard let transport = transport else {
-                completion(.failure(NetworkError.transportMissingOnLoad))
+            completion(.failure(NetworkError.transportMissingOnLoad))
             return NetworkError.transportMissingOnLoad.errorDescription()
         }
         let decoder = ApiDecoder<APIResource>()

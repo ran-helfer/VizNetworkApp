@@ -39,15 +39,15 @@ class NetworkTransporter: NetworkTransport {
     private let operationQueue = OperationQueue()
     private static let defaultQueueConcurrentOperations = 5
     private let SuccessRangeOfStatusCodes: ClosedRange<Int> = (200...299)
-
+    
     init(maxConcurent: Int = defaultQueueConcurrentOperations) {
         operationQueue.maxConcurrentOperationCount = maxConcurent
     }
     
     func load<Decoder: NetworkDecoder>(_ request: URLRequest,
-                                decoder: Decoder,
-                                dispatchQueue: DispatchQueue = .global(),
-                                completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+                                       decoder: Decoder,
+                                       dispatchQueue: DispatchQueue = .global(),
+                                       completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         let operation = NetworkBlockOperation(id: UUID().uuidString)
         operation.addExecutionBlock { [unowned operation] in
             guard operation.isCancelled == false else {
@@ -73,7 +73,7 @@ class NetworkTransporter: NetworkTransport {
             dispatchQueue.async {
                 dataTask.resume()
             }
-           
+            
             group.wait()
         }
         operationQueue.addOperation(operation)
@@ -82,8 +82,8 @@ class NetworkTransporter: NetworkTransport {
     }
     
     func load<Decoder: NetworkDecoder>(_ url: URL,
-                               decoder: Decoder,
-                               completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+                                       decoder: Decoder,
+                                       completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         let request = URLRequest(url: url)
         return load(request, decoder: decoder, completion: completion)
     }
@@ -100,10 +100,10 @@ class NetworkTransporter: NetworkTransport {
     }
     
     private func handleRequestResponse<Decoder: NetworkDecoder>(data:Data?,
-                                                  response:Any?,
-                                                  error:Error?,
-                                                  decoder: Decoder,
-                                                  completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) {
+                                                                response:Any?,
+                                                                error:Error?,
+                                                                decoder: Decoder,
+                                                                completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) {
         guard error == nil else {
             if let err = error {
                 completion(.failure(err))

@@ -46,14 +46,14 @@ func logError(_ message: String, file: String = #file, function: String = #funct
 
 class Logger {
     fileprivate static let shared = Logger()
-
+    
     var logLevel: LogLevel = .mute
     let levels: [LogLevel] = [.verbose, .info, .warn, .error]
-
+    
     static func setLogLevel(_ level: LogLevel) {
         Logger.shared.logLevel = level
     }
-
+    
     fileprivate func log(_ level: LogLevel,
                          _ message: String? = nil,
                          function: String? = nil ,
@@ -78,7 +78,6 @@ class Logger {
         if let message = message {
             printOut = printOut + message
         }
-        
         print(printOut)
     }
 }

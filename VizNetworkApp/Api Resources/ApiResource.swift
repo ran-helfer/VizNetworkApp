@@ -8,7 +8,7 @@
 import Foundation
 
 /* ApiResource describes how a basic remote api resource should be addressed.
-    basePath, path, queryItems and usually an API request involves an associated return type which we want to decode to an object */
+ basePath, path, queryItems and usually an API request involves an associated return type which we want to decode to an object */
 
 protocol ApiResource {
     associatedtype ModelType
@@ -28,5 +28,4 @@ extension ApiResource {
         }
         return url
     }
-
 }
