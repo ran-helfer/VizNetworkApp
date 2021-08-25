@@ -13,6 +13,4 @@ protocol NetworkRequest: AnyObject {
     associatedtype resource: ApiResource
     
     func execute(completion: @escaping (Result<resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier
-    
-    func decode(_ data: Data) throws -> resource.ModelType?
 }

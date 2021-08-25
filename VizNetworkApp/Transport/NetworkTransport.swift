@@ -8,29 +8,23 @@
 import Foundation
 
 protocol NetworkTransport : AnyObject {
-    func load<ModelType: Decodable>(_ request: URLRequest,
-                                    dispatchQueue: DispatchQueue,
-                                    responseModelType: ModelType.Type,
-                                    completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier
-    
-    func decode<ModelType: Decodable>(_ data: Data) throws -> ModelType
+    func load<Decoder: NetworkDecoder>(_ request: URLRequest,
+                               decoder: Decoder,
+                               dispatchQueue: DispatchQueue,
+                               completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier
 }
 
 extension NetworkTransport {
-    func load<ModelType: Decodable>(_ request: URLRequest,
-                                    responseModelType: ModelType.Type,
-                                    completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+    func load<Decoder: NetworkDecoder>(_ request: URLRequest,
+                               decoder: Decoder,
+                                completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         /* We cannot declare default argument in protocol decleration */
-        load(request, dispatchQueue: .global(), responseModelType: responseModelType, completion: completion)
+        load(request, decoder: decoder, dispatchQueue: .global(), completion: completion)
     }
     
-    func load<ModelType: Decodable>(_ url: URL,
-                         responseModelType: ModelType.Type,
-                         completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        load(URLRequest(url: url), responseModelType: responseModelType, completion: completion)
-    }
-    
-    func decode<ModelType: Decodable>(_ data: Data) throws -> ModelType {
-           return try JSONDecoder().decode(ModelType.self, from: data)
+    func load<Decoder: NetworkDecoder>(_ url: URL,
+                               decoder: Decoder,
+                               completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        load(URLRequest(url: url), decoder: decoder, completion: completion)
     }
 }

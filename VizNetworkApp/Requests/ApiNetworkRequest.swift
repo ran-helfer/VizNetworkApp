@@ -20,11 +20,6 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
         self.apiResource = apiResource
         self.transport = transport
     }
-
-    func execute(completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        assertionFailure("no implementation for execute")
-        return ""
-    }
     
     func execute(completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: HttpApiResource {
         guard let transport = transport,
@@ -32,18 +27,21 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
                 completion(.failure(NetworkError.transportMissingOnLoad))
             return NetworkError.transportMissingOnLoad.errorDescription()
         }
+        let decoder = HTTPDecoder<APIResource>()
         return transport.load(urlRequest,
-                              responseModelType: APIResource.ModelType.self,
+                              decoder:decoder,
                               completion: completion)
     }
     
-    func decode(_ data: Data) throws -> APIResource.ModelType? {
-        assertionFailure("no implementation for decode")
-        return nil
-    }
-    
-    func decode(_ data: Data) throws -> APIResource.ModelType? where APIResource: HttpApiResource  {
-        return try JSONDecoder().decode(APIResource.ModelType.self, from: data)
+    func execute(completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        guard let transport = transport else {
+                completion(.failure(NetworkError.transportMissingOnLoad))
+            return NetworkError.transportMissingOnLoad.errorDescription()
+        }
+        let decoder = ApiDecoder<APIResource>()
+        return transport.load(URLRequest(url: apiResource.url),
+                              decoder: decoder,
+                              completion: completion)
     }
 }
 

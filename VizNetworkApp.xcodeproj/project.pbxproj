@@ -22,6 +22,8 @@
 		80EACA3026C150B000681977 /* NetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EACA2F26C150B000681977 /* NetworkTransport.swift */; };
 		80EACA3226C26E1400681977 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EACA3126C26E1400681977 /* NetworkRequest.swift */; };
 		80F5B00B26BACA2E00F6EBF4 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F5B00A26BACA2E00F6EBF4 /* Requests.swift */; };
+		80FDE1AA26D635FB00FE01F1 /* NetworkDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FDE1A926D635FB00FE01F1 /* NetworkDecoder.swift */; };
+		80FDE1AC26D6364F00FE01F1 /* NetworkHttpDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FDE1AB26D6364F00FE01F1 /* NetworkHttpDecoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		80EACA2F26C150B000681977 /* NetworkTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTransport.swift; sourceTree = "<group>"; };
 		80EACA3126C26E1400681977 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		80F5B00A26BACA2E00F6EBF4 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
+		80FDE1A926D635FB00FE01F1 /* NetworkDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDecoder.swift; sourceTree = "<group>"; };
+		80FDE1AB26D6364F00FE01F1 /* NetworkHttpDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHttpDecoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 		8039368926B146AC006A532F /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				80FDE1A826D6352900FE01F1 /* Decoders */,
 				80EACA3126C26E1400681977 /* NetworkRequest.swift */,
 				8027406926B034D700CB0AB5 /* ApiNetworkRequest.swift */,
 			);
@@ -124,6 +129,15 @@
 				80E367C426B2AE0300136410 /* Logger.swift */,
 			);
 			path = Logger;
+			sourceTree = "<group>";
+		};
+		80FDE1A826D6352900FE01F1 /* Decoders */ = {
+			isa = PBXGroup;
+			children = (
+				80FDE1A926D635FB00FE01F1 /* NetworkDecoder.swift */,
+				80FDE1AB26D6364F00FE01F1 /* NetworkHttpDecoder.swift */,
+			);
+			path = Decoders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +222,8 @@
 				80E367C526B2AE0300136410 /* Logger.swift in Sources */,
 				80EACA3226C26E1400681977 /* NetworkRequest.swift in Sources */,
 				80E367BF26B2A2D700136410 /* NetworkTransporter.swift in Sources */,
+				80FDE1AA26D635FB00FE01F1 /* NetworkDecoder.swift in Sources */,
+				80FDE1AC26D6364F00FE01F1 /* NetworkHttpDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

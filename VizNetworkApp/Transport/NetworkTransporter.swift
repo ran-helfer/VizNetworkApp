@@ -44,10 +44,10 @@ class NetworkTransporter: NetworkTransport {
         operationQueue.maxConcurrentOperationCount = maxConcurent
     }
     
-    func load<ModelType: Decodable>(_ request: URLRequest,
-                                    dispatchQueue: DispatchQueue = .global(),
-                                    responseModelType: ModelType.Type,
-                                    completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+    func load<Decoder: NetworkDecoder>(_ request: URLRequest,
+                                decoder: Decoder,
+                                dispatchQueue: DispatchQueue = .global(),
+                                completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         let operation = NetworkBlockOperation(id: UUID().uuidString)
         operation.addExecutionBlock { [unowned operation] in
             guard operation.isCancelled == false else {
@@ -58,9 +58,9 @@ class NetworkTransporter: NetworkTransport {
             
             let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
                 NetworkTransporter.shared.handleRequestResponse(data: data,
-                                                       responseModel: responseModelType,
-                                                       response: response,
-                                                       error: error) { result in
+                                                                response: response,
+                                                                error: error,
+                                                                decoder: decoder) { result in
                     guard operation.isCancelled == false else {
                         completion(.failure(NetworkError.cancelled))
                         group.leave()
@@ -81,11 +81,11 @@ class NetworkTransporter: NetworkTransport {
         
     }
     
-    func load<ModelType: Decodable>(_ url: URL,
-                         responseModelType: ModelType.Type,
-                         completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+    func load<Decoder: NetworkDecoder>(_ url: URL,
+                               decoder: Decoder,
+                               completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         let request = URLRequest(url: url)
-        return load(request, responseModelType: responseModelType, completion: completion)
+        return load(request, decoder: decoder, completion: completion)
     }
     
     func cancelAllTasks() {
@@ -99,11 +99,11 @@ class NetworkTransporter: NetworkTransport {
             .cancel()
     }
     
-    private func handleRequestResponse<ModelType: Decodable>(data:Data?,
-                                                  responseModel: ModelType.Type,
+    private func handleRequestResponse<Decoder: NetworkDecoder>(data:Data?,
                                                   response:Any?,
                                                   error:Error?,
-                                                  completion: @escaping (Result<ModelType, Error>) -> Void) {
+                                                  decoder: Decoder,
+                                                  completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) {
         guard error == nil else {
             if let err = error {
                 completion(.failure(err))
@@ -117,7 +117,7 @@ class NetworkTransporter: NetworkTransport {
             print(r.statusCode)
             print(r)
         }
-        var value: ModelType?
+        var value: Decoder.resource.ModelType?
         guard let data = data else {
             DispatchQueue.main.async {
                 completion(.failure(NetworkError.noDataRecieved))
@@ -126,7 +126,7 @@ class NetworkTransporter: NetworkTransport {
         }
         
         do {
-            value = try decode(data)
+            value = try decoder.decode(data)
         } catch let error {
             completion(.failure(NetworkError.cannotDecodeContentData(error)))
             return
