@@ -4,9 +4,16 @@ import pandas as pd
 import ast
 import csv
 import os
+from time import sleep
+import sys
 
 app = Flask(__name__)
 api = Api(app)
+
+SLEEP_TIME = int(1)
+
+if(len(sys.argv)>=2):
+    SLEEP_TIME = int(sys.argv[1])
 
 class Users(Resource):
 
@@ -33,6 +40,7 @@ class Users(Resource):
         parser.add_argument('city', required=True)
         args = parser.parse_args()  # parse arguments to dictionary
     
+        sleep(SLEEP_TIME)
         # read our CSV
         users_file = 'users.csv'
         with open(users_file, 'r') as f:
