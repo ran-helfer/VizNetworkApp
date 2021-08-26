@@ -10,7 +10,7 @@ import sys
 app = Flask(__name__)
 api = Api(app)
 
-SLEEP_TIME = int(1)
+SLEEP_TIME = 0
 
 if(len(sys.argv)>=2):
     SLEEP_TIME = int(sys.argv[1])
@@ -31,6 +31,8 @@ class Users(Resource):
                                 'name': row[1],
                                 'city': row[2]})
         #print(persons)
+        sleep(SLEEP_TIME)
+
         return {'users': persons}, 200  # return data and 200 OK
 
     def post(self):
@@ -135,6 +137,7 @@ class UsersDelete(Resource):
         os.system('rm check_if_there_is_a_user.txt')
         os.system('mv tmp_users.csv users.csv')
         os.system('rm tmp_users.csv')
+        sleep(SLEEP_TIME)
 
         return {'message': 'ok'}, 200
 
