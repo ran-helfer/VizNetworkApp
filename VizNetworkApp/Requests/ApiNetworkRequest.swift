@@ -21,7 +21,8 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
         self.transport = transport
     }
     
-    func execute(completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where APIResource: HttpApiResource {
+    func execute(onBackground: Bool = false,
+                 completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier where resource: HttpApiResource {
         guard let transport = transport,
               let urlRequest = apiResource.urlRequest() else {
             completion(.failure(NetworkError.transportMissingOnLoad))
@@ -33,7 +34,8 @@ class ApiNetworkRequest<APIResource: ApiResource> : NetworkRequest {
                               completion: completion)
     }
     
-    func execute(completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+    func execute(onBackground: Bool = false,
+                 completion: @escaping (Result<APIResource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         guard let transport = transport else {
             completion(.failure(NetworkError.transportMissingOnLoad))
             return NetworkError.transportMissingOnLoad.errorDescription()

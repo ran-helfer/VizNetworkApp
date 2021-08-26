@@ -18,6 +18,6 @@ extension NetworkDecoder {
     }
 }
 
-class ApiDecoder<APIResource: ApiResource>: NetworkDecoder {
+struct ApiDecoder<APIResource: ApiResource>: NetworkDecoder {
     typealias resource = APIResource
 }

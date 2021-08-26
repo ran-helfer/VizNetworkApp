@@ -15,6 +15,6 @@ extension HTTPDecode {
     }
 }
 
-class HTTPDecoder<APIResource: HttpApiResource>: HTTPDecode {
+struct HTTPDecoder<APIResource: HttpApiResource>: HTTPDecode {
     typealias resource = APIResource
 }

@@ -9,8 +9,15 @@ import Foundation
 
 typealias DataTaskStringIdentifier = String
 
-protocol NetworkRequest: AnyObject {
+protocol NetworkRequest {
     associatedtype resource: ApiResource
     
-    func execute(completion: @escaping (Result<resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier
+    func execute(onBackground: Bool,
+                 completion: @escaping (Result<resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier
+}
+
+extension NetworkRequest where resource: HttpApiResource {
+    func execute(completion: @escaping (Result<resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        execute(onBackground: false, completion: completion)
+    }
 }
