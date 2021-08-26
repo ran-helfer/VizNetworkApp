@@ -112,13 +112,6 @@ class NetworkTransporter: NetworkTransport {
         }
     }
     
-    func load<Decoder: NetworkDecoder>(_ url: URL,
-                                       decoder: Decoder,
-                                       completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        let request = URLRequest(url: url)
-        return load(request, decoder: decoder, completion: completion)
-    }
-    
     func cancelAllTasks() {
         operationQueue.cancelAllOperations()
     }
