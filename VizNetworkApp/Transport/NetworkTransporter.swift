@@ -41,19 +41,19 @@ class NetworkTransporter: NetworkTransport {
     private var backgroundTasksIds = [DataTaskStringIdentifier : UIBackgroundTaskIdentifier]()
     private static let defaultQueueConcurrentOperations = 5
     private let SuccessRangeOfStatusCodes: ClosedRange<Int> = (200...299)
-
+    
     init(maxConcurent: Int = defaultQueueConcurrentOperations) {
         operationQueue.maxConcurrentOperationCount = maxConcurent
     }
     
-    func load<ModelType: Decodable>(_ request: URLRequest,
-                                    dispatchQueue: DispatchQueue = .global(),
-                                    onBackground: Bool = false,
-                                    responseModelType: ModelType.Type,
-                                    completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+    func load<Decoder: NetworkDecoder>(_ request: URLRequest,
+                                       decoder: Decoder,
+                                       dispatchQueue: DispatchQueue = .global(),
+                                       onBackground: Bool = false,
+                                       completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
         /* uuidString is being used for:
-           1) Tracking operation in case operation needs to be cancelled
-           2) Start and end background tasks */
+         1) Tracking operation in case operation needs to be cancelled
+         2) Start and end background tasks */
         let uuidString = UUID().uuidString
         
         if onBackground {
@@ -61,7 +61,7 @@ class NetworkTransporter: NetworkTransport {
             startBackgroundTask(uuidString: uuidString)
         }
         
-        let operation = HttpNetworkBlockOperation(id: uuidString)
+        let operation = NetworkBlockOperation(id: UUID().uuidString)
         operation.addExecutionBlock { [unowned operation] in
             guard operation.isCancelled == false else {
                 return
@@ -71,9 +71,9 @@ class NetworkTransporter: NetworkTransport {
             
             let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
                 NetworkTransporter.shared.handleRequestResponse(data: data,
-                                                       responseModel: responseModelType,
-                                                       response: response,
-                                                       error: error) { result in
+                                                                response: response,
+                                                                error: error,
+                                                                decoder: decoder) { result in
                     guard operation.isCancelled == false else {
                         completion(.failure(NetworkError.cancelled))
                         group.leave()
@@ -89,11 +89,12 @@ class NetworkTransporter: NetworkTransport {
             dispatchQueue.async {
                 dataTask.resume()
             }
-           
+            
             group.wait()
         }
         operationQueue.addOperation(operation)
         return operation.taskIdentifier
+        
     }
     
     private func startBackgroundTask(uuidString: String) {
@@ -101,9 +102,9 @@ class NetworkTransporter: NetworkTransport {
             withName: uuidString,
             expirationHandler: { [weak self] in
                 self?.endBackgroundTask(uuidString: uuidString)
-        })
+            })
     }
-
+    
     private func endBackgroundTask(uuidString: String) {
         if let taskId = self.backgroundTasksIds[uuidString] {
             UIApplication.shared.endBackgroundTask(taskId)
@@ -117,16 +118,16 @@ class NetworkTransporter: NetworkTransport {
     
     func cancelDataTask(taskIdentifier: DataTaskStringIdentifier) {
         operationQueue.operations
-            .compactMap { $0 as? HttpNetworkBlockOperation }
+            .compactMap { $0 as? NetworkBlockOperation }
             .first { $0.taskIdentifier == taskIdentifier }?
             .cancel()
     }
     
-    private func handleRequestResponse<ModelType: Decodable>(data:Data?,
-                                                  responseModel: ModelType.Type,
-                                                  response:Any?,
-                                                  error:Error?,
-                                                  completion: @escaping (Result<ModelType, Error>) -> Void) {
+    private func handleRequestResponse<Decoder: NetworkDecoder>(data:Data?,
+                                                                response:Any?,
+                                                                error:Error?,
+                                                                decoder: Decoder,
+                                                                completion: @escaping (Result<Decoder.resource.ModelType, Error>) -> Void) {
         guard error == nil else {
             if let err = error {
                 completion(.failure(err))
@@ -140,7 +141,7 @@ class NetworkTransporter: NetworkTransport {
             print(r.statusCode)
             print(r)
         }
-        var value: ModelType?
+        var value: Decoder.resource.ModelType?
         guard let data = data else {
             DispatchQueue.main.async {
                 completion(.failure(NetworkError.noDataRecieved))
@@ -149,16 +150,20 @@ class NetworkTransporter: NetworkTransport {
         }
         
         do {
-            value =  try JSONDecoder().decode(responseModel, from: data)
+            value = try decoder.decode(data)
         } catch let error {
             completion(.failure(NetworkError.cannotDecodeContentData(error)))
             return
         }
-        DispatchQueue.main.async { completion(.success(value!))}
+        if let value = value {
+            DispatchQueue.main.async { completion(.success(value))}
+        } else {
+            completion(.failure(NetworkError.unknown))
+        }
     }
 }
 
-class HttpNetworkBlockOperation: BlockOperation {
+class NetworkBlockOperation: BlockOperation {
     var taskIdentifier: String
     init(id: String) {
         self.taskIdentifier = id

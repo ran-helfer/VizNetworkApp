@@ -9,36 +9,36 @@ import Foundation
 
 /*
  
-An example what we can do outside of this library
+ An example what we can do outside of this library
  
-protocol VizHttpApiResource: HttpApiResource {}
-
-extension VizHttpApiResource {
-    func defaultHeaders() -> [String : String]? {
-        ["Content-Type" : "application/json"]
-        /* Accumulate whatever headers we need here */
-    }
-}
-
+ protocol VizHttpApiResource: HttpApiResource {}
+ 
+ extension VizHttpApiResource {
+ func defaultHeaders() -> [String : String]? {
+ ["Content-Type" : "application/json"]
+ /* Accumulate whatever headers we need here */
+ }
+ }
+ 
  And then use like:
  
-struct RemoteDeleteResource: VizHttpApiResource {
-struct RemotePostResource: VizHttpApiResource {
-struct RemoteDeleteResource: VizHttpApiResource {
-*/
+ struct RemoteDeleteResource: VizHttpApiResource {
+ struct RemotePostResource: VizHttpApiResource {
+ struct RemoteDeleteResource: VizHttpApiResource {
+ */
 
 /* HttpApiResource describes how a basic HTTP network request remote resource should be addressed - on top of ApiResource */
 
-protocol HttpApiResource: ApiResource {
+protocol HttpApiResource: ApiResource where ModelType: Decodable {
     /* If no input model is needed - default to NoInputModelTypeDefault */
     associatedtype InputModelType: Encodable
-
+    
     var method: HttpMethod { get }
     var headers: [String: String]? { get }
     mutating func urlRequest() -> URLRequest?
     
     /* If needs to set timeout - implement this protocol method.
-       Otherwise default timeout will be used */
+     Otherwise default timeout will be used */
     var timeout: TimeInterval { get }
     func defaultHeaders() -> [String : String]?
 }
@@ -46,7 +46,7 @@ protocol HttpApiResource: ApiResource {
 extension HttpApiResource {
     mutating func urlRequest() -> URLRequest? {
         var request = URLRequest(url: url)
-
+        
         switch method {
         case .post, .put:
             request.httpBody = httpBody
@@ -82,7 +82,7 @@ extension HttpApiResource {
     
     private var httpBody: Data? {
         guard let encodedBody = method.encodedInput() as? Self.InputModelType
-            else {
+        else {
             return nil
         }
         let helper = EncodeHelper<InputModelType>(data: encodedBody)
@@ -117,7 +117,7 @@ enum HttpMethod: Equatable {
                 Encodable?)
     case head([URLQueryItem]?,
               Encodable?)
-
+    
     var name: String {
         switch self {
         case .get: return "GET"
@@ -132,8 +132,8 @@ enum HttpMethod: Equatable {
         switch self {
         case .post(_, let input),
              .put(_,  let input): do {
-            return input
-        }
+                return input
+             }
         default:
             return nil
         }

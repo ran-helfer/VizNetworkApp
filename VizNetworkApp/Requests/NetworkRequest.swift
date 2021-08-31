@@ -9,25 +9,15 @@ import Foundation
 
 typealias DataTaskStringIdentifier = String
 
-protocol NetworkRequest: AnyObject {
+protocol NetworkRequest {
+    associatedtype resource: ApiResource
     
-    associatedtype ModelType: Decodable
-    
-    func load(_ request: URLRequest,
-              useBackgroundTask: Bool,
-              completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier
+    func execute(onBackground: Bool,
+                 completion: @escaping (Result<resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier
 }
 
-extension NetworkRequest {
-    func load(_ request: URLRequest,
-              useBackgroundTask: Bool = false,
-              completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        load(request, useBackgroundTask: useBackgroundTask, completion: completion)
-    }
-    
-    func load(_ url: URL,
-              useBackgroundTask: Bool = false,
-              completion: @escaping (Result<ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
-        load(URLRequest(url: url), useBackgroundTask: useBackgroundTask, completion: completion)
+extension NetworkRequest where resource: HttpApiResource {
+    func execute(completion: @escaping (Result<resource.ModelType, Error>) -> Void) -> DataTaskStringIdentifier {
+        execute(onBackground: false, completion: completion)
     }
 }
